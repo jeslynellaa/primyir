@@ -1,0 +1,36 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+.card{
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+    appearance: none;
+    border-radius: 0px;
+}
+
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+  appearance: button;
+}
+
+[type=search] {
+    outline-offset: -2px;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+
+::file-selector-button {
+    font: inherit;
+    -webkit-appearance: button;
+    appearance: butoon;
+}
