@@ -40,9 +40,12 @@ body {
 /* =============== Navigation ================ */
 .navigation {
   position: fixed;
+  top: 0;
+  left: 0rem;
   width: 80px;
   height: 100%;
   background: var(--blue);
+  padding: 0rem;
   border-left: 10px solid var(--blue);
   transition: 0.5s;
   overflow: hidden;
