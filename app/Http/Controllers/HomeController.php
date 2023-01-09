@@ -23,8 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin/home');
+        return view('admin.home');
     }
 
+    public function edit(\App\Models\User $user)
+    {
+       return view('admin.edit-profile', compact('user'));
+    }
 
 }

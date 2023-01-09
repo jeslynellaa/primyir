@@ -76,7 +76,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ url('/home') }}">
+                    <a href="/home">
                         <span class="icon">
                             <i class="fa-solid fa-house icon-nav"></i>
                         </span>
@@ -174,12 +174,12 @@
                     <div class="user-info">
                         <img src="/png/user.png" alt="">
                         <h2>
-                            {{ Auth::user()->name }}
+                            {{ Auth::user()->givenName }}
                         </h2>
                     </div>
                     <hr>
 
-                    <a href="edit-profile.php" class="sub-menu-link">
+                    <a href="/profile/{{ Auth::user()->id }}/edit" class="sub-menu-link">
                         <img src="/png/profile.png">
                         <p>Edit Profile</p>
                         <span></span>
