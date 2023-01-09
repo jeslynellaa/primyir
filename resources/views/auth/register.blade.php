@@ -164,11 +164,11 @@
                 </label>
             </div>
 
-            <div class="user">
+            <!--<div class="user">
                 <img src="/png/customer01.jpg" onclick="toggleMn()">
             </div>
 
-            <!-- ======================= Drop-down Profile Menu ================== 
+            <-- ======================= Drop-down Profile Menu ================== 
             <div class="sub-menu-wrap" id="subMenu">
                 <div class="sub-menu">
                     <div class="user-info">
@@ -277,7 +277,7 @@
                                     <label for="contactNum" class="col-md-4 col-form-label text-md-end">{{ __('Contact Number') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="contactNum" type="text" class="form-control @error('contactNum') is-invalid @enderror" name="contactNum" value="{{ old('contactNum') }}" required autocomplete="contactNum" autofocus>
+                                        <input id="contactNum" type="text" class="form-control @error('contactNum') is-invalid @enderror" name="contactNum" value="{{ old('contactNum') }}" autocomplete="contactNum" autofocus>
 
                                         @error('contactNum')
                                             <span class="invalid-feedback" role="alert">
@@ -291,7 +291,7 @@
                                     <label for="birthdate" class="col-md-4 col-form-label text-md-end">{{ __('Birth Date') }}</label>   
                                         <div class="col-md-6">
                                             
-                                            <input id="birthdate" type="date" class="form-control @error('birthdate') is-invalid @enderror" name="birthdate" placeholder="mm/dd/yyyy" required autofocus>
+                                            <input id="birthdate" type="date" class="form-control @error('birthdate') is-invalid @enderror" name="birthdate" value="{{ old('birthdate') }}" placeholder="mm/dd/yyyy" required autofocus>
                                         </div>
                                 </div>
 
@@ -336,6 +336,14 @@
                                         @enderror
                                     </div>
                                 </div>
+                                
+                                <div class="row mb-3">
+                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                    </div>
+                                </div>
 
                                 <div class="row mb-3">
                                     <label for="accountStatus" class="col-md-4 col-form-label text-md-end">{{ __('Account Status') }}</label>
@@ -362,14 +370,6 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                                    <div class="col-md-6">
-                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                     </div>
                                 </div>
 
