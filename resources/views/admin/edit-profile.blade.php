@@ -120,17 +120,35 @@
 
                 <div class="form_1 data_info">
                     <h2>Personal Information</h2>
-                    <form>
+                    <form action="/profile/{{ Auth::user()->id }}" enctype="multipart/form-data" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        
                         <div class="form_wrap fullname">
 
                             <div class="form_item">
-                                <label>Name</label>
-                                <input type="text" class="wow" placeholder="First Name" required=""> 
+                                <label>First Name</label>
+
+                                <input 
+                                id="givenName"
+                                type="text" 
+                                class="wow" 
+                                placeholder="First Name" 
+                                value="{{ old('givenName') ?? $user->givenName }}"
+                                required="">
+
                             </div>
                             
                             <div class="form_item">
                                 <label>Last Name</label>
-                                <input type="text" class="wow" placeholder="Last Name">
+                                <input 
+                                id="lastName"
+                                type="text"
+                                class="wow"
+                                value="{{ old('lastName') ?? $user->lastName  }}"
+                                placeholder="Last Name">
+                                
+
                             </div>
                             
                         </div>
@@ -139,36 +157,63 @@
 
                             <div class="form_item">
                                 <label>Personal E-mail</label>
-                                <input type="email" class="wow" placeholder="E-mail"> 
+                                <input 
+                                id="email"
+                                type="email"
+                                class="wow"
+                                value="{{ old('email') ?? $user->email  }}"
+                                placeholder="E-mail">
+
                             </div>
                             
                             <div class="form_item">
                                 <label>Mobile Number</label>
-                                <input type="text" class="wow" placeholder="Mobile Number">
+                                <input 
+                                id="mobileNum"
+                                type="text"
+                                class="wow"
+                                value="{{ old('mobileNum') ?? $user->contactNum  }}"
+                                placeholder="Mobile Number">
+
                             </div>
                             
                         </div>
 
                         <div class="form_item">
                             <label>Birthdate</label>
-                            <input type="date" class="wow" placeholder="mm/dd/yyyy">
+                            <input 
+                            id="bday"
+                            type="date"
+                            class="wow"
+                            value="{{ old('bday') ?? $user->birthdate  }}"
+                            placeholder="mm/dd/yyyy">
+
                         </div>
                     </form>
                 </div>
+
                 <div class="form_2 data_info" style="display: none;">
                     <h2>Address Information</h2>
-                    <form>
+                    <form action="/profile/{{ Auth::user()->id }}" enctype="multipart/form-data" method="POST">
+                        @csrf
+                        @method('PATCH')
 
                         <div class="form_wrap select_box">
 
                             <div class="form_item">
                                 <label>Region</label>
-                                    <select id="region" class="wow"></select>
+                                    <select
+                                    id="region" 
+                                    class="wow" 
+                                    value="{{ old('region') }}"></select>
                                 </div>
 
                             <div class="form_item">
-                            <label>Province</label>
-                                <select id="province" class="wow"></select>
+                                <label>Province</label>
+                                    <select 
+                                    id="province" 
+                                    class="wow" 
+                                    value="{{ old('province') }}"></select>
                             </div>
 
                         </div>
@@ -177,12 +222,18 @@
 
                             <div class="form_item">
                                 <label>City/Municipality</label>
-                                    <select id="city" class="wow"></select>
+                                    <select 
+                                    id="city" 
+                                    class="wow"
+                                    value="{{ old('city') }}"></select>
                                 </div>
 
                                 <div class="form_item">
                             <label>Barangay</label>
-                                <select id="barangay" class="wow"></select>
+                                <select 
+                                id="barangay" 
+                                class="wow"
+                                value="{{ old('barangay') }}"></select>
 
                             </div>
                         </div>
@@ -194,36 +245,66 @@
                         <div class="form_wrap fullname">
                             <div class="form_item">
                                 <label>Father's Name</label>
-                                <input type="text" class="wow" placeholder="Father's Name"> 
+                                <input 
+                                id="fathername"
+                                type="text" 
+                                class="wow" 
+                                placeholder="Father's Name"
+                                value="{{ old('fathername') }}"> 
                             </div>
                             
                             <div class="form_item">
                                 <label>Mother's Name</label>
-                                <input type="text" class="wow" placeholder="Mother's Name">
+                                <input 
+                                id="mothername" 
+                                type="text" 
+                                class="wow" 
+                                placeholder="Mother's Name"
+                                value="{{ old('mothername') }}">
                             </div>
                         </div>
 
                         <div class="form_wrap fullname">
                             <div class="form_item">
                                 <label>Father's Occupation</label>
-                                <input type="text" class="wow" placeholder="Father's Occupation"> 
+                                <input 
+                                id="fatherOccupation" 
+                                type="text" 
+                                class="wow" 
+                                placeholder="Father's Occupation"
+                                value="{{ old('fatherOccupation') }}"> 
                             </div>
                             
                             <div class="form_item">
                                 <label>Mother's Occupation</label>
-                                <input type="text" class="wow" placeholder="Mother's Occupation">
+                                <input 
+                                id="motherOccupation"
+                                type="text" 
+                                class="wow" 
+                                placeholder="Mother's Occupation"
+                                value="{{ old('motherOccupation') }}">
                             </div>
                         </div>
 
                         <div class="form_wrap fullname">
                             <div class="form_item">
                                 <label>Father's Phone Number</label>
-                                <input type="text" class="wow" placeholder="Father's Phone Number"> 
+                                <input 
+                                id="fatherContact" 
+                                type="text" 
+                                class="wow" 
+                                placeholder="Father's Phone Number"
+                                value="{{ old('fatherContact') }}"> 
                             </div>
                             
                             <div class="form_item">
                                 <label>Mother's Phone Number</label>
-                                <input type="text" class="wow" placeholder="Mother's Phone Number"> 
+                                <input 
+                                id="motherContact" 
+                                type="text" 
+                                class="wow" 
+                                placeholder="Mother's Phone Number"
+                                value="{{ old('motherContact') }}"> 
                             </div>
                         </div>
 
@@ -271,27 +352,27 @@
 <!-- script type="text/javascript" src="../../jquery.ph-locations.js"></script -->
 <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script>
 <script>
-            var my_handlers = {
+    var my_handlers = {
 
-    fill_provinces:  function(){
+        fill_provinces:  function(){
 
-        var region_code = $(this).val();
-        $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
-        
-    },
+            var region_code = $(this).val();
+            $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
+            
+        },
 
-    fill_cities: function(){
+        fill_cities: function(){
 
-        var province_code = $(this).val();
-        $('#city').ph_locations( 'fetch_list', [{"province_code": province_code}]);
-    },
+            var province_code = $(this).val();
+            $('#city').ph_locations( 'fetch_list', [{"province_code": province_code}]);
+        },
 
 
-    fill_barangays: function(){
+        fill_barangays: function(){
 
-        var city_code = $(this).val();
-        $('#barangay').ph_locations('fetch_list', [{"city_code": city_code}]);
-    }
+            var city_code = $(this).val();
+            $('#barangay').ph_locations('fetch_list', [{"city_code": city_code}]);
+        }
     };
 
     $(function(){
