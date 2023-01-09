@@ -26,9 +26,4 @@ class HomeController extends Controller
         return view('admin.home');
     }
 
-    public function edit(\App\Models\User $user)
-    {
-       return view('admin.edit-profile', compact('user'));
-    }
-
 }
