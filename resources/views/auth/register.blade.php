@@ -289,10 +289,11 @@
 
                                 <div class="row mb-3">
                                     <label for="birthdate" class="col-md-4 col-form-label text-md-end">{{ __('Birth Date') }}</label>   
-                                        <div class="col-md-6">
-                                            
-                                            <input id="birthdate" type="date" class="form-control @error('birthdate') is-invalid @enderror" name="birthdate" value="{{ old('birthdate') }}" placeholder="mm/dd/yyyy" required autofocus>
-                                        </div>
+                                    
+                                    <div class="col-md-6">
+                                        
+                                        <input id="birthdate" type="date" class="form-control @error('birthdate') is-invalid @enderror" name="birthdate" value="{{ old('birthdate') }}" placeholder="mm/dd/yyyy" required autofocus>
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
