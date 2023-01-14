@@ -175,17 +175,18 @@
                         <img src="/png/user.png" alt="">
                         <h2>
                             {{ Auth::user()->givenName }}
+                            {{ Auth::user()->lastName }}
                         </h2>
                     </div>
                     <hr>
 
-                    <a href="/profile/{{ Auth::user()->id }}/edit" class="sub-menu-link">
+                    <a href="{{ route('profile.edit', Auth::user()->id) }}" class="sub-menu-link">
                         <img src="/png/profile.png">
                         <p>Edit Profile</p>
                         <span></span>
                     </a>
 
-                    <a href="change-pass.php" class="sub-menu-link">
+                    <a href="{{ route('pw.edit', Auth::user()->id) }}" class="sub-menu-link">
                         <img src="/png/setting.png">
                         <p>Change Password</p>
                         <span></span>
@@ -203,47 +204,12 @@
                         @csrf
                     </form>
 
-                </div>
-            </div>
+                </div><!--End of sub-menu -->
+            </div><!--End of sub-menu-wrap-->
         </div><!--End of Topbar -->
         <main>
             @yield('content')
         </main>
-    </div> <!--End of Main -->
-
-    <!-- Right Side Of Navbar 
-    <ul class="navbar-nav ms-auto">
-        @guest
-            @if (Route::has('login'))
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-            @endif
-
-            @if (Route::has('register'))
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                </li>
-            @endif
-        @else
-            <li class="nav-item dropdown">
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    {{ Auth::user()->name }}
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </div>
-            </li>
-        @endguest
-    </ul>-->
+    </div> <!--End of main -->
 </body>
 </html>

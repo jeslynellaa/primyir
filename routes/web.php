@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth/login');
+    return redirect()->route('home');
 });
 
 
@@ -25,3 +25,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/profile/{user}/edit', [App\Http\Controllers\ProfilesController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile/{user}', [App\Http\Controllers\ProfilesController::class, 'update'])->name('profile.update');
+
+Route::get('/pw/{user}/edit', [App\Http\Controllers\ChangePasswordController::class, 'edit'])->name('pw.edit');
+Route::patch('/pw/{user}', [App\Http\Controllers\ChangePasswordController::class, 'update'])->name('pw.update');
