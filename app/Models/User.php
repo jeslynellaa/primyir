@@ -51,4 +51,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot(){
+        parent::boot();
+
+        static::created (function ($user) {
+            $user->address()->create([
+                'region' => 5
+            ]);
+        });
+    }
+
+    public function address(){
+        return $this->hasOne(Address::class);
+    }
 }
