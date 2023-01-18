@@ -42,6 +42,7 @@ class ProfilesController extends Controller
         $barangay_code = $user->address->barangay;
         $user_barangay = DB::table('barangays')->where('code', $barangay_code)->first();
 
+        //dd($user_region, $user_province, $user_city, $user_barangay);
         return view('profile.edit-profile', compact([
             'user', 
             'regions', 
@@ -50,7 +51,9 @@ class ProfilesController extends Controller
             'user_city', 
             'user_barangay']
         ));
+        
     }
+    
 
     // EDIT FUNCTION FOR PERSONAL INFO
     public function updateInfo(Request $request, User $user)

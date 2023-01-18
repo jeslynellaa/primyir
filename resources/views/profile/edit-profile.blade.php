@@ -129,7 +129,11 @@
                                 <div class="form_item">
                                     <label for="region" class="col-md-4 col-form-label text-md-end">Region</label>
                                     <select name="region" class="form-control wow" id="region">
-                                        <option value="{{ $user_region->code }}"selected disabled> {{ $user_region->name }} </option>
+                                        @if (is_null($user_region))
+                                            <option selected disabled>-- Select Region --</option>
+                                        @else
+                                            <option value="{{ $user_region->code }}"selected disabled> {{ $user_region->name }} </option>
+                                        @endif
 
                                         <!-- @foreach ($regions as $region)
                                             <option value="{{ $region->code }}"> {{ $region->name }}</option>
@@ -139,7 +143,11 @@
                                 <div class="form_item">
                                     <label for="province" class="col-md-4 col-form-label text-md-end">Province</label>
                                     <select name="province" class="form-control wow" id="province">
-                                        <option value="{{ $user_province->code }}"selected disabled> {{ $user_province->name }} </option>
+                                        @if (is_null($user_province))
+                                            <option selected disabled>-- Select Province --</option>
+                                        @else
+                                            <option value="{{ $user_province->code }}"selected disabled> {{ $user_province->name }} </option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -148,7 +156,11 @@
                                 <div class="form_item">
                                     <label for="cities" class="col-md-4 col-form-label text-md-end">City/Municipality</label>
                                     <select name="city"  class="form-control wow" id="city">
-                                        <option value="{{ $user_city->code }}"selected disabled> {{ $user_city->name }} </option>
+                                        @if (is_null($user_city))
+                                            <option selected disabled>-- Select City --</option>
+                                        @else
+                                            <option value="{{ $user_city->code }}"selected disabled> {{ $user_city->name }} </option>
+                                        @endif
                                     </select>
                                     
                                 </div>
@@ -156,7 +168,11 @@
                                 <div class="form_item">
                                     <label for="barangay" class="col-md-4 col-form-label text-md-end">Barangay</label>
                                     <select name="barangay" class="form-control wow" id="barangay">
-                                        <option value="{{ $user_barangay->code }}"selected disabled> {{ $user_barangay->name }} </option>
+                                        @if (is_null($user_barangay))
+                                            <option selected disabled>-- Select Barangay --</option>
+                                        @else
+                                            <option value="{{ $user_barangay->code }}"selected disabled> {{ $user_barangay->name }} </option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
