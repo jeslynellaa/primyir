@@ -181,53 +181,7 @@
                                 </button>
                             </div>
                         </form>
-
-                        <!-- <form method="POST">
-                            @csrf
-                            @method('PATCH')
-
-                            <div class="form_wrap select_box">
-
-                                <div class="form_item">
-                                <label for="region" class="col-md-4 col-form-label text-md-end">Region</label>   
-                                    <select name="region" id="region" class="wow form-control">
-                                        <option value="">--- Select Region ---</option>
-                                    </select>
-                                </div>
-
-                                <div class="form_item">
-                                <label for="province" class="col-md-4 col-form-label text-md-end">Province</label>   
-                                    <select name="province" id="province" class="wow form-control" >
-                                        <option value="">--- Select Province ---</option>
-                                    </select>
-                                </div>
-
-                            </div>
-
-                            <div class="form_wrap select_box">
-
-                                <div class="form_item">
-                                <label for="city" class="col-md-4 col-form-label text-md-end">City/Municipality</label>   
-                                    <select name="city" id="city" class="wow form-control">
-                                        <option value="">--- Select City/Municipality ---</option>
-                                    </select>
-                                </div>
-
-                                <div class="form_item">
-                                <label for="barangay" class="col-md-4 col-form-label text-md-end">Barangay</label>   
-                                    <select name="barangay" id="barangay" class="wow form-control" valu>
-                                        <option value="">--- Select Barangay ---</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="save_btn">
-                                    {{ __('Save changes') }}
-                                </button>
-                            </div>
-                        </form> -->
                     </div>
-
 
                 </div> <!--End of form_wrap-->
 
@@ -256,9 +210,7 @@
     <script src="{{ asset('js/loader.js') }}" defer></script>
     <script src="{{ asset('js/form.js') }}" defer></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
-    <!-- script type="text/javascript" src="../../jquery.ph-locations.js"></script -->
-    <!-- <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script> -->
-    <!-- <script src="{{ asset('js/location-dropdown.js') }}" defer></script> -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
 
@@ -323,42 +275,4 @@
             });
         });
     </script>
-    <!-- <script>
-        var my_handlers = {
-
-            fill_provinces:  function(){
-
-                var region_code = $(this).val();
-                $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
-                
-            },
-
-            fill_cities: function(){
-
-                var province_code = $(this).val();
-                $('#city').ph_locations( 'fetch_list', [{"province_code": province_code}]);
-            },
-
-
-            fill_barangays: function(){
-
-                var city_code = $(this).val();
-                $('#barangay').ph_locations('fetch_list', [{"city_code": city_code}]);
-            }
-        };
-
-        $(function(){
-            $('#region').on('change', my_handlers.fill_provinces);
-            $('#region').on('change', my_handlers.select_region);
-            $('#province').on('change', my_handlers.fill_cities);
-            $('#city').on('change', my_handlers.fill_barangays);
-
-            $('#region').ph_locations({'location_type': 'regions'});
-            $('#province').ph_locations({'location_type': 'provinces'});
-            $('#city').ph_locations({'location_type': 'cities'});
-            $('#barangay').ph_locations({'location_type': 'barangays'});
-
-            $('#region').ph_locations('fetch_list');
-        });
-    </script> -->
 @endsection
