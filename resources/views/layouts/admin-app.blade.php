@@ -194,7 +194,7 @@
                     
                     <a class="sub-menu-link" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
+                    document.getElementById('logout-form').submit();">
                         <img src="/png/logout.png">
                         <p>{{ __('Logout') }}</p>
                         <span></span>
@@ -207,9 +207,11 @@
                 </div><!--End of sub-menu -->
             </div><!--End of sub-menu-wrap-->
         </div><!--End of Topbar -->
+
         <main>
             @yield('content')
         </main>
+
     </div> <!--End of main -->
 </body>
 </html>
