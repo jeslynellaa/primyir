@@ -22,7 +22,7 @@ class SectionsController extends Controller
 
     public function index()
     {
-
+        // Joining sections, teachers, and users into section_teachers for displaying in sections table
         $section_teachers = DB::table('sections')
             ->join('teachers', 'teachers.id', '=', 'adviser')
             ->join('users', 'users.id', '=', 'teachers.user_id')
@@ -30,38 +30,44 @@ class SectionsController extends Controller
             ->orderBy('grade_level')
             ->get();
 
-        //dd($section_teachers);
         return view('admin.sections.index', compact('section_teachers'));
     }
     
     public function create(User $user)
     {
+        // Joining teachers and users into teachers for select dropdown in forms
         $teachers = DB::table('users')
-            ->where('accountStatus', 'Active')
-            ->where('owner_type', 'T')
-            ->select('id', 'givenName', 'lastName')
+            ->join('teachers', 'teachers.user_id', '=', 'users.id')
+            ->where('users.accountStatus', 'Active')
+            ->where('teachers.advisory', 0)
+            ->select('teachers.id', 'users.givenName', 'users.lastName')
             ->orderBy('lastName', 'ASC')
             ->get();
 
-        //dd($teachers);
         return view('admin.sections.create', compact('teachers'));
     }
 
     public function store(Request $request, User $user)
     {
+        // Validation of input
         $data = request()->validate([
             'name' => ['required', 'string', 'max:50', 'unique:sections'],
             'grade_level' => ['required'],
             'adviser' => ''
-        ]);
-        
-        //dd($data);
+        ]);        
 
+        // Creating new section model
         $new_section = \App\Models\Section::create([
             'name' => $data['name'],
             'grade_level' => $data['grade_level'],
             'adviser' => $data['adviser'],
         ]);
+
+        // Updating the assigned teacher's record to reflect advisory class
+        $assign_teach = \App\Models\Teacher::where('id', '=', $data['adviser'])->first();
+        $assign_teach->advisory = 1;
+        $assign_teach->save();
+
         return redirect()->back()->with("success","New Section Created!");
     }
 }

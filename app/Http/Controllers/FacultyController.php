@@ -53,6 +53,7 @@ class FacultyController extends Controller
             'contactNum' => ['digits:11'],
             'sex' => ['required'],
             'department' => ['required'],
+            'advisory' => '',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -76,9 +77,10 @@ class FacultyController extends Controller
 
         $userid = $newuser->id;
 
-        $newuser = \App\Models\Teacher::create([
+        $newteacher = \App\Models\Teacher::create([
             'user_id' => $userid,
-            'department' => $data['department']
+            'department' => $data['department'],
+            'advisory' => 0
         ]);
         
         return redirect()->back()->with("success","New Teacher Account Created Successfully!");
@@ -86,7 +88,6 @@ class FacultyController extends Controller
 
     public function update(User $user)
     {
-        dd($userid);
-        //return view('admin.faculty.create');
+        
     }
 }
