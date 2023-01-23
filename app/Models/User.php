@@ -59,10 +59,27 @@ class User extends Authenticatable
             $user->address()->create([
                 'region' => 5
             ]);
+
+            // if($user->owner_type == 'T' ){
+            //     $user->teacher()->create([
+            //         'department' => '0'
+            //     ]);
+            // }
+
+            // if($user->owner_type == S ){
+            //     $user->student()->create([
+            //         'department' => '0'
+            //     ]);
+            // }
         });
     }
 
     public function address(){
         return $this->hasOne(Address::class);
     }
+
+    public function Teacher(){
+        return $this->hasOne(Teacher::class);
+    }
+
 }

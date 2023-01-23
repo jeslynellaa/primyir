@@ -646,6 +646,10 @@ body {
   margin-bottom: 25px;
 }
 
+.wrapper .form_container .form_item .radio_item{
+  display: flex;
+}
+
 .form_wrap.fullname,
 .form_wrap.select_box{
   display: flex;
@@ -655,6 +659,7 @@ body {
 .form_wrap.select_box .form_item{
   width: 50%;
 }
+
 
 .form_wrap.fullname .form_item:first-child,
 .form_wrap.select_box .form_item:first-child{
@@ -666,6 +671,7 @@ body {
   display: block;
   margin-bottom: 5px;
 }
+
 
 .form_item input[type="text"], .form_item input[type="email"], .form_item input[type="date"], .form_item input[type="password"],
 .form_item select{
@@ -683,6 +689,13 @@ body {
 .form_item input[type="password"]{
   width: 100%;
   padding: 10px;
+  font-size: 16px;
+  border: 1px solid #dadce0;
+  border-radius: 3px;
+}
+
+.form_item input[type="radio"]{
+  width: 25%;
   font-size: 16px;
   border: 1px solid #dadce0;
   border-radius: 3px;
