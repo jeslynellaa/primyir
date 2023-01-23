@@ -89,7 +89,7 @@
                         <span class="icon">
                             <i class="fa-solid fa-graduation-cap icon-nav"></i>
                         </span>
-                        <span class="title">Student</span>
+                        <span class="title">Students</span>
                     </a>
                 </li>
 
@@ -103,29 +103,29 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/sections">
                         <span class="icon">
                             <i class="fa-solid fa-book icon-nav"></i>
                         </span>
-                        <span class="title">Section</span>
+                        <span class="title">Sections</span>
                     </a>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="#">
                         <span class="icon">
                             <i class="fa-solid fa-chair icon-nav"></i>
                         </span>
                         <span class="title">Class</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li>
-                    <a href="#">
+                    <a href="/sections">
                         <span class="icon">
                             <i class="fa-solid fa-globe icon-nav"></i>
                         </span>
-                        <span class="title">Subject</span>
+                        <span class="title">Subjects</span>
                     </a>
                 </li>
 
@@ -134,7 +134,7 @@
                         <span class="icon">
                             <i class="fa-solid fa-calendar icon-nav"></i>
                         </span>
-                        <span class="title">Event</span>
+                        <span class="title">Events</span>
                     </a>
                 </li>
 
@@ -143,7 +143,7 @@
                         <span class="icon">
                             <i class="fa-solid fa-file icon-nav"></i>
                         </span>
-                        <span class="title">Report</span>
+                        <span class="title">Reports</span>
                     </a>
                 </li>
 
@@ -168,44 +168,46 @@
                 <img src="/png/customer01.jpg" onclick="toggleMn()">
             </div>
 
-            <!-- ======================= Drop-down Profile Menu ================== -->
-            <div class="sub-menu-wrap" id="subMenu">
-                <div class="sub-menu">
-                    <div class="user-info">
-                        <img src="/png/user.png" alt="">
-                        <h2>
-                            {{ Auth::user()->givenName }}
-                            {{ Auth::user()->lastName }}
-                        </h2>
-                    </div>
-                    <hr>
+            @if(!Route::is('register'))
+                <!-- ======================= Drop-down Profile Menu ================== -->
+                <div class="sub-menu-wrap" id="subMenu">
+                    <div class="sub-menu">
+                        <div class="user-info">
+                            <img src="/png/user.png" alt="">
+                            <h2>
+                                {{ Auth::user()->givenName }}
+                                {{ Auth::user()->lastName }}
+                            </h2>
+                        </div>
+                        <hr>
 
-                    <a href="{{ route('profile.edit', Auth::user()->id) }}" class="sub-menu-link">
-                        <img src="/png/profile.png">
-                        <p>Edit Profile</p>
-                        <span></span>
-                    </a>
+                        <a href="{{ route('profile.edit', Auth::user()->id) }}" class="sub-menu-link">
+                            <img src="/png/profile.png">
+                            <p>Edit Profile</p>
+                            <span></span>
+                        </a>
 
-                    <a href="{{ route('pw.edit', Auth::user()->id) }}" class="sub-menu-link">
-                        <img src="/png/setting.png">
-                        <p>Change Password</p>
-                        <span></span>
-                    </a>
-                    
-                    <a class="sub-menu-link" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-                        <img src="/png/logout.png">
-                        <p>{{ __('Logout') }}</p>
-                        <span></span>
-                    </a>
+                        <a href="{{ route('pw.edit', Auth::user()->id) }}" class="sub-menu-link">
+                            <img src="/png/setting.png">
+                            <p>Change Password</p>
+                            <span></span>
+                        </a>
+                        
+                        <a class="sub-menu-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                            <img src="/png/logout.png">
+                            <p>{{ __('Logout') }}</p>
+                            <span></span>
+                        </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
 
-                </div><!--End of sub-menu -->
-            </div><!--End of sub-menu-wrap-->
+                    </div><!--End of sub-menu -->
+                </div><!--End of sub-menu-wrap-->
+            @endif
         </div><!--End of Topbar -->
 
         <main>

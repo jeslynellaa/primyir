@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SectionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // ======= Admin - FACULTY ROUTES ===========
 
 Route::get('/faculty', [FacultyController::class, 'index'])->name('faculty.index');
-Route::post('/faculty', [FacultyController::class, 'store'])->name('faculty.store');
 Route::get('/faculty/create', [FacultyController::class, 'create'])->name('faculty.create');
-Route::patch('/faculty/{user}', [ProfilesController::class, 'update'])->name('faculty.update');
+Route::post('/faculty', [FacultyController::class, 'store'])->name('faculty.store');
+Route::patch('/faculty/{user}', [FacultyController::class, 'update'])->name('faculty.update');
+
+
+// ======= Admin - SECTION ROUTES ===========
+Route::get('/sections', [SectionsController::class, 'index'])->name('sections.index');
+Route::get('/sections/create', [SectionsController::class, 'create'])->name('sections.create');
+Route::post('/sections', [SectionsController::class, 'store'])->name('sections.store');
+Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
