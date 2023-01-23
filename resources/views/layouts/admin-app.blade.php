@@ -94,7 +94,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/faculty">
                         <span class="icon">
                             <i class="fa-solid fa-apple-whole icon-nav"></i>
                         </span>

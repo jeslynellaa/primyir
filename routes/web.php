@@ -2,10 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 
-
+use App\Http\Controllers\Auth\ConfirmPasswordController;
+use App\Http\Controllers\Auth\CreateUserController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\ChangePasswordController;
-use App\Http\Controllers\AddressesController;
+use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +51,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::get('/pw/{user}/edit', [ChangePasswordController::class, 'edit'])->name('pw.edit');
     Route::patch('/pw/{user}', [ChangePasswordController::class, 'update'])->name('pw.update');
 
+
+// ======= Admin - FACULTY ROUTES ===========
+
+Route::get('/faculty', [FacultyController::class, 'index'])->name('faculty.index');
+Route::post('/faculty', [FacultyController::class, 'store'])->name('faculty.store');
+Route::get('/faculty/create', [FacultyController::class, 'create'])->name('faculty.create');
+Route::patch('/faculty/{user}', [ProfilesController::class, 'update'])->name('faculty.update');
