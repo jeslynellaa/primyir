@@ -10,7 +10,7 @@
             <table>
                 <thead>
                     <tr>
-                        <td></td>
+                        <td>#</td>
                         <td>First Name</td>
                         <td>Middle Name</td>
                         <td>Last Name</td>
@@ -22,7 +22,7 @@
                 <tbody>
                     @foreach ($teacher_users as $teacher )
                         <tr>
-                            <td></td>
+                            <td>{{ $loop->index + 1}}</td>
                             <td>{{ $teacher->givenName }}</td>
                             <td>{{ $teacher->middleName }}</td>
                             <td>{{ $teacher->lastName }}</td>
