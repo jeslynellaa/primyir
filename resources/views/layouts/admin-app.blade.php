@@ -85,7 +85,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/students">
                         <span class="icon">
                             <i class="fa-solid fa-graduation-cap icon-nav"></i>
                         </span>

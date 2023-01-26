@@ -12,6 +12,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SectionsController;
+use App\Http\Controllers\StudentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +67,13 @@ Route::get('/sections', [SectionsController::class, 'index'])->name('sections.in
 Route::get('/sections/create', [SectionsController::class, 'create'])->name('sections.create');
 Route::post('/sections', [SectionsController::class, 'store'])->name('sections.store');
 Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+
+
+// ======= Admin - STUDENT ROUTES ===========
+Route::get('/students', [StudentsController::class, 'index'])->name('students.index');
+Route::get('/students/create', [StudentsController::class, 'create'])->name('students.create');
+Route::post('/students', [StudentsController::class, 'store'])->name('students.store');
+// Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+
+    //Address Dropdown Routes
+    Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
