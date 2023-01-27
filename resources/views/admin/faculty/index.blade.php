@@ -1,48 +1,50 @@
 @extends('layouts.admin-app')
 
 @section('content')
-    <div class="details">
-        <div class="recentOrders">
-            <div class="cardHeader">
-                <h2>Faculty</h2>
+    <div class="lists_wrap">
+
+        <div class="well">
+            <div class="well_top" style="align-items:center">
+                <h2 style="align:left">List of Faculty</h2>
+
+                <div class="functions_wrap">
+                    <a class="list_function" href="/teachers/create">Add New Teacher</a>
+                </div>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <td>#</td>
-                        <td>First Name</td>
-                        <td>Middle Name</td>
-                        <td>Last Name</td>
-                        <td>Department</td>
-                        <td>Status</td>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach ($teacher_users as $teacher )
+            <form>  					
+                <table id="example" class="table table-striped" cellspacing="0">
+                
+                    <thead>
                         <tr>
-                            <td>{{ $loop->index + 1}}</td>
-                            <td>{{ $teacher->givenName }}</td>
-                            <td>{{ $teacher->middleName }}</td>
-                            <td>{{ $teacher->lastName }}</td>
-                            <td>{{ $teacher->department}}</td>
-                            <td>{{ $teacher->accountStatus}}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <div class="recentCustomers">
-            <div class="cardHeader">
-                <h2>Manage Faculty</h2>
-            </div>
-            <div class="container">
-                <a href="{{ route('faculty.create') }}">
-                    <span class="title"><b>Add New Teacher</b></span>
-                </a>
-            </div>
+                            <th>No.</th>
+                            <th style="width=10% align=left"><input type="checkbox" name="chkall" id="chkall" onclick="return checkall('selector[]');">Fullname</th>
+                            <th>Department</th>
+                            <th>Contact #</th>
+                            <th>Email</th>
+                            <th>Sex</th>
+                            <th>Birthdate</th>
+                            <th>Status</th>
+                            <th>Options</th>
+                        </tr>	
+                    </thead>
+                    <tbody>
+                        @foreach ($teacher_users as $teacher )
+                            <tr>
+                                <td>{{ $loop->index + 1}}</td>
+                                <td>{{ $teacher->lastName }}, {{ $teacher->givenName }} {{ $teacher->middleName }}</td>
+                                <td>{{ $teacher->department}}</td>
+                                <td>{{ $teacher->contactNum}}</td>
+                                <td>{{ $teacher->email}}</td>
+                                <td>{{ $teacher->sex}}</td>
+                                <td>{{ $teacher->birthdate}}</td>
+                                <td>{{ $teacher->accountStatus}}</td>
+                                <td><a href="">View</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 @endsection

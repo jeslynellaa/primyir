@@ -1,48 +1,50 @@
 @extends('layouts.admin-app')
 
 @section('content')
-    <div class="details">
-        <div class="recentOrders">
-            <div class="cardHeader">
-                <h2>Students</h2>
+    <div class="lists_wrap">
+
+        <div class="well">
+            <div class="well_top" style="align-items:center">
+                <h2 style="align:left">List of Students</h2>
+
+                <div class="functions_wrap">
+                    <a class="list_function" href="/students/create">Add New Student</a>
+                </div>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <td>#</td>
-                        <td>LRN</td>
-                        <td>Name</td>
-                        <td>Grade</td>
-                        <td>Section</td>
-                        <td>Status</td>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach ($student_users as $student )
+            <form>  					
+                <table id="example" class="table table-striped" cellspacing="0">
+                
+                    <thead>
                         <tr>
-                            <td>{{ $loop->index + 1}}</td>
-                            <td>{{ $student->LRN_no }}</td>
-                            <td>{{ $student->lastName }}, {{ $student->givenName }} {{ $student->middleName }}</td>
-                            <td>{{ $student->grade_level }}</td>
-                            <td>{{ $student->name}}</td>
-                            <td>{{ $student->accountStatus}}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <div class="recentCustomers">
-            <div class="cardHeader">
-                <h2>Manage Students</h2>
-            </div>
-            <div class="container">
-                <a href="{{ route('students.create') }}">
-                    <span class="title"><b>Add New Student</b></span>
-                </a>
-            </div>
+                            <th>No.</th>
+                            <th style="width=10% align=left"><input type="checkbox" name="chkall" id="chkall" onclick="return checkall('selector[]');"> LRN#.</th>
+                            <th>Fullname</th>
+                            <th>Grade</th>
+                            <th>Section</th>
+                            <th>Sex</th>
+                            <th>Birth Date</th>
+                            <th>Status</th>
+                            <th>Options</th>
+                        </tr>	
+                    </thead>
+                    <tbody>
+                        @foreach ($student_users as $student )
+                            <tr>
+                                <td>{{ $loop->index + 1}}</td>
+                                <td>{{ $student->LRN_no }}</td>
+                                <td>{{ $student->lastName }}, {{ $student->givenName }} {{ $student->middleName }}</td>
+                                <td>{{ $student->grade_level }}</td>
+                                <td>{{ $student->name }}</td>
+                                <td>{{ $student->sex }}</td>
+                                <td>{{ $student->birthdate }}</td>
+                                <td>{{ $student->accountStatus}}</td>
+                                <td><a href="">View</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 @endsection
