@@ -17,7 +17,7 @@ class CreateSectionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('grade_level');
             $table->string('name', 30);
-            $table->unsignedBigInteger('adviser');
+            $table->unsignedBigInteger('adviser')->nullable();
             $table->timestamps();
 
             $table->index('adviser');
