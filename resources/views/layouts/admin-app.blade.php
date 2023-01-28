@@ -121,7 +121,7 @@
                 </li> -->
 
                 <li>
-                    <a href="/sections">
+                    <a href="/subjects">
                         <span class="icon">
                             <i class="fa-solid fa-globe icon-nav"></i>
                         </span>
@@ -130,7 +130,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/events">
                         <span class="icon">
                             <i class="fa-solid fa-calendar icon-nav"></i>
                         </span>

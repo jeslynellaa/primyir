@@ -14,6 +14,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\SubjectsController;
+use App\Http\Controllers\EventsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,15 @@ Route::post('/students', [StudentsController::class, 'store'])->name('students.s
 Route::get('/subjects', [SubjectsController::class, 'index'])->name('subjects.index');
 Route::get('/subjects/create', [SubjectsController::class, 'create'])->name('subjects.create');
 Route::post('/subjects', [SubjectsController::class, 'store'])->name('subjects.store');
+// Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+
+    //Address Dropdown Routes
+    Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
+
+// ======= Admin - EVENT ROUTES ===========
+Route::get('/events', [EventsController::class, 'index'])->name('events.index');
+Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
+Route::post('/events', [EventsController::class, 'store'])->name('events.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
     //Address Dropdown Routes
