@@ -13,6 +13,7 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\SubjectsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,15 @@ Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('s
 Route::get('/students', [StudentsController::class, 'index'])->name('students.index');
 Route::get('/students/create', [StudentsController::class, 'create'])->name('students.create');
 Route::post('/students', [StudentsController::class, 'store'])->name('students.store');
+// Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+
+    //Address Dropdown Routes
+    Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
+
+// ======= Admin - SUBJECT ROUTES ===========
+Route::get('/subjects', [SubjectsController::class, 'index'])->name('subjects.index');
+Route::get('/subjects/create', [SubjectsController::class, 'create'])->name('subjects.create');
+Route::post('/subjects', [SubjectsController::class, 'store'])->name('subjects.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
     //Address Dropdown Routes
