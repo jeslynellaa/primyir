@@ -646,6 +646,17 @@ body {
   margin-bottom: 25px;
 }
 
+.checkbox{
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 25px;
+}
+
+.checkbox label{
+  margin-right: 10px;
+}
+
 .wrapper .form_container .form_item .radio_item{
   display: flex;
 }

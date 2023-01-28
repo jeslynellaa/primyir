@@ -87,7 +87,6 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                
                             </div>
                             <div class="form_item">
                                 <label for="birthdate" class="col-md-4 col-form-label text-md-end">{{ __('Birth Date') }}</label>   
