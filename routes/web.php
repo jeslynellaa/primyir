@@ -27,14 +27,19 @@ use App\Http\Controllers\EventsController;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('home');
-});
+// Route::get('/', function () {
+//     return redirect()->route('home');
+// });
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/admin', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin.index');
+Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])->name('faculty.index');
+
+// Route::get('/student', [App\Http\Controllers\HomeController::class, 'student'])->name('student.index');
 
 // ============ EDIT PROFILE ROUTES ==============
         //Address Dropdown Routes
@@ -58,42 +63,47 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // ======= Admin - FACULTY ROUTES ===========
 
-Route::get('/faculty', [FacultyController::class, 'index'])->name('faculty.index');
-Route::get('/faculty/create', [FacultyController::class, 'create'])->name('faculty.create');
-Route::post('/faculty', [FacultyController::class, 'store'])->name('faculty.store');
-Route::patch('/faculty/{user}', [FacultyController::class, 'update'])->name('faculty.update');
+Route::get('/admin/faculty', [FacultyController::class, 'index'])->name('admin.faculty.index');
+Route::get('/admin/faculty/create', [FacultyController::class, 'create'])->name('admin.faculty.create');
+Route::post('/admin/faculty', [FacultyController::class, 'store'])->name('admin.faculty.store');
+Route::patch('/admin/faculty/{user}', [FacultyController::class, 'update'])->name('admin.faculty.update');
 
 
 // ======= Admin - SECTION ROUTES ===========
-Route::get('/sections', [SectionsController::class, 'index'])->name('sections.index');
-Route::get('/sections/create', [SectionsController::class, 'create'])->name('sections.create');
-Route::post('/sections', [SectionsController::class, 'store'])->name('sections.store');
-Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+Route::get('/admin/sections', [SectionsController::class, 'index'])->name('admin.sections.index');
+Route::get('/admin/sections/create', [SectionsController::class, 'create'])->name('admin.sections.create');
+Route::post('/admin/sections', [SectionsController::class, 'store'])->name('admin.sections.store');
+Route::patch('/admin/sections/{user}', [SectionsController::class, 'update'])->name('admin.sections.update');
 
 
 // ======= Admin - STUDENT ROUTES ===========
-Route::get('/students', [StudentsController::class, 'index'])->name('students.index');
-Route::get('/students/create', [StudentsController::class, 'create'])->name('students.create');
-Route::post('/students', [StudentsController::class, 'store'])->name('students.store');
-// Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+Route::get('/admin/students', [StudentsController::class, 'index'])->name('admin.students.index');
+Route::get('/admin/students/create', [StudentsController::class, 'create'])->name('admin.students.create');
+Route::post('/admin/students', [StudentsController::class, 'store'])->name('admin.students.store');
+Route::get('/admin/students/{student}', [StudentsController::class, 'show'])->name('admin.students.show');
 
     //Address Dropdown Routes
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
 
 // ======= Admin - SUBJECT ROUTES ===========
-Route::get('/subjects', [SubjectsController::class, 'index'])->name('subjects.index');
-Route::get('/subjects/create', [SubjectsController::class, 'create'])->name('subjects.create');
-Route::post('/subjects', [SubjectsController::class, 'store'])->name('subjects.store');
+Route::get('/admin/subjects', [SubjectsController::class, 'index'])->name('admin.subjects.index');
+Route::get('/admin/subjects/create', [SubjectsController::class, 'create'])->name('admin.subjects.create');
+Route::post('/admin/subjects', [SubjectsController::class, 'store'])->name('admin.subjects.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
     //Address Dropdown Routes
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
 
 // ======= Admin - EVENT ROUTES ===========
-Route::get('/events', [EventsController::class, 'index'])->name('events.index');
-Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
-Route::post('/events', [EventsController::class, 'store'])->name('events.store');
+Route::get('/admin/events', [EventsController::class, 'index'])->name('admin.events.index');
+Route::get('/admin/events/create', [EventsController::class, 'create'])->name('admin.events.create');
+Route::post('/admin/events', [EventsController::class, 'store'])->name('admin.events.store');
+Route::get('/admin/articles/create', [EventsController::class, 'articles_create'])->name('admin.articles.create');
+Route::post('/admin/articles', [EventsController::class, 'articles_store'])->name('admin.articles.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
-    //Address Dropdown Routes
-    Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
+// ======= Admin - REPORTS/ARTICLES ROUTES ===========
+Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports.index');
+Route::get('/admin/reports/create', [ReportsController::class, 'create'])->name('admin.reports.create');
+Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
+// Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
