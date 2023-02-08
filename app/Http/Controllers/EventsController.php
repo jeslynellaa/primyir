@@ -27,7 +27,11 @@ class EventsController extends Controller
             ->orderBy('date_posted')
             ->get();
 
-        return view('admin.events.index', compact('events'));
+        $articles = DB::table('articles')
+            ->orderBy('date_posted')
+            ->get();
+
+        return view('admin.events.index', compact('events', 'articles'));
     }
 
     public function create(User $user)
@@ -63,5 +67,54 @@ class EventsController extends Controller
 
         //dd($new_event);
         return redirect()->back()->with("success","New Event Created!");
+    }
+
+    public function articles_create(User $user)
+    {
+        return view('admin.articles.create');
+    }
+
+    public function articles_store(Request $request, User $user)
+    {
+        // Validation of input
+        $data = request()->validate([
+            'title' => ['required', 'string'],
+            'category' => ['required'],
+            'content' => ['required'],
+            'author' => ['required'],
+            'thumbnail' => ['image']
+        ]);
+
+        $userId = Auth::user()->id;
+        $date = date("Y/m/d");
+        //dd($userId);
+        //dd($date);
+
+        if (isset($data['thumbnail'])){
+            $new_article = \App\Models\Article::create([
+                'title' => $data['title'],
+                'category' => $data['category'],
+                'author' => $data['author'],
+                'thumbnail' => $data['thumbnail'],
+                'content' => $data['content'],
+                'date_posted' => $date,
+                'admin_id' => $userId
+            ]);
+        }
+        else{
+            // if elective is not set, assign with 0
+            $new_article = \App\Models\Article::create([
+                'title' => $data['title'],
+                'category' => $data['category'],
+                'author' => $data['author'],
+                'content' => $data['content'],
+                'date_posted' => $date,
+                'admin_id' => $userId
+            ]);
+        }
+        
+
+        //dd($new_event);
+        return redirect()->back()->with("success","New Article Created!");
     }
 }

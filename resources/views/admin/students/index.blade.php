@@ -8,7 +8,7 @@
                 <h2 style="align:left">List of Students</h2>
 
                 <div class="functions_wrap">
-                    <a class="list_function" href="/students/create">Add New Student</a>
+                    <a class="list_function" href="/admin/students/create">Add New Student</a>
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
                                 <td>{{ $student->sex }}</td>
                                 <td>{{ $student->birthdate }}</td>
                                 <td>{{ $student->accountStatus}}</td>
-                                <td><a href="">View</a></td>
+                                <td><a href="/admin/students/{{$student->stud_id}}">View</a></td>
                             </tr>
                         @endforeach
                     </tbody>

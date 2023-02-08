@@ -24,7 +24,7 @@
                 @endif
 
                 <div class="card-body">
-                    <form method="POST" action="/events" enctype="multipart/form-data">
+                    <form method="POST" action="/admin/events" enctype="multipart/form-data">
                         @csrf
                         
                         <div class="form_item">

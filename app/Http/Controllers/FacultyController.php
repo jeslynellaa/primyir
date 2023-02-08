@@ -24,12 +24,11 @@ class FacultyController extends Controller
     public function index()
     {
         $teacher_users = DB::table('users')
-        ->join('teachers', function($join)
-        {
-            $join->on('users.id', '=', 'teachers.user_id')
-                 ->where('users.owner_type', 'T');
-        })
-        ->get();
+            ->join('teachers', 'teachers.user_id', '=', 'users.id')
+            ->where('users.owner_type', 'T')
+            ->select('users.*', 'teachers.department')
+            ->orderBy('lastName', 'ASC')
+            ->get();
 
         return view('admin.faculty.index', compact('teacher_users'));
     }

@@ -7,7 +7,7 @@
                 <h2 style="align:left">List of Subjects</h2>
 
                 <div class="functions_wrap">
-                    <a class="list_function" href="/subjects/create">Add New Subject</a>
+                    <a class="list_function" href="/admin/subjects/create">Add New Subject</a>
                 </div>
             </div>
 
@@ -38,37 +38,4 @@
             </form>
         </div>
     </div>
-
-    <!-- <div class="details">
-        <div class="recentOrders">
-            <div class="cardHeader">
-                <h2>Subjects</h2>
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <td>#</td>
-                        <td>Section Name</td>
-                        <td>Grade Level</td>
-                        <td>Adviser</td>
-                    </tr>
-                </thead>
-
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="recentCustomers">
-            <div class="cardHeader">
-                <h2>Manage Subjects</h2>
-            </div>
-            <div class="container">
-                <a href="{{ route('sections.create') }}">
-                    <span class="title"><b>Add New Subject</b></span>
-                </a>
-            </div>
-        </div>
-    </div> -->
 @endsection

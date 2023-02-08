@@ -8,7 +8,7 @@
                 <h2 style="align:left">List of Sections</h2>
 
                 <div class="functions_wrap">
-                    <a class="list_function" href="/sections/create">Create New Section</a>
+                    <a class="list_function" href="/admin/sections/create">Create New Section</a>
                 </div>
             </div>
 

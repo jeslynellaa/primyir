@@ -24,7 +24,7 @@
                 @endif
 
                 <div class="card-body">
-                    <form method="POST" action="/sections">
+                    <form method="POST" action="/admin/sections">
                         @csrf
                         
                         <div class="form_item">

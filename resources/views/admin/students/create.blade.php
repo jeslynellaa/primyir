@@ -24,7 +24,7 @@
                 @endif
 
                 <div class="card-body">
-                    <form method="POST" action="/students">
+                    <form method="POST" action="/admin/students">
                         @csrf
                         
                         <div class="form_item">
@@ -236,6 +236,18 @@
                         <div class="form_item">
                             <div class="col-md-6">
                                 <input hidden id="owner_type" type="text" class="wow form-control @error('owner_type') is-invalid @enderror" name="owner_type" value="S" required autocomplete="owner_type" autofocus>
+                            </div>
+                        </div>
+
+                        <div class="form_item">
+                            <div class="col-md-6">
+                                <input hidden id="status" type="text" class="wow form-control @error('status') is-invalid @enderror" name="status" value="New" required autocomplete="status" autofocus>
+                            </div>
+                        </div>
+
+                        <div class="form_item">
+                            <div class="col-md-6">
+                                <input hidden id="schoolyear_id" type="text" class="wow form-control @error('schoolyear_id') is-invalid @enderror" name="schoolyear_id" value=10103 required autocomplete="schoolyear_id" autofocus>
                             </div>
                         </div>
 
