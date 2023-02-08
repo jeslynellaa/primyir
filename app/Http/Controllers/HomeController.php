@@ -31,7 +31,26 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+
+    public function home()
+    {
+        $user = Auth::user();
+        $role = $user->owner_type;
+        if ($role == 'A'){
+            $roleName = 'admin';
+        }
+        else if ($role == 'T'){
+            $roleName = 'faculty';
+        }
+        else{
+            $roleName = 'student';
+        }
+        $route_name = $roleName . '.' . 'index';
+        
+        return redirect()->route($route_name);
+    }
+
+    public function admin()
     {
         $student_count = DB::table('users')
         ->where('users.accountStatus', 'Active')
@@ -53,7 +72,11 @@ class HomeController extends Controller
         ->count();
 
         //dd($student_count);
-        return view('admin.home', compact('student_count', 'faculty_count', 'event_count', 'class_count'));
+        return view('admin.index', compact('student_count', 'faculty_count', 'event_count', 'class_count'));
     }
 
+    public function faculty()
+    {
+        return view('faculty.index');
+    }
 }

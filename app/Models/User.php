@@ -86,4 +86,8 @@ class User extends Authenticatable
         return $this->hasOne(Student::class);
     }
 
+    public function Articles(){
+        return $this->hasMany(Article::class, 'admin_id');
+    }
+
 }
