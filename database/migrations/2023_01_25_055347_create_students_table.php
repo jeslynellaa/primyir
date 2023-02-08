@@ -16,14 +16,12 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->char('LRN_no', 12);
-            $table->unsignedBigInteger('section_id')->nullable();
             $table->string('religion', 50);
             $table->unsignedBigInteger('curriculum_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->index('user_id');
-            $table->index('section_id');
             $table->index('curriculum_id');
         });
     }

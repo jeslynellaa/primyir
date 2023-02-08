@@ -15,12 +15,11 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function Section(){
-        return $this->belongsTo(Section::class);
-    }
-
     public function Curriculum(){
         return $this->belongsTo(Curriculum::class);
     }
 
+    public function StudentSchoolyears(){
+        return $this->hasMany(StudentSchoolyears::class);
+    }
 }

@@ -14,4 +14,8 @@ class Schoolyear extends Model
     public function Subjects(){
         return $this->hasMany(Subject::class);
     }
+
+    public function StudentSchoolyears(){
+        return $this->hasMany(StudentSchoolyear::class);
+    }
 }

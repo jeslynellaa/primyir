@@ -28,8 +28,9 @@ class StudentsController extends Controller
         $student_users = DB::table('users')
             ->join('students', 'students.user_id', '=', 'users.id')
             ->where('users.owner_type', 'S')
-            ->join('sections', 'students.section_id', '=', 'sections.id')
-            ->select('users.*', 'students.*', 'sections.name', 'sections.grade_level')
+            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
+            ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'sections.name', 'sections.grade_level')
             ->orderBy('grade_level')
             ->orderBy('lastName', 'ASC')
             ->get();
@@ -69,7 +70,9 @@ class StudentsController extends Controller
             'LRN_no' => ['digits:12', 'required', 'unique:students'],
             'section' => 'integer',
             'curriculum' => 'integer',
-            'religion' => 'string'
+            'schoolyear_id' => 'integer',
+            'religion' => 'string',
+            'status' => 'string'
         ]);
 
         $newUser = \App\Models\User::create([
@@ -91,13 +94,46 @@ class StudentsController extends Controller
         $newStudent = \App\Models\Student::create([
             'user_id' => $userid,
             'LRN_no' => $data['LRN_no'],
-            'section_id' => $data['section'],
             'religion' => $data['religion'],
             'curriculum_id' => $data['curriculum']
+        ]);
+
+        $studentID = $newStudent->id;
+
+        $newStudentSY = \App\Models\StudentSchoolyear::create([
+            'student_id' => $studentID,
+            'schoolyear_id' => $data['schoolyear_id'],
+            'section_id' => $data['section'],
+            'status' => $data['status']
         ]);
         
         return redirect()->back()->with("success","New Student Account Created Successfully!");
     }
+
+    public function show($stud_id)
+    {
+        $student_records = DB::table('users')
+            ->join('students', 'students.user_id', '=', 'users.id')
+            ->where('students.id', $stud_id)
+            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
+            ->join('schoolyears', 'student_schoolyears.schoolyear_id', '=', 'schoolyears.id')
+            ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 
+                'users.givenName', 'users.middleName', 'users.lastName', 
+                'sections.name', 'sections.grade_level',
+                'student_schoolyears.status',
+                'schoolyears.year_start', 'schoolyears.year_end')
+            ->get();
+        $student = DB::table('users')
+            ->join('students', 'students.user_id', '=', 'users.id')
+            ->where('students.id', $stud_id)
+            ->select('users.givenName', 'users.middleName', 'users.lastName')
+            ->first();
+        //dd($student_records);
+        return view('admin.students.view', compact('student_records', 'student'));
+    }
+
+    
 
     public function getSections(Request $request){
         $sections = DB::table('sections')
