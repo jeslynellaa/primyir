@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <!--<title>{{ config('app.name', 'Laravel') }}</title>-->
-
+    
     <title>Primyir Online Portal</title>
     <!-- ======= add icon link ====== -->
     <link rel = "icon" href = "/png/snhs.png" type = "image/x-icon">
@@ -38,8 +37,8 @@
 
             window.addEventListener("load", function(){
                 loader.style.display = "none";
-            })
-        })
+            });
+        });
     </script>
 
     <!-- ====== ionicons ======= -->
@@ -56,6 +55,7 @@
     
 
 </head>
+
 <body>
     <!-- =============== Loading ================ -->
     <div id="preloader"></div>
@@ -76,7 +76,7 @@
                 </li>
 
                 <li>
-                    <a href="/home">
+                    <a href="/admin">
                         <span class="icon">
                             <i class="fa-solid fa-house icon-nav"></i>
                         </span>
@@ -85,7 +85,7 @@
                 </li>
 
                 <li>
-                    <a href="/students">
+                    <a href="/admin/students">
                         <span class="icon">
                             <i class="fa-solid fa-graduation-cap icon-nav"></i>
                         </span>
@@ -94,7 +94,7 @@
                 </li>
 
                 <li>
-                    <a href="/faculty">
+                    <a href="/admin/faculty">
                         <span class="icon">
                             <i class="fa-solid fa-apple-whole icon-nav"></i>
                         </span>
@@ -103,7 +103,7 @@
                 </li>
 
                 <li>
-                    <a href="/sections">
+                    <a href="/admin/sections">
                         <span class="icon">
                             <i class="fa-solid fa-book icon-nav"></i>
                         </span>
@@ -121,7 +121,7 @@
                 </li> -->
 
                 <li>
-                    <a href="/subjects">
+                    <a href="/admin/subjects">
                         <span class="icon">
                             <i class="fa-solid fa-globe icon-nav"></i>
                         </span>
@@ -130,7 +130,7 @@
                 </li>
 
                 <li>
-                    <a href="/events">
+                    <a href="/admin/events">
                         <span class="icon">
                             <i class="fa-solid fa-calendar icon-nav"></i>
                         </span>
@@ -139,7 +139,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/admin/reports">
                         <span class="icon">
                             <i class="fa-solid fa-file icon-nav"></i>
                         </span>
