@@ -37,5 +37,13 @@
                 </table>
             </form>
         </div>
+            <span>
+                {{$subjects->links()}}
+            </span>
+            <style>
+                .w-5{
+                    display: none;
+                }
+            </style>
     </div>
 @endsection

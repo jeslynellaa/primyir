@@ -27,7 +27,7 @@ class SubjectsController extends Controller
             ->join('curricula', 'curricula.id', '=', 'subjects.curriculum_id')
             ->select('subjects.name', 'subjects.grade_level', 'curricula.name as curriculum')
             ->orderBy('grade_level')
-            ->get();
+            ->get()->paginate(10);
 
         return view('admin.subjects.index', compact('subjects'));
     }

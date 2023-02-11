@@ -33,8 +33,8 @@ class StudentsController extends Controller
             ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'sections.name', 'sections.grade_level')
             ->orderBy('grade_level')
             ->orderBy('lastName', 'ASC')
-            ->get();
-
+            ->get()->paginate(2);
+        
         //dd($student_users);
         return view('admin.students.index', compact('student_users'));
     }

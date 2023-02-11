@@ -46,5 +46,13 @@
                 </table>
             </form>
         </div>
+            <span>
+                {{$student_users->links()}}
+            </span>
+            <style>
+                .w-5{
+                    display: none;
+                }
+            </style>
     </div>
 @endsection

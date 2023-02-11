@@ -28,7 +28,7 @@ class SectionsController extends Controller
             ->join('users', 'users.id', '=', 'teachers.user_id')
             ->select('sections.grade_level', 'sections.name', 'sections.adviser', 'users.givenName', 'users.lastName')
             ->orderBy('grade_level')
-            ->get();
+            ->get()->paginate(5);
 
         return view('admin.sections.index', compact('section_teachers'));
     }
