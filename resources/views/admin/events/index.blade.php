@@ -39,6 +39,14 @@
                 </table>
             </form>
         </div>
+            <span>
+                {{$events->links()}}
+            </span>
+            <style>
+                .w-5{
+                display: none;
+            }
+            </style>
     </div>
 
     <div class="lists_wrap">
@@ -81,5 +89,13 @@
                 </table>
             </form>
         </div>
+            <span>
+                {{$articles->links()}}
+            </span>
+            <style>
+                .w-5{
+                display: none;
+            }
+            </style>
     </div>
 @endsection

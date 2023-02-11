@@ -28,7 +28,7 @@ class FacultyController extends Controller
             ->where('users.owner_type', 'T')
             ->select('users.*', 'teachers.department')
             ->orderBy('lastName', 'ASC')
-            ->get();
+            ->get()->paginate(5);
 
         return view('admin.faculty.index', compact('teacher_users'));
     }

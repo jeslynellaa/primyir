@@ -108,7 +108,7 @@ Route::post('/admin/articles', [EventsController::class, 'articles_store'])->nam
 // ======= Admin - REPORTS/ARTICLES ROUTES ===========
 Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports.index');
 Route::get('/admin/reports/create', [ReportsController::class, 'create'])->name('admin.reports.create');
+Route::get('/admin/reports/sf1', [ReportsController::class, 'forms'])->name('admin.reports.sf1');
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
-Route::get('/admin/reports/sf1', [ReportsController::class, 'sf1'])->name('admin.reports.sf1');

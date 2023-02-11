@@ -25,11 +25,11 @@ class EventsController extends Controller
     {
         $events = DB::table('events')
             ->orderBy('date_posted')
-            ->get();
+            ->get()->paginate(3);
 
         $articles = DB::table('articles')
             ->orderBy('date_posted')
-            ->get();
+            ->get()->paginate(3);
 
         return view('admin.events.index', compact('events', 'articles'));
     }
