@@ -15,6 +15,7 @@ use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\SubjectsController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\ReportsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,8 @@ Route::get('/admin/students', [StudentsController::class, 'index'])->name('admin
 Route::get('/admin/students/create', [StudentsController::class, 'create'])->name('admin.students.create');
 Route::post('/admin/students', [StudentsController::class, 'store'])->name('admin.students.store');
 Route::get('/admin/students/{student}', [StudentsController::class, 'show'])->name('admin.students.show');
+Route::get('/admin/students/{student}/enrollment/create', [StudentsController::class, 'create_enrollment'])->name('admin.students.create_enrollment');
+Route::post('/admin/students/{student}/enrollment', [StudentsController::class, 'store_enrollment'])->name('admin.students.store_enrollment');
 
     //Address Dropdown Routes
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
@@ -107,3 +110,5 @@ Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.r
 Route::get('/admin/reports/create', [ReportsController::class, 'create'])->name('admin.reports.create');
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+
+Route::get('/admin/reports/sf1', [ReportsController::class, 'sf1'])->name('admin.reports.sf1');

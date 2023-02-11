@@ -7,7 +7,7 @@
                 <h2 style="align:left">{{ $student->lastName }}, {{ $student->givenName }} {{ $student->middleName }}</h2>
 
                 <div class="functions_wrap">
-                    <a class="list_function" href="/admin/students/create">New Enrollment Record</a>
+                    <a class="list_function" href="/admin/students/{{$student->stud_id}}/enrollment/create">New Enrollment Record</a>
                 </div>
             </div>
             <div>

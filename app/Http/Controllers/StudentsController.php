@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Address;
 use App\Models\Student;
 use App\Models\Section;
+use App\Models\StudentSchoolyear;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -127,12 +128,50 @@ class StudentsController extends Controller
         $student = DB::table('users')
             ->join('students', 'students.user_id', '=', 'users.id')
             ->where('students.id', $stud_id)
-            ->select('users.givenName', 'users.middleName', 'users.lastName')
+            ->select('users.givenName', 'users.middleName', 'users.lastName', 'students.id as stud_id')
             ->first();
         //dd($student_records);
         return view('admin.students.view', compact('student_records', 'student'));
     }
 
+    public function create_enrollment(User $user, $stud_id)
+    {
+        $this->authorize('create', $user);
+
+        $schoolyears = DB::table('schoolyears')
+            ->orderBy('year_start')
+            ->get();
+        //dd($schoolyears);
+
+        $student = DB::table('users')
+            ->join('students', 'students.user_id', '=', 'users.id')
+            ->where('students.id', $stud_id)
+            ->select('users.givenName', 'users.middleName', 'users.lastName', 'students.LRN_no', 'students.id')
+            ->first();
+
+        return view('admin.students.enroll', compact('schoolyears', 'student'));
+    }
+
+    public function store_enrollment(Request $request, User $user)
+    {
+        $this->authorize('create', $user);
+
+        $data = request()->validate([
+            'student_id' => ['required','integer'],
+            'schoolyear' => ['required','integer'],
+            'section' => 'integer',
+            'status' => 'string'
+        ]);
+
+        $newStudentSY = \App\Models\StudentSchoolyear::create([
+            'student_id' => $data['student_id'],
+            'schoolyear_id' => $data['schoolyear'],
+            'section_id' => $data['section'],
+            'status' => $data['status']
+        ]);
+        
+        return redirect()->back()->with("success","New Student Enrollment Record Created Successfully!");
+    }
     
 
     public function getSections(Request $request){
