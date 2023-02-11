@@ -8,7 +8,7 @@
                 <h2 style="align:left">List of Faculty</h2>
 
                 <div class="functions_wrap">
-                    <a class="list_function" href="/admin/teachers/create">Add New Teacher</a>
+                    <a class="list_function" href="/admin/faculty/create">Add New Teacher</a>
                 </div>
             </div>
 
