@@ -5,6 +5,8 @@ table {
   width: 30%;
   text-align: center;
   margin: 2rem;
+  font-size: 11px;
+
 }
 
 table, tr, td, th {
@@ -72,15 +74,29 @@ h4{
    
 }
 .assessment, .assessed, .correct, .reviewed{
-    font-weight: bold;
-    font-size: 100%
+    width: 15rem;
+    font-size: 11px;
 }
 #line{
-    width: 13%;
+    width: 100%;
     border: 0px;
     border-bottom: 1px solid black;
     height: 30px;
 }
+
+.flex {
+    display: flex;
+}
+
+.footer {
+    width: 100%;
+    margin-left: 2rem;
+}
+
+.sub-footer{
+    margin-right: 2rem;
+}
+
 
 
 </style>
@@ -156,7 +172,6 @@ $(document).ready(function(){
                             <span class="bold">School Year:</span>
                             <span>2022-2023</span>
                         </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -173,21 +188,50 @@ $(document).ready(function(){
                 <th rowspan="2">Height^2 (m^2)</th>
                 <th colspan="2">Nutritional Status</th>
                 <th rowspan="2">Height for Age (HFA)</th>
-                <th rowspan="2" colspan="2">Remarks</th>
+                <th rowspan="2">Remarks</th>
             </tr>
             <tr>
                 <th>BMI <br>(kg/m^2)</th>
                 <th>BMI Category</th>
             </tr>
-            <tr>
-                <th>MALE</th>
+            <tr style="background-color: #f0f0f0">
+                <th colspan="2">MALE</th>
+                <script>
+                    for (col = 0; col <= 8; col++) {
+                        document.write(" <td style= padding:8px ></td> ")
+                    }
+                </script>
             </tr>
-            <tr>
-                <th>FEMALE</th>
+            <script>
+                for (rows = 0; rows <= 49; rows++) {
+                    document.write(" <tr> ")
+                    for (col = 0; col <= 9; col++) {
+                        document.write(" <td style= padding:8px ></td> ")
+                    }
+                    document.write(" </tr> ")
+                }
+            </script>
+            <tr style="background-color: #f0f0f0">
+                <th colspan="2">FEMALE</th>
+                <script>
+                    for (col = 0; col <= 8; col++) {
+                        document.write(" <td style= padding:8px ></td> ")
+                    }
+                </script>
             </tr>
-</table>
-<h4>SUMMARY TABLE</h4>
-<table style="width:90%">
+            <script>
+                for (rows = 0; rows <= 50; rows++) {
+                    document.write(" <tr> ")
+                    for (col = 0; col <= 9; col++) {
+                        document.write(" <td style= padding:9px ></td> ")
+                    }
+                    document.write(" </tr> ")
+                }
+            </script>
+        </table>
+        
+        <h4>SUMMARY TABLE</h4>
+        <table style="width:90%">
             <tr>
                 <th rowspan="2">Sex</th>
                 <th colspan="6">Nutritional Status</th>
@@ -208,24 +252,48 @@ $(document).ready(function(){
             </tr>
                 <tr>
                     <th>MALE</th>
+                    <script>
+                        for (col = 0; col <= 10; col++) {
+                            document.write(" <td style= padding:8px ></td> ")
+                        }
+                    </script>
                 </tr>
                 <tr>
                     <th>FEMALE</th>
+                    <script>
+                        for (col = 0; col <= 10; col++) {
+                            document.write(" <td style= padding:8px ></td> ")
+                        }
+                    </script>
                 </tr>
                 <tr>
                     <th>TOTAL</th>
+                    <script>
+                        for (col = 0; col <= 10; col++) {
+                            document.write(" <td style= padding:8px ></td> ")
+                        }
+                    </script>
                 </tr>
         </table>
-        <div>
-            <span class="assessment">Date of Assessment:</span>
-            <input type="text" id="line">
-            <span class="assessed">Conducted/Assessed By:</span>
-            <input type="text" id="line">
-            <span class="correct">Certified Correct By:</span>
-            <input type="text" id="line">
-            <span class="reviewed">Reviewed By:</span>
-            <input type="text" id="line">
-        <p><i>Revised to conform with the instructions of Deped Order 8, s. 2015</i></p>
+        <div class="footer flex">
+            <div class="sub-footer">
+                <p class="assessment">Date of Assessment:</p>
+                <input type="text" id="line">
+            </div>
+            <div class="sub-footer">
+                <p class="assessed">Conducted/Assessed By:</p>
+                <input type="text" id="line">
+            </div>
+            <div class="sub-footer">
+                <p class="correct">Certified Correct By:</p>
+                <input type="text" id="line">
+            </div>
+            <div class="sub-footer">
+                <p class="reviewed">Reviewed By:</p>
+                <input type="text" id="line">
+            </div>
+        </div>
+        <!-- <p><i>Revised to conform with the instructions of Deped Order 8, s. 2015</i></p> -->
     </div>
     <a href="#" id="generate-sf8">Generate PDF</a>
 </div>
