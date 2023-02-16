@@ -218,6 +218,7 @@ $(document).ready(function(){
             </tr>
             <tr>
 
+
                 <th>M</th>
                 <th>T</th>
                 <th>W</th>

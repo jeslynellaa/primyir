@@ -165,24 +165,24 @@ $(document).ready(function(){
                 <th>Relationship</th>
             </tr>
             <tr>
-                <td>1011-CS-1234</td>
-                <td>Jshua Bandola</td>
-                <td>M</td>
-                <td>10/21/1999</td>
-                <td>16</td>
-                <td>Bicol</td>
-                <td>NA</td>
-                <td>Roman Catholic</td>
-                <td>042, Marbella St.</td>
-                <td>Brgy. 5</td>
-                <td>Bacacay</td>
-                <td>Albay</td>
-                <td>Bert</td>
-                <td>Agnes</td>
                 <td></td>
                 <td></td>
-                <td>099999999</td>
-                <td>Enrolled</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
     </div>

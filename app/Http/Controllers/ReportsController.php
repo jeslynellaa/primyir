@@ -20,10 +20,19 @@ class ReportsController extends Controller
     }
 
     public function index(){
-        return view('admin.reports.index');
+        return view ('admin.reports.index');
     }
-    public function forms(){
+    public function sf1(){
     return view('admin.reports.sf1');
-}
+    }
+    public function sf2(){
+    return view('admin.reports.sf2');
+    }
+    public function sf4(){
+    return view('admin.reports.sf4');
+    }
+    public function sf8(){
+    return view('admin.reports.sf8');
+    }
 }
 
