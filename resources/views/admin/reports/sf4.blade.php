@@ -107,36 +107,6 @@ th {
   left: 1px;
 }
 
-m-0{
-    margin: 0;
-}
-
-hr {
-    margin-top: 2rem;
-    width: 70%;
-}
-
-.size-10 {
-    font-size: 10px;
-}
-
-.flex {
-    display: flex;
-}
-
-.footer {
-    margin-left: 2rem;
-}
-
-.footer p{
-    margin: 0;
-}
-
-.signature {
-    margin-left: 5rem;
-    width: 50%;
-}
-
 </style>
 
 <script src="http://code.jquery.com/jquery-3.4.1.js"></script>
@@ -162,8 +132,8 @@ $(document).ready(function(){
             <img src="/png/deped_logo.png" alt="deped logo">
             <div class="sub-header">
                 <div class="title">
-                    <h4>School Form 4 (SF 2) School Register</h4>
-                    <p>(This replaces Form 3, Form 2 & STS Form 4 - Absenteeism and Dropout Profile)</p>
+                    <h4>School Form 2 (SF 2) School Register</h4>
+                    <p>(This replaces Form 1, Form 2 & STS Form 4 - Absenteeism and Dropout Profile)</p>
                 </div>
                 <div class="info">
                     <div class="sub-info">
@@ -207,10 +177,10 @@ $(document).ready(function(){
 
         <table style="border: 1.5px solid black">
             <thead style="border: 1.5px solid black">
-                <th rowspan="3">GRADE/YEAR LEVEL</th>
+                <th rowspan="3">GRADE/</th>
                 <th rowspan="3">SECTION</th>
-                <th rowspan="3">NAME OF ADVISER</th>
-                <th colspan="3">REGISTERED LEARNERS(As of End of the Month</th>
+                <th rowspan="3">NAME</th>
+                <th colspan="3">REGISTER</th>
                 <th colspan="6">ATTENDANCE</th>
                 <th colspan="9">DROPPED OUT</th>
                 <th colspan="9">TRANSFERRED OUT</th>
@@ -223,17 +193,17 @@ $(document).ready(function(){
                 <th rowspan="2">M</th>
                 <th rowspan="2">F</th>
                 <th rowspan="2">T</th>
-                <th colspan="3">Daily Average</th>
-                <th colspan="3">Percentage for the Month</th>
-                <th colspan="3">(A)Cumulative as of Previous Month</th>
-                <th colspan="3">(B)For the Month</th>
-                <th colspan="3">(A+B)Cumulative as End of the Month</th>
-                <th colspan="3">(A)Cumulative as of Previous Month</th>
-                <th colspan="3">(B)For the Month</th>
-                <th colspan="3">(A+B)Cumulative as End of the Month</th>
-                <th colspan="3">(A)Cumulative as of Previous Month</th>
-                <th colspan="3">(B)For the Month</th>
-                <th colspan="3">(A+B)Cumulative as End of the Month</th>
+                <th colspan="3">Daily</th>
+                <th colspan="3">Percentage</th>
+                <th colspan="3">(A)</th>
+                <th colspan="3">(B)</th>
+                <th colspan="3">(A-B)</th>
+                <th colspan="3">(A)</th>
+                <th colspan="3">(B)</th>
+                <th colspan="3">(A-B)</th>
+                <th colspan="3">(A)</th>
+                <th colspan="3">(B)</th>
+                <th colspan="3">(A-B)</th>
             </tr>
             <tr style="border: 1.5px solid black">
                 <th>M</th>
@@ -375,22 +345,6 @@ $(document).ready(function(){
             </tbody>
         </table>
 
-        <div class="flex size-10 footer">
-            <div>
-                <span>GUIDELINES:</span>
-                <p>1. This form shall be accomplished every end of the month using the summary box of SF2 submitted by the teachers/advisers to update figures for the month.</p>
-                <p>2. Furnish the Division Office with a copy a week after June 30, October 30 & March 31. </p>
-               
-                <p style="margin-top: 1rem">Page ___of____ pages</p>
-            </div>
-            <div class="size-10 signature">
-                <span>Prepared and Submitted by:</span>
-                <hr>
-                <div style="text-align: center">
-                    <p style="margin:0; font-size: 10px"><i>(Signature of School Head over Printed Name)</i></p>
-                </div>
-            </div>
-        </div>
 
     </div>
     <a href="#" id="generate-sf4">Generate PDF</a>

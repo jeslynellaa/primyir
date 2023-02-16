@@ -20,7 +20,7 @@ class ReportsController extends Controller
     }
 
     public function index(){
-        return view('admin.reports.index');
+        return view ('admin.reports.index');
     }
 
     public function sf1(){
@@ -103,6 +103,10 @@ class ReportsController extends Controller
     public function sf4(){
         return view('sf_pdf.sf4');
     }
+
+    public function sf8(){
+        return view('admin.reports.sf8');
+        }
 
     public function getStudents(Request $request){
         $students = DB::table('student_schoolyears')

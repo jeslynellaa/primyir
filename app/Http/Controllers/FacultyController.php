@@ -102,4 +102,9 @@ class FacultyController extends Controller
         return view('sf_pdf.sf4');
     }
 
+    public function generate_sf5(){
+    return view('sf_pdf.sf5');
+
+}
+
 }

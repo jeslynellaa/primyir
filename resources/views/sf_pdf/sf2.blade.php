@@ -16,9 +16,6 @@ th {
   vertical-align: top;
 }
 
-
-
-
 .pdf-header {
 	display: flex;
 	flex-wrap: wrap;
@@ -177,10 +174,10 @@ $(document).ready(function(){
 
         <table>
             <tr>
-                <th rowspan="3" style="width:500px">Learner's Name (Last Name, First Name, Middle Name)</th>
+                <th rowspan="3" style="width:300px">Learner's Name (Last Name, First Name, Middle Name)</th>
                 <th colspan="25">(1st row for date)</th>
                 <th colspan="2" style="width:1rem">Total for the Month</th>
-                <th rowspan="3" style="width: 3rem">REMARKS (If <strong>DROPPED OUT</strong>, state reason, please refer to legend number 2. If <strong>TRANSFERRED IN/OUT</strong>, write the name of School. </th>
+                <th rowspan="3" style="width: 140px">REMARKS (If <strong>DROPPED OUT</strong>, state reason, please refer to legend number 2. If <strong>TRANSFERRED IN/OUT</strong>, write the name of School. </th>
             </tr>
             <tr>
 
@@ -249,202 +246,24 @@ $(document).ready(function(){
                 <th>TH</th>
                 <th>F</th>
 
-                <th>ABSENT</th>
-                <th>TARDY</th>  
+                <th style="padding: .2rem">ABSENT</th>
+                <th style="padding: .2rem">TARDY</th>  
             </tr>
-            <tr>
-                <td></td>
+            <script>
+                for (rows = 0; rows <= 20; rows++) {
+                    document.write(" <tr> ")
+                    document.write(" <td></td> ")
+                    for (col = 0; col <= 24; col++) {
+                        document.write(" <td class='background' > <div><span class='top'></span><span class='bottom'></span><div class='line'></div></div> </td> ")
+                    }
+                    document.write(" <td></td> ")
+                    document.write(" <td></td> ")
+                    document.write(" <td></td> ")
 
-                <!-- 1st -->
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-
-                <!-- 2nd -->
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-
-                <!-- 3rd -->
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-
-                <!-- 4th -->
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-
-                <!-- 5th -->
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-                <td class="background">
-                    <div>
-                        <span class="top"></span>
-                        <span class="bottom"></span>
-                        <div class="line"></div>
-                    </div>
-                </td>
-
-                <td></td>
-                <td></td>
-                <td></td>
-                
-            </tr>
+                    document.write(" </tr> ")
+                }
+            </script>
+           
         </table>
     </div>
     <a href="#" id="generate-sf2">Generate PDF</a>

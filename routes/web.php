@@ -33,6 +33,7 @@ use App\Http\Controllers\ReportsController;
 // });
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+Route::get('/sf5', [App\Http\Controllers\FacultyController::class, 'generate_sf5'])->name('sf5_pdf');
 
 Auth::routes();
 
