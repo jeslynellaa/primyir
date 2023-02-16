@@ -16,6 +16,14 @@ class Section extends Model
     }
 
     public function StudentSchoolyears(){
-        return $this->hasMany(StudentSchoolyears::class);
+        return $this->hasMany(StudentSchoolyear::class);
+    }
+
+    public function StudentRegisters(){
+        return $this->hasMany(StudentRegister::class);
+    }
+
+    public function Attendances(){
+        return $this->hasMany(Attendance::class);
     }
 }
