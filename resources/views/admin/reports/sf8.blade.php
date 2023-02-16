@@ -67,6 +67,10 @@ th {
 .pdf-header .bold{
     font-weight: 700;
 }
+h4{
+    text-align: center;
+   
+}
 .assessment, .assessed, .correct, .reviewed{
     font-weight: bold;
     font-size: 100%
@@ -168,11 +172,11 @@ $(document).ready(function(){
                 <th rowspan="2">Height (m)</th>
                 <th rowspan="2">Height^2 (m^2)</th>
                 <th colspan="2">Nutritional Status</th>
-                <th rowspan="1">Height for Age (HFA)</th>
-                <th rowspan="2">Remarks</th>
+                <th rowspan="2">Height for Age (HFA)</th>
+                <th rowspan="2" colspan="2">Remarks</th>
             </tr>
             <tr>
-                <th>BMI (kg/m^2)</th>
+                <th>BMI <br>(kg/m^2)</th>
                 <th>BMI Category</th>
             </tr>
             <tr>
@@ -181,9 +185,9 @@ $(document).ready(function(){
             <tr>
                 <th>FEMALE</th>
             </tr>
-            <tr>
-                <th colspan="12">SUMMARY TABLE</th>
-            </tr>
+</table>
+<h4>SUMMARY TABLE</h4>
+<table style="width:90%">
             <tr>
                 <th rowspan="2">Sex</th>
                 <th colspan="6">Nutritional Status</th>
@@ -221,7 +225,6 @@ $(document).ready(function(){
             <input type="text" id="line">
             <span class="reviewed">Reviewed By:</span>
             <input type="text" id="line">
-        </>
         <p><i>Revised to conform with the instructions of Deped Order 8, s. 2015</i></p>
     </div>
     <a href="#" id="generate-sf8">Generate PDF</a>
