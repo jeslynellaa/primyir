@@ -36,6 +36,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('hom
 Route::get('/sf1', [App\Http\Controllers\FacultyController::class, 'generate_sf1'])->name('sf1_pdf');
 Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
 Route::get('/sf4', [App\Http\Controllers\FacultyController::class, 'generate_sf4'])->name('sf4_pdf');
+Route::get('/sf5', [App\Http\Controllers\FacultyController::class, 'generate_sf5'])->name('sf5_pdf');
 
 Auth::routes();
 

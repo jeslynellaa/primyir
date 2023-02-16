@@ -2,9 +2,9 @@
 
 table {
   border-collapse: collapse;
-  width: 30%;
   text-align: center;
   margin: 2rem;
+  font-size: 11px;
 }
 
 table, tr, td, th {
@@ -15,6 +15,13 @@ th {
   vertical-align: top;
 }
 
+.flex {
+    display: flex;
+}
+
+.space {
+    justify-content: space-around;
+}
 
 .pdf-header {
 	display: flex;
@@ -68,7 +75,49 @@ th {
     font-weight: 700;
 }
 
+.bold{
+    font-weight: 700;
+}
 
+.bold th, td {
+    padding: .2rem;
+}
+
+.flex table {
+    margin: 0;
+}
+
+.register th, td {
+    padding: .2rem;
+}
+
+.indicator {
+    margin-left: 2rem;
+}
+
+.register {
+    margin-left: .3rem;
+}
+
+.register table {
+    height: 5.84rem;
+}
+
+.footer {
+    margin-left: 2rem;
+}
+
+hr {
+    margin-top: 2rem;
+}
+
+.size-10 {
+    font-size: 10px;
+}
+
+.w10 {
+    width: 100%;
+}
 
 </style>
 
@@ -140,8 +189,8 @@ $(document).ready(function(){
 
         <table>
             <tr>
-                <th rowspan="2">LRN</th>
-                <th rowspan="2">Name</th>
+                <th rowspan="2" style="width: 3rem">LRN</th>
+                <th rowspan="2" style="width: 10rem">Name</th>
                 <th rowspan="2">Sex (M/F)</th>
                 <th rowspan="2">Birtdate (mm/dd/yyyy)</th>
                 <th rowspan="2">AGE as of 1st Friday "June"</th>
@@ -164,27 +213,110 @@ $(document).ready(function(){
                 <th>Name</th>
                 <th>Relationship</th>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            <script>
+                for (rows = 0; rows <= 49; rows++) {
+                    document.write(" <tr> ")
+                    for (col = 0; col <= 17; col++) {
+                        document.write(" <td style= padding:9px ></td> ")
+                    }
+                    document.write(" </tr> ")
+                }
+            </script>
         </table>
+        <div class="flex">
+            <div class="indicator">
+                <table class="bold" style="font-size: 10px;">
+                    <thead>
+                        <th>Indicator</th>
+                        <th>Code</th>
+                        <th>Required Information</th>
+                        <th></th>
+                        <th>Code</th>
+                        <th>Required Information</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Transferred Out</td>
+                            <td>T/O</td>
+                            <td>Name of Public (P) Private (PR) School & Effectivity Date</td>
+                            <td></td>
+                            <td>CCT</td>
+                            <td>CCT Control/reference number & Effectivity Date</td>
+                        </tr>
+                        <tr>
+                            <td>Transferred In</td>
+                            <td>T/I</td>
+                            <td>Name of Public (P) Private (PR) School & Effectivity Date</td>
+                            <td></td>
+                            <td>B/A</td>
+                            <td>Name of school last attended & Year</td>
+                        </tr>
+                        <tr>
+                            <td>Dropped</td>
+                            <td>DRP</td>
+                            <td>Reasonand Effectivity Date</td>
+                            <td>LWD</td>
+                            <td>Specify</td>
+                        </tr>
+                        <tr>
+                            <td>Late Enrollment</td>
+                            <td>LE</td>
+                            <td>Reason (Enrollment beyond 1st Friday of June)</td>
+                            <td></td>
+                            <td>ACL</td>
+                            <td>Specify Level & Effectivity Data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="register">
+                <table>
+                    <tr>
+                        <th style="font-size: 8px">REGISTERED</th>
+                        <th>BoSY</th>
+                        <th>EoSY</th>
+                    </tr>
+                    <tr>
+                        <th>MALE</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>FEMALE</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>TOTAL</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="size-10 footer">
+                <span>Prepared By:</span>
+                <hr>
+                <div style="text-align: center">
+                    <p style="margin:0; font-size: 8px">(Signature of Adviser over Printed Name)</p>
+                    <div class="flex">
+                        <p style="margin-right: 1.3rem; font-size: 9.5px"><u>BoSY Date:  </u></p>
+                        <p style="font-size: 9.5px"><u>EoSY Date:  </u></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="size-10 footer">
+                <span>Certified Correct:</span>
+                <hr>
+                <div style="text-align: center">
+                    <p style="margin:0; font-size: 8px">(Signature of Adviser over Printed Name)</p>
+                    <div class="flex">
+                        <p style="margin-right: 1.3rem; font-size: 9.5px"><u>BoSY Date:  </u></p>
+                        <p style="font-size: 9.5px"><u>EoSY Date:  </u></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <a href="#" id="generate-sf1">Generate PDF</a>
 </div>
