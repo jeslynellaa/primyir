@@ -21,6 +21,24 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+::-webkit-scrollbar:vertical {
+  width: 12px;
+}
+::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #ffffff;
+}
 
 /* =============== Loading ============== */
 #preloader{
@@ -248,7 +266,9 @@ body {
 .cardBox {
   position: relative;
   width: 100%;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 30px;
@@ -263,6 +283,7 @@ body {
   justify-content: space-between;
   cursor: pointer;
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.2s ease-in-out;
 }
 
 .cardBox .card .numbers {
@@ -270,6 +291,7 @@ body {
   font-weight: 500;
   font-size: 2.5rem;
   color: var(--blue);
+  transition: 0.2s ease-in-out;
 }
 
 .cardBox a{
@@ -284,41 +306,48 @@ body {
   color: var(--black2);
   font-size: 1.1rem;
   margin-top: 5px;
+  transition: 0.2s ease-in-out;
 }
 
 .cardBox .card .iconBx {
   font-size: 3.5rem;
   color: var(--black2);
+  transition: 0.2s ease-in-out;
 }
 
 .cardBox .card:hover .icon-dash{
   color:#e9b10a;
+  transition: 0.2s ease-in-out;
 }
 
 .cardBox .card:hover {
   background: var(--blue);
+  transition: 0.2s ease-in-out;
 }
 .cardBox .card:hover .numbers,
 .cardBox .card:hover .cardName,
 .cardBox .card:hover .iconBx {
   color: var(--white);
+  transition: 0.2s ease-in-out;
 }
 
 /* ================== Order Details List ============== */
 .details {
   position: relative;
   width: 100%;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   display: grid;
-  grid-template-areas: "a b c";
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 30px;
+  padding-top: 20px;
   /* margin-top: 10px; */
 }
 
 .details .recentOrders {
   position: relative;
   display: grid;
-  min-height: 500px;
+  height: 100%;
   background: var(--gray);
   padding: 20px;
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
@@ -334,6 +363,12 @@ body {
   font-weight: 600;
   color: var(--blue);
 }
+
+.chart-container{
+  width: 30px;
+  height: 20px;
+}
+
 .cardHeader .btn {
   position: relative;
   padding: 5px 10px;
@@ -341,23 +376,57 @@ body {
   text-decoration: none;
   color: var(--white);
   border-radius: 6px;
+  transition: 0.2s ease-in-out;
 }
 
+.cardHeader .btn:hover {
+background: #1c7708;
+color: #e9b10a;
+}
 
 .recentCustomers {
   position: relative;
   display: grid;
-  min-height: 500px;
+  height: 100%;
   padding: 20px;
   background: var(--gray);
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
+}
+
+#button1, #button2, #button3, #button4, #button5, #button6{
+  background-color: #072a00;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+#button1 .hayst, #button2 .hayst, #button3 .hayst, #button4 .hayst, #button5 .hayst, #button6 .hayst{
+  color: white;
+  transition: 0.2s ease-in-out;
+}
+
+#button1:hover, #button2:hover, #button3:hover, #button4:hover, #button5:hover, #button6:hover{
+  background: #1c7708;
+  transition: 0.2s ease-in-out;
+}
+
+#button1:hover .hayst, #button2:hover .hayst, #button3:hover .hayst, #button4:hover .hayst, #button5:hover .hayst, #button6:hover .hayst{
+  color: #e9b10a;
+  transition: 0.2s ease-in-out;
+}
+
+
+#graph{
+  width: 100%;
 }
 
 .SchoolYear {
   position: relative;
   display: grid;
-  min-height: 500px;
+  height: 100%;
   background: var(--gray);
   padding: 20px;
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
@@ -381,7 +450,6 @@ body {
   color: var(--white);
   border-radius: 6px;
 }
-
 
 /* ====================== Drop-down Profile Menu ========================== */
 
@@ -945,6 +1013,128 @@ body {
 	transform: translate(-50%,-50%);
 }
 
+/* ================== Order Details List ============== */
+.details2 {
+  position: relative;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 30px;
+}
+
+.details2 .calendar {
+  position: relative;
+  height: auto;
+  background: var(--gray);
+  padding: 20px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  height: 880px;
+}
+
+.events {
+  position: relative;
+  display: grid;
+  height: 880px;
+  background: var(--gray);
+  padding: 20px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+}
+
+
+.aaa{
+  position: relative;
+  display: block;
+  overflow: auto;
+  padding: 10px;
+}
+
+.side-post{
+  width: 100%;
+}
+
+.sidecol{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  background: #fff;
+  overflow: hidden;
+  transition: 0.7s ease;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.sidecol:hover{
+  background: #f8f8f8;
+  cursor: pointer;
+}
+
+.sidecolref{
+  text-decoration: none;
+  transition: 0.7s ease;
+}
+
+.sideimg-con{
+  width: 100px;
+  height: 100px;
+  background: black;
+  overflow: hidden;
+  transition: transform 0.7s ease;
+  position: absolute;
+}
+
+.imahe{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  transition: 0.7s ease;
+}
+
+.sidecol:hover .imahe{
+  transform: scale(1.10);
+  opacity: 0.8;
+}
+
+.sideline{
+  padding: 20px;
+  display: inline;
+  position: relative;
+  margin-left: 18%;
+  transition: 0.2s ease-in-out;
+}
+
+.sidecontent{
+  display: flex;
+  position: relative;
+  align-items: center;
+  color: #59626e;
+  transition: 0.2s ease-in-out;
+}
+
+.sidecol:hover .sidecontent, .sidecol:hover .titulo{
+  transform: translateX(5%);
+}
+
+.sidecontent h6, .sidecontent i{
+  font-size: 0.7em;
+  font-weight: 300;
+}
+
+.titulo {
+  display: inline-block;
+  position: relative;
+  line-height: 1em;
+  color: #15161b;
+  font-size: 0.8em;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+}
+
 .well {
   min-height: 20px;
   padding: 19px;
@@ -1179,6 +1369,7 @@ table th[class*="col-"] {
 .lists_wrap{
   padding: 2.5rem;
 }
+
 /* ====================== Responsive Design ========================== */
 @media (max-width: 991px) {
   .navigation {

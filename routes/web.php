@@ -33,9 +33,6 @@ use App\Http\Controllers\ReportsController;
 // });
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
-Route::get('/sf1', [App\Http\Controllers\FacultyController::class, 'generate_sf1'])->name('sf1_pdf');
-Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
-Route::get('/sf4', [App\Http\Controllers\FacultyController::class, 'generate_sf4'])->name('sf4_pdf');
 
 Auth::routes();
 
@@ -44,6 +41,7 @@ Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])-
 
 // Route::get('/student', [App\Http\Controllers\HomeController::class, 'student'])->name('student.index');
 
+    Route::get('curricula', [HomeController::class, 'getCurricula'])->name('curricula');
 // ============ EDIT PROFILE ROUTES ==============
         //Address Dropdown Routes
     Route::get('regions', [ProfilesController::class, 'getRegions'])->name('regions');
@@ -98,6 +96,7 @@ Route::post('/admin/subjects', [SubjectsController::class, 'store'])->name('admi
 
     //Address Dropdown Routes
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
+    Route::get('getStudents', [StudentsController::class, 'getStudents'])->name('getStudents');
 
 // ======= Admin - EVENT ROUTES ===========
 Route::get('/admin/events', [EventsController::class, 'index'])->name('admin.events.index');
@@ -110,7 +109,14 @@ Route::post('/admin/articles', [EventsController::class, 'articles_store'])->nam
 // ======= Admin - REPORTS/ARTICLES ROUTES ===========
 Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports.index');
 Route::get('/admin/reports/create', [ReportsController::class, 'create'])->name('admin.reports.create');
-Route::get('/admin/reports/sf1', [ReportsController::class, 'forms'])->name('admin.reports.sf1');
+Route::get('/admin/reports/sf1', [ReportsController::class, 'sf1'])->name('admin.reports.sf1');
+Route::get('/admin/reports/sf1/create', [ReportsController::class, 'sf1_create'])->name('admin.reports.sf1_create');
+Route::post('/admin/reports/sf1', [ReportsController::class, 'sf1_store'])->name('admin.reports.sf1_store');
+Route::get('/admin/reports/sf2', [ReportsController::class, 'sf2'])->name('admin.reports.sf2');
+Route::get('/admin/reports/sf4', [ReportsController::class, 'sf4'])->name('admin.reports.sf4');
+
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
+Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
+Route::get('/sf4', [App\Http\Controllers\FacultyController::class, 'generate_sf4'])->name('sf4_pdf');
