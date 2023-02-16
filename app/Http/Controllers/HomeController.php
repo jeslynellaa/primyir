@@ -9,7 +9,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Section;
 use App\Models\Teacher;
-use App\Models\Event;
+use App\Models\Curriculum;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -71,8 +71,56 @@ class HomeController extends Controller
         $class_count = DB::table('sections')
         ->count();
 
-        //dd($student_count);
-        return view('admin.index', compact('student_count', 'faculty_count', 'event_count', 'class_count'));
+        $record1 = DB::table('students')
+            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('curricula', 'students.curriculum_id', '=', 'curricula.id')
+            ->select(DB::raw('count(*) as user_count, curricula.name'))
+            ->groupBy('curricula.name')
+            ->where('student_schoolyears.schoolyear_id', '=', 10103)
+            ->get();
+
+        $record2 = DB::table('students')
+            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
+            ->select(DB::raw('count(*) as user_count, grade_level'))
+            ->groupBy('grade_level')
+            ->where('student_schoolyears.schoolyear_id', '=', 10103)
+            ->get();
+
+        $record3 = DB::table('students')
+            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('schoolyears', 'student_schoolyears.schoolyear_id', '=', 'schoolyears.id')
+            ->select(DB::raw('count(*) as user_count, schoolyear_id, year_start, year_end'))
+            ->groupBy('schoolyear_id', 'year_start', 'year_end')
+            ->get();
+        //dd($record3);
+
+        $data1 = [];
+        $labels1 = [];
+        $data2 = [];
+        $labels2 = [];
+        $data3 = [];
+        $labels3 = [];
+    
+        foreach($record1 as $row) {
+            $labels1[] = $row->name;
+            $data1[] = $row->user_count;
+        }
+
+        foreach($record2 as $row) {
+            $labels2[] = $row->grade_level;
+            $data2[] = $row->user_count;
+        }
+        foreach($record3 as $row) {
+            $labels3[] = $row->year_start."-".$row->year_end;
+            $data3[] = $row->user_count;
+        }
+        return view('admin.index', 
+        compact('student_count', 'faculty_count', 'event_count','class_count', 'labels1', 'data1', 'labels2', 'data2', 'labels3', 'data3'));
+    }
+
+    public function getCurricula(){
+        
     }
 
     public function faculty()
