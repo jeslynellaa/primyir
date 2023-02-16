@@ -182,4 +182,15 @@ class StudentsController extends Controller
             return response()->json($sections);
         }
     }
+
+    public function getStudents(Request $request){
+        $students = DB::table('student_schoolyears')
+            ->join('students', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->where('student_schoolyears.section_id', $request->section)
+            ->get();
+        if (count($students) > 0) {
+            return response()->json($students);
+        }
+    }
 }
