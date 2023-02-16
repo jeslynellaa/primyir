@@ -28,6 +28,7 @@
                             <th>Options</th>
                         </tr>	
                     </thead>
+                    
                     <tbody>
                         @foreach ($teacher_users as $teacher )
                             <tr>
