@@ -1,65 +1,89 @@
 @extends('layouts.admin-app')
 
 @section('content')
-<div>
-    <!-- ======================= Cards 
-================== -->
     <div class="cardBox">
-        <div class="card">
+        <a class="card" href="/admin/reports/sf1">
             <div>
                 <div class="numbers">
+                    SF 1
                 </div>
-                <div class="cardName">School Form 1
-                    <h4>School Register</h4>
-                </div>
-                <div class="functions_wrap">
-    <a href="/admin/reports/sf1" data-toggle="modal" data-target="">View</a>
-</div>
+                <div class="cardName">Student Registers</div>
             </div>
-
             <div class="iconBx">
-                <i class="fa-solid fa-file-text icon-dash"></i>
+                    <i class="fa-solid fa-file-text icon-dash"></i>
             </div>
-            
-        </div>
+        </a>
 
-        <div class="card">
+        <a class="card" href="/admin/reports/sf2">
             <div>
                 <div class="numbers">
+                    SF 2
                 </div>
-                <div class="cardName">Faculty</div>
+                <div class="cardName">Student Attendances</div>
             </div>
-
             <div class="iconBx">
-                <i class="fa-solid fa-user 
-icon-dash"></i>
+                    <i class="fa-solid fa-square-check icon-dash"></i>
             </div>
-        </div>
+        </a>
 
-        <div class="card">
+        <a class="card" href="/admin/reports/sf4">
             <div>
                 <div class="numbers">
+                    SF 4
                 </div>
-                <div class="cardName">Event</div>
+                <div class="cardName">Monthly Learner's Movement and Attendance</div>
             </div>
-
             <div class="iconBx">
-                <i class="fa-regular fa-calendar-days 
-icon-dash"></i>
+                    <i class="fa-solid fa-folder icon-dash"></i>
             </div>
-        </div>
+        </a>
 
-        <div class="card">
+        <a class="card" href="#">
             <div>
                 <div class="numbers">
+                    SF 5
                 </div>
-                <div class="cardName">Class</div>
+                <div class="cardName">Report on Promotions</div>
             </div>
-
             <div class="iconBx">
-                <i class="fa-solid fa-book 
-icon-dash"></i>
+                    <i class="fa-solid fa-chart-simple icon-dash"></i>
             </div>
-        </div>
+        </a>
+
+        <a class="card" href="#">
+            <div>
+                <div class="numbers">
+                    SF 6
+                </div>
+                <div class="cardName">Summary Report on Promotion</div>
+            </div>
+            <div class="iconBx">
+                    <i class="fa-solid fa-folder icon-dash"></i>
+            </div>
+        </a>
+
+        <a class="card" href="#">
+            <div>
+                <div class="numbers">
+                    SF 8
+                </div>
+                <div class="cardName">Student Health Form</div>
+            </div>
+            <div class="iconBx">
+                    <i class="fa-solid fa-notes-medical icon-dash"></i>
+            </div>
+        </a>
+
+        <a class="card" href="#">
+            <div>
+                <div class="numbers">
+                    SF 9
+                </div>
+                <div class="cardName">Learner Progress Report Card</div>
+            </div>
+            <div class="iconBx">
+                    <i class="fa-solid fa-file-text icon-dash"></i>
+            </div>
+        </a>
     </div><!--End of Cardbox -->
 @endsection
