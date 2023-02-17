@@ -4,7 +4,7 @@ table {
   border-collapse: collapse;
   width: 95%;
   text-align: center;
-  margin: 2rem;
+  margin: .5rem 2rem;
   font-size: 10px;
 }
 
@@ -22,7 +22,7 @@ th {
 }
 
 .pdf-header .sub-header {
-    width: 65rem;
+    width: 50rem;
     padding-top:  1rem;
 }
 
@@ -69,17 +69,17 @@ th {
 }
 
 .background {
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 18px;
   padding: 0;
   margin: 0;
 }
 
 .line {
-  width: 2.7rem;
+  width: 1.7rem;
   height: 50px;
   border-bottom: 1px solid black;
-  transform: translateY(-22.6px) translateX(-29px) rotate(-53deg);
+  transform: translateY(-36.6px) translateX(-19.5px) rotate(-41deg);
   position: absolute;
   z-index: -1;
 }
@@ -103,6 +103,78 @@ th {
   top: 1px;
   left: 1px;
 }
+
+.inline {
+    display: inline-block;
+}
+
+.m-0{
+    margin: 0;
+}
+
+.w14 {
+    width: 12rem;
+}
+
+.w15 {
+    width: 13rem;
+}
+
+.formula {
+    text-align: center;
+}
+
+.size-10 {
+    font-size: 10px;
+}
+
+.flex {
+    display: flex;
+}
+
+.footer {
+    margin-left: 2rem;
+}
+
+.footer p{
+    margin: 0;
+}
+
+.signature {
+    margin-left: 2rem;
+}
+
+.signature hr {
+    width: 85%;
+    margin-top: 1.7rem;
+}
+
+.space {
+    justify-content: space-around;
+}
+
+
+.guidelines {
+    width: 30rem;
+    margin-right: 1rem
+}
+
+.guidelines p{
+    margin: .2rem;
+}
+
+.codes{
+    border: 1px solid black;
+    width: 18rem;
+    height: 20rem;
+    padding: .5rem;
+    margin-top: .5rem;
+}
+
+.sumarry table {
+    width: 10rem;
+}
+
 
 </style>
 
@@ -250,7 +322,7 @@ $(document).ready(function(){
                 <th style="padding: .2rem">TARDY</th>  
             </tr>
             <script>
-                for (rows = 0; rows <= 20; rows++) {
+                for (rows = 0; rows <= 18; rows++) {
                     document.write(" <tr> ")
                     document.write(" <td></td> ")
                     for (col = 0; col <= 24; col++) {
@@ -263,8 +335,238 @@ $(document).ready(function(){
                     document.write(" </tr> ")
                 }
             </script>
-           
+            <tr style="background-color: #f0f0f0">
+                <td>MALE | TOTAL Per Day</td>
+                <script>
+                    for (col = 0; col <= 27; col++) {
+                        document.write(" <td class='background' > <div><span class='top'></span><span class='bottom'></span><div class='line'></div></div> </td> ")
+                    }
+                </script>
+            </tr>
+            <script>
+                for (rows = 0; rows <= 4; rows++) {
+                    document.write(" <tr> ")
+                    document.write(" <td></td> ")
+                    for (col = 0; col <= 24; col++) {
+                        document.write(" <td class='background' > <div><span class='top'></span><span class='bottom'></span><div class='line'></div></div> </td> ")
+                    }
+                    document.write(" <td></td> ")
+                    document.write(" <td></td> ")
+                    document.write(" <td></td> ")
+
+                    document.write(" </tr> ")
+                }
+            </script>
+            <tr style='page-break-after:always'></tr>
+            <script>
+                for (rows = 0; rows <= 15; rows++) {
+                    document.write(" <tr> ")
+                    document.write(" <td></td> ")
+                    for (col = 0; col <= 24; col++) {
+                        document.write(" <td class='background' > <div><span class='top'></span><span class='bottom'></span><div class='line'></div></div> </td> ")
+                    }
+                    document.write(" <td></td> ")
+                    document.write(" <td></td> ")
+                    document.write(" <td></td> ")
+
+                    document.write(" </tr> ")
+                }
+            </script>
+            <tr style="background-color: #f0f0f0">
+                <td>FEMALE | TOTAL Per Day</td>
+                <script>
+                    for (col = 0; col <= 27; col++) {
+                        document.write(" <td class='background' > <div><span class='top'></span><span class='bottom'></span><div class='line'></div></div> </td> ")
+                    }
+                </script>
+            </tr>
+            <tr style="background-color: #f0f0f0">
+                <td>Combined TOTAL PER DAY</td>
+                <script>
+                    for (col = 0; col <= 27; col++) {
+                        document.write(" <td class='background' > <div><span class='top'></span><span class='bottom'></span><div class='line'></div></div> </td> ")
+                    }
+                </script>
+            </tr>
         </table>
+
+        <div class="flex size-10 footer">
+            <div class="guidelines">
+                <span>GUIDELINES:</span>
+                <p>1. The attendance shall be accomplished daily. Refer to the codes for checking learners' attendance</p>
+                <p>2. Dates shall be written in the columns after Learner's Name. </p>
+                <p>3. To compute the following: </p>
+                <div class="compute flex space center">
+                    <div class="percentage" style="margin-top: .7rem">
+                        <p class="w14">a. <i>Percentage of Enrolment = </i></p>
+                    </div>
+                    <div class="flex">
+                        <div class="formula">
+                            <p>Registered Learners as of end of the month</p>
+                            <hr>
+                            <p>Enrolment as of 1st Friday of the school year</p>
+                        </div>
+                        <span style="margin-top:.5rem; margin-left: 1rem">x 100</span>
+                    </div>
+                </div>
+
+                <div class="compute flex space center">
+                    <div class="percentage" style="margin-top: .7rem">
+                        <p class="w15">b. <i>Average Daily Attendance = </i></p>
+                    </div>
+                    <div class="flex">
+                        <div class="formula">
+                            <p>Total Daily Attendance</p>
+                            <hr>
+                            <p>Number of School Days in reporting month</p>
+                        </div>
+                        <span style="width: 2rem"></span>
+                    </div>
+                </div>
+                <div class="compute flex space center">
+                    <div class="percentage" style="margin-top: .7rem">
+                        <p class="w15">c. <i>Percentage of Attendance for the month = </i></p>
+                    </div>
+                    <div class="flex">
+                        <div class="formula">
+                            <p>Average daily attendance</p>
+                            <hr>
+                            <p>Register Learners as of end of the month</p>
+                        </div>
+                        <span style="margin-top: .5rem;  margin-left: 1rem">x 100</span>
+                    </div>
+                </div>
+
+                <p>4. Every end of the month, the class adviser will submit this form to the office of the principal for recording of summary table into School Form 4. Once signed by the principal, this form should be returned to the adviser </p>
+                <p>5. The adviser will provide neccessary interventions including but not limited to home visitation to learner/s who were absent for 5 consecutive days and/or those at risk of dropping out</p>
+                <p>6. Attendance performance of learners will be reflected in Form 137 and Form 138 every grading period.</p>
+                <p>* Beginning of School Year cut-off report is every 1st Friday of the School Year</p>
+
+               
+            </div>
+
+            <div class="codes">
+                <p><b>1. CODES FOR CHECKING ATTENDANCE</b></p>
+                <p>(blank) - Present; (x)- Absent; Tardy (half shaded= Upper for Late Commer, Lower for Cutting Classes)</p>
+                <p><b>2. </b></p>
+                <p><b>a. </b></p>
+                <p>a.1.</p>
+                <p>a.2.</p>
+                <p>a.3.</p>
+                <p>a.4.</p>
+                <p><b>b. </b></p>
+                <p>b.1.</p>
+                <p>b.2.</p>
+                <p>b.3.</p>
+                <p>b.4.</p>
+                <p>b.5.</p>
+                <p>b.6.</p>
+                <p>b.7.</p>
+                <p><b>c. </b></p>
+                <p>c.1.</p>
+                <p>c.2.</p>
+                <p>c.3.</p>
+                <p><b>d. </b></p>
+                <p>d.1.</p>
+                <p>d.2.</p>
+                <p>d.3.</p>
+                <p><b>e. </b></p>
+                <p>e.1.</p>
+                <p><b>f. </b></p>
+            </div>
+
+            <div class="summary">
+                <table>
+                    <tr>
+                        <th rowspan="2" style="width: 5rem">Month:</th>
+                        <th rowspan="2" style="width: 5rem">No. of Days of Classes:</th>
+                        <th colspan="3">Summary</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 1.5rem">M</th>
+                        <th style="width: 1.5rem">F</th>
+                        <th>TOTAL</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i>* Enrolment as of (1st Friday of June)</i></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i>Late Enrollment <b>during the month</b> (beyond cut-off)</i></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i>Registered Learners as of <b>end of the month</b></i></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i>Percentage of Enrolment as of <b>end of the month</b></i></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i>Average Daily Attendance</i></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i>Percentage of Attendance for the month</i></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i>Number of students absent for 5 consecutive days:</i></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><b>Drop out</b></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><b>Transferred out</b></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><b>Transferred in</b></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div class="size-10 signature">
+                    <span><i>I certify this is a true and correct report.</i></span>
+                    <hr>
+                    <div style="text-align: center">
+                        <p style="margin:0; font-size: 10px"><i>(Signature of School Head over Printed Name)</i></p>
+                    </div>
+                </div>
+                <div class="size-10 signature">
+                    <span>Attested by:</span>
+                    <hr>
+                    <div style="text-align: center">
+                        <p style="margin:0; font-size: 10px"><i>(Signature of School Head over Printed Name)</i></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p style="margin-left: 2rem; font-size: 11px;">Page ___of____ pages</p>
+
     </div>
     <a href="#" id="generate-sf2">Generate PDF</a>
 </div>
