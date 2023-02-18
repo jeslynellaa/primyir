@@ -103,10 +103,13 @@ class ReportsController extends Controller
     public function sf4(){
         return view('sf_pdf.sf4');
     }
+    public function sf6(){
+        return view('admin.reports.sf6');
+    }
 
     public function sf8(){
         return view('admin.reports.sf8');
-        }
+    }
 
     public function getStudents(Request $request){
         $students = DB::table('student_schoolyears')

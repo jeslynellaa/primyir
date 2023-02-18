@@ -38,7 +38,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="/admin/reports/sf5">
             <div>
                 <div class="numbers">
                     SF 5
@@ -50,7 +50,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="/admin/reports/sf6">
             <div>
                 <div class="numbers">
                     SF 6
@@ -62,7 +62,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="/admin/reports/sf8">
             <div>
                 <div class="numbers">
                     SF 8
