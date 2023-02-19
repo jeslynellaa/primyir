@@ -132,7 +132,9 @@ Route::get('/admin/reports/sf1', [ReportsController::class, 'sf1'])->name('admin
 Route::get('/admin/reports/sf1/create', [ReportsController::class, 'sf1_create'])->name('admin.reports.sf1_create');
 Route::post('/admin/reports/sf1', [ReportsController::class, 'sf1_store'])->name('admin.reports.sf1_store');
 Route::get('/admin/reports/sf2', [ReportsController::class, 'sf2'])->name('admin.reports.sf2');
-Route::get('/admin/reports/sf4', [ReportsController::class, 'sf4'])->name('admin.reports.sf4');
+Route::get('/admin/reports/sf6', [ReportsController::class, 'sf6'])->name('admin.reports.sf6');
+Route::get('/admin/reports/sf8', [ReportsController::class, 'sf8'])->name('admin.reports.sf8');
+
 
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');

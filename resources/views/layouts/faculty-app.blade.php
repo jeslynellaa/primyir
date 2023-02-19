@@ -26,19 +26,19 @@
             let subMenu = document.getElementById("subMenu");
 
             $.toggleMn(){
-                subMenu.classList.toggle("open-menu")
+                subMenu.classList.toggle("open-menu");
             }
-        })
+        });
     </script>
 
     <script>
         jQuery(document).ready(function($) {
-            var loader = document.getElementById("preloader");
+            var loader = document.getElementById("loader");
 
             window.addEventListener("load", function(){
                 loader.style.display = "none";
-            })
-        })
+            });
+        });
     </script>
 
     <!-- ====== ionicons ======= -->
@@ -49,6 +49,10 @@
     <link rel="stylesheet" href="assets/css/style.css"> -->
     <link href="{{ asset('css/my_app.css') }}" rel="stylesheet">
 </head>
+    <!-- =========== Scripts =========  -->
+    <script src="{{ asset('js/main.js') }}" defer></script>
+    <script src="{{ asset('js/loader.js') }}" defer></script>
+    <script src="{{ asset('js/header-carousel.js') }}" defer></script>
 
 <body>
     <!-- =============== Loading ================ -->
@@ -179,14 +183,6 @@
         <main>
             @yield('content')
         </main>
-
-    </div>
-
-    <!-- =========== Scripts =========  -->
-    <script src="{{ asset('js/main.js') }}" defer></script>
-    <script src="{{ asset('js/loader.js') }}" defer></script>
-    <script src="{{ asset('js/header-carousel.js') }}" defer></script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             var slides = document.querySelectorAll('.slide');
@@ -196,7 +192,7 @@
             // Javascript for image slider manual navigation
             var manualNav = function(manual){
                 slides.forEach((slide) => {
-                    slide.classList.remove('active');
+                    slides.classList.remove('active');
 
                     btns.forEach((btn) => {
                         btn.classList.remove('active');
@@ -243,5 +239,7 @@
             repeat();
         });
     </script>
+
+    </div>
 </body>
 </html>
