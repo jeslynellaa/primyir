@@ -40,6 +40,13 @@ Auth::routes();
 Route::get('/admin', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin.index');
 Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])->name('faculty.index');
 
+Route::group(['middleware' => ['auth']], function() {
+    /**
+    * Logout Route
+    */
+    Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+ });
+
 // Route::get('/student', [App\Http\Controllers\HomeController::class, 'student'])->name('student.index');
 
     Route::get('curricula', [HomeController::class, 'getCurricula'])->name('curricula');
@@ -85,6 +92,10 @@ Route::post('/admin/students', [StudentsController::class, 'store'])->name('admi
 Route::get('/admin/students/{student}', [StudentsController::class, 'show'])->name('admin.students.show');
 Route::get('/admin/students/{student}/enrollment/create', [StudentsController::class, 'create_enrollment'])->name('admin.students.create_enrollment');
 Route::post('/admin/students/{student}/enrollment', [StudentsController::class, 'store_enrollment'])->name('admin.students.store_enrollment');
+Route::get('/admin/students/{student}/view/{syid}', [StudentsController::class, 'enroll_show'])->name('admin.students.enroll.show');
+
+Route::get('/admin/students/{student}/view/{syid}/add', [StudentsController::class, 'enroll_add'])->name('admin.students.enroll.add');
+Route::post('/admin/students/{student}/view/{syid}', [StudentsController::class, 'enroll_store'])->name('admin.students.enroll.store');
 
     //Address Dropdown Routes
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
@@ -93,7 +104,14 @@ Route::post('/admin/students/{student}/enrollment', [StudentsController::class, 
 Route::get('/admin/subjects', [SubjectsController::class, 'index'])->name('admin.subjects.index');
 Route::get('/admin/subjects/create', [SubjectsController::class, 'create'])->name('admin.subjects.create');
 Route::post('/admin/subjects', [SubjectsController::class, 'store'])->name('admin.subjects.store');
-// Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+Route::get('/admin/subjects/{subject}/edit', [SubjectsController::class, 'edit'])->name('admin.subjects.edit');
+Route::get('/admin/subjects/{subject}', [SubjectsController::class, 'show'])->name('admin.subjects.show');
+Route::patch('/admin/subjects/{subject}', [SubjectsController::class, 'update'])->name('admin.subjects.update');
+
+Route::get('/admin/subjects/class/{subclass}/create', [SubjectsController::class, 'create_class'])->name('admin.subjects.class.create');
+Route::post('/admin/subjects/class', [SubjectsController::class, 'store_class'])->name('admin.subjects.class.store');
+
+Route::get('getSubjects', [SubjectsController::class, 'getSubjects'])->name('getSubjects');
 
     //Address Dropdown Routes
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
