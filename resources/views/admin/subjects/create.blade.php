@@ -49,7 +49,6 @@
                                 <option value=9> Grade 9 </option>
                                 <option value=10> Grade 10 </option>
                             </select>
-                            </div>
                         </div>
 
                         <div class="form_item">
