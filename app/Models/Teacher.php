@@ -19,4 +19,8 @@ class Teacher extends Model
         return $this->hasOne(Section::class, 'adviser');
     }
 
+    public function SubjectClasses(){
+        return $this->hasMany(SubjectClass::class);
+    }
+
 }

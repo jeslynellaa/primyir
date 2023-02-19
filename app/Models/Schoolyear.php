@@ -26,4 +26,16 @@ class Schoolyear extends Model
     public function Attendances(){
         return $this->hasMany(Attendance::class);
     }
+
+    public function PromotionCandidates(){
+        return $this->hasMany(PromotionCandidate::class);
+    }
+
+    public function StudentHealths(){
+        return $this->hasMany(StudentHealth::class);
+    }
+
+    public function StudentProgReports(){
+        return $this->hasMany(StudentProgReport::class);
+    }
 }
