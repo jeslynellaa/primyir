@@ -64,9 +64,9 @@
                 <div class="cardHeader">
                     <h2>School Years</h2>
                     <div class="btnn">
-                        <button id="button4"><i class="fa-solid fa-chart-line hayst"></i></button>
-                        <button id="button5"><i class="fa-solid fa-chart-simple hayst"></i></button>
-                        <button id="button6"><i class="fa-solid fa-chart-pie hayst"></i></button>
+                        <button id="button7"><i class="fa-solid fa-chart-line hayst"></i></button>
+                        <button id="button8"><i class="fa-solid fa-chart-simple hayst"></i></button>
+                        <button id="button9"><i class="fa-solid fa-chart-pie hayst"></i></button>
                     </div>
                 </div>
 
