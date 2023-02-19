@@ -20,8 +20,6 @@
                             <th>No.</th>
                             <th style="width=10% align=left"><input type="checkbox" name="chkall" id="chkall" onclick="return checkall('selector[]');"> LRN#.</th>
                             <th>Fullname</th>
-                            <th>Grade</th>
-                            <th>Section</th>
                             <th>Sex</th>
                             <th>Birth Date</th>
                             <th>Status</th>
@@ -34,8 +32,6 @@
                                 <td>{{ $loop->index + 1}}</td>
                                 <td>{{ $student->LRN_no }}</td>
                                 <td>{{ $student->lastName }}, {{ $student->givenName }} {{ $student->middleName }}</td>
-                                <td>{{ $student->grade_level }}</td>
-                                <td>{{ $student->name }}</td>
                                 <td>{{ $student->sex }}</td>
                                 <td>{{ $student->birthdate }}</td>
                                 <td>{{ $student->accountStatus}}</td>
