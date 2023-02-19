@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Subject;
+use App\Models\SubjectClass;
+use App\Models\Curricula;
 use App\Models\Schoolyear;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Hash;
@@ -25,11 +27,21 @@ class SubjectsController extends Controller
     {
         $subjects = DB::table('subjects')
             ->join('curricula', 'curricula.id', '=', 'subjects.curriculum_id')
-            ->select('subjects.name', 'subjects.grade_level', 'curricula.name as curriculum')
+            ->select('subjects.id','subjects.name', 'subjects.grade_level','subjects.curriculum_id','subjects.schoolyear_id','subjects.elective', 'curricula.name as curriculum')
             ->orderBy('grade_level')
             ->get()->paginate(10);
+        //dd($subjects);
+        $curricula = DB::table('curricula')
+            ->orderBy('name')
+            ->get()->paginate(10);
 
-        return view('admin.subjects.index', compact('subjects'));
+        // Getting schoolyear data set for dropdown in forms
+            $schoolyears = DB::table('schoolyears')
+            ->select('id', 'year_start', 'year_end')
+            ->orderBy('date_start', 'ASC')
+            ->get();
+
+        return view('admin.subjects.index', compact('subjects', 'curricula', 'schoolyears'));
     }
     
     public function create(User $user)
@@ -57,7 +69,7 @@ class SubjectsController extends Controller
             'grade_level' => ['required'],
             'curriculum' => ['required'],
             'schoolyear' => ['required'],
-            'elective' => '',
+            'elective' => ''
         ]);
 
         // Checking if the array contains 'elective' property
@@ -83,5 +95,109 @@ class SubjectsController extends Controller
         
         //dd($new_subject);
         return redirect()->back()->with("success","New Subject Created!");
+    }
+
+    public function edit ($id){
+        $subjectData = Subject::find($id);
+        return response()->json([
+           'status' =>200,
+           'subjectData' =>$subjectData,
+       ]);
+    }
+
+    public function update(Request $request, User $user){
+
+        //dd($request);
+        $this->authorize('update', $user);
+        
+        $data = request()->validate([
+            'name' => ['string', 'max:50'],
+            'grade_level' =>'',
+            'curriculum' =>'',
+            'schoolyear' =>'',
+            'elective' => ''
+        ]);
+        
+        $subject =\App\Models\Subject::find($request->subject_id);
+        $subject->update($data);
+        
+        return redirect()->back()->with("success","Changes saved successfully");
+    }
+
+    public function show($id)
+    {
+        $subject_records = DB::table('subjects')
+            ->join('subject_classes', 'subject_classes.subject_id', '=', 'subjects.id')
+            ->where('subjects.id', $id)
+            ->join('curricula', 'subjects.curriculum_id', '=', 'curricula.id')
+            ->join('sections', 'subject_classes.section_id', '=', 'sections.id')
+            ->join('teachers', 'subject_classes.teacher_id', '=', 'teachers.id')
+            ->join('users', 'teachers.user_id', '=', 'users.id')
+            ->select('subjects.name as name', 'subjects.grade_level', 'curricula.name as curriculum',
+            'sections.name as section', 'sections.grade_level as grade',
+            'users.givenName', 'users.middleName', 'users.lastName')
+            ->get();
+        $subject = DB::table('subjects')
+            ->where('subjects.id', $id)
+            ->select('subjects.id', 'subjects.name', 'subjects.grade_level', 'subjects.curriculum_id')
+            ->first();
+        $subject_model = \App\Models\Subject::find($id);
+        //dd($student_model);
+        //dd($subject_records);
+        return view('admin.subjects.view', compact('subject_records', 'subject', 'subject_model'));
+    }
+
+    public function create_class(User $user, $id)
+    {
+        //dd($id);
+        $subject = \App\Models\Subject::find($id);
+        // Getting curricula data set for dropdown in forms
+        $sections = DB::table('sections')
+            ->select('id', 'name', 'grade_level')
+            ->where('grade_level', $subject->grade_level)
+            ->orderBy('grade_level', 'ASC')
+            ->orderBy('name', 'ASC')
+            ->get();
+        
+        // Getting schoolyear data set for dropdown in forms
+        $schoolyears = DB::table('schoolyears')
+        ->select('id', 'year_start', 'year_end')
+        ->orderBy('date_start', 'ASC')
+        ->get();
+
+        $teachers = DB::table('teachers')
+        ->join('users', 'users.id', '=', 'teachers.user_id')
+        ->select('teachers.id', 'users.givenName', 'users.middleName','users.lastName')
+        ->orderBy('users.lastName', 'ASC')
+        ->get();
+
+        return view('admin.subjects.create-class', compact('subject', 'sections', 'schoolyears', 'teachers'));
+    }
+
+    public function store_class(Request $request, User $user)
+    {
+        // Validation of input
+        $data = request()->validate([
+            'subId' => ['required'],
+            'section' => ['required'],
+            'teacher' => ['required']
+        ]);
+
+        $new_subclass = \App\Models\SubjectClass::create([
+            'subject_id' => $data['subId'],
+            'section_id' => $data['section'],
+            'teacher_id' => $data['teacher']
+        ]);
+        //dd($new_subclass);
+        return redirect()->back()->with("success","New Subject Created!");
+    }
+
+    public function getSubjects(Request $request){
+        $subjects = DB::table('subjects')
+            ->where('grade_level', $request->grade_lvl)
+            ->get();
+        if (count($subjects) > 0) {
+            return response()->json($subjects);
+        }
     }
 }
