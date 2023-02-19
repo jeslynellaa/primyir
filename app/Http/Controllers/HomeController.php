@@ -115,6 +115,47 @@ class HomeController extends Controller
             $labels3[] = $row->year_start."-".$row->year_end;
             $data3[] = $row->user_count;
         }
+
+        // $results = DB::select('SELECT *, counter FROM notices ORDER BY date_posted');
+
+        // foreach($results as $row)
+        // {
+        //     $term = $row->term;
+        //     $counter = $row->counter;
+
+        //     // update $maximum if this term is more popular than the previous terms
+        //     if ($counter > $maximum) $maximum = $counter;
+
+        //     $terms[] = array('term' => $term, 'counter' => $counter);
+
+        // }
+
+        // $con=mysqli_connect($dbhost, $dbuser, $dbpass, $db);
+        // $r = 0;
+        // $s = mysqli_query($con, "SELECT *, DATE_FORMAT(date_posted, '%c/%e/%Y') AS date FROM `notices`");
+        // while($row = mysqli_fetch_array($s)){
+        //     echo 
+        //     '<div class="sidecol">
+        //         <div class="sideimg-con">
+        //             <img src="../assets/imgs/'.$row["img"].'" class="imahe">
+        //         </div>
+        //         <div class="sideline">
+        //             <h3 class="titulo">'.$row["title"].'</h3>
+        //             <div class="sidecontent">
+        //                 <i class="fa-solid fa-calendar-days acce"></i>
+        //                 <h6>&nbsp;'.$row["date_posted"].'</h6>
+        //                 <h6>&nbsp;&nbsp;&nbsp;&#x2022;&nbsp;&nbsp;&nbsp;</h6>
+        //                 <h6>'.$row["category"].'</h6>
+        //             </div>
+        //         </div>
+        //     ';
+            
+        //     if($r%1 == 0){
+        //         echo "</div>";
+        //     }
+        //     $r++;
+        // }
+
         return view('admin.index', 
         compact('student_count', 'faculty_count', 'event_count','class_count', 'labels1', 'data1', 'labels2', 'data2', 'labels3', 'data3'));
     }
