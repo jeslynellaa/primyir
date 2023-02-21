@@ -139,5 +139,10 @@ Route::get('/admin/reports/sf8', [ReportsController::class, 'sf8'])->name('admin
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
+// VIEW GRADES 
+Route::get('/grades', [App\Http\Controllers\StudentsController::class, 'viewGrades'])->name('grades');
+
+
+
 Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
 Route::get('/sf4', [App\Http\Controllers\FacultyController::class, 'generate_sf4'])->name('sf4_pdf');

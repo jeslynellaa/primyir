@@ -285,4 +285,8 @@ class StudentsController extends Controller
             return response()->json($students);
         }
     }
+
+    public function viewGrades(){
+    return view('student.gradeProfile.index');
+    }
 }
