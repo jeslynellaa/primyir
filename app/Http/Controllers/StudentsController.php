@@ -182,13 +182,20 @@ class StudentsController extends Controller
         $schoolyear = \App\Models\StudentSchoolyear::find($syid);
         $student_model = \App\Models\Student::find($stud_id);
 
-        $student_records = DB::table('students')
-        ->join('student_schoolyears', 'students.id', '=', 'student_schoolyears.student_id')
-        ->where('student_schoolyears.schoolyear_id', $syid)
-        ->join('student_subj_classes', 'student_schoolyears.id', '=', 'student_subj_classes.student_schoolyear_id')
-        ->join('student_subj_grades', 'student_subj_classes.id', '=', 'student_subj_grades.student_subj_class_id')
-        ->get();
-        return view('admin.students.view-record', compact('student_model', 'schoolyear', 'student_records'));
+        // $student_records = DB::table('students')
+        // ->join('student_schoolyears', 'students.id', '=', 'student_schoolyears.student_id')
+        // ->where('student_schoolyears.schoolyear_id', $syid)
+        // ->join('student_subj_classes', 'student_schoolyears.id', '=', 'student_subj_classes.student_schoolyear_id')
+        // ->join('student_subj_grades', 'student_subj_classes.id', '=', 'student_subj_grades.student_subj_class_id')
+        // ->get();
+
+        $grades = Student::join('student_subj_classes','students.id','student_subj_classes.student_id')
+                            ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
+                            ->where('student_subj_classes.student_schoolyear_id', $syid)
+                            // ->where('id', $stud_id)
+                            ->get();
+        // dd($grades);
+        return view('admin.students.view-record', compact('student_model', 'schoolyear', 'grades'));
     }
 
     public function enroll_add($stud_id, $syid)
@@ -289,4 +296,6 @@ class StudentsController extends Controller
     public function viewGrades(){
     return view('student.gradeProfile.index');
     }
+
+
 }
