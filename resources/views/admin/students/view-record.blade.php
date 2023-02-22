@@ -31,8 +31,26 @@
                             <th>Remarks</th>
                         </tr>	
                     </thead>
+                    @forelse($grades as $grade)
                     <tbody>
+                    <tr>
+                        <td></td>
+                        <td>{{$grade->student_subj_class_id}}</td>
+                        <td>{{$grade->first_grading}}</td>
+                        <td>{{$grade->second_grading}}</td>
+                        <td>{{$grade->third_grading}}</td>
+                        <td>{{$grade->fourth_grading}}</td>
+                        <td>{{$grade->gen_ave}}</td>
+                        <td>{{$grade->remarks}}</td>
+                    </tr>
                     </tbody>
+                    @empty
+                    <tbody>
+                    <tr>
+                        <td>No Data</td>
+                    </tr>
+                    </tbody>
+                    @endforelse
                 </table>
             </form>
         </div>
