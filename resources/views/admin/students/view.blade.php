@@ -4,12 +4,12 @@
     <div class="lists_wrap">
         <div class="well">
             <div class="well_top" style="align-items:center">
-                <h2 style="align:left">{{ $student->lastName }}, {{ $student->givenName }} {{ $student->middleName }}</h2>
+                <h2 style="align:left">{{ $student_model->user->lastName }}, {{ $student_model->user->givenName }} {{ $student_model->user->middleName }}</h2>
 
                 <div class="functions_wrap">
-                    <a class="list_function" href="/admin/students">Back to Students</a>
-                    <a class="list_function" href="/admin/students/create">Edit Student Info</a>
-                    <a class="list_function" href="/admin/students/{{$student->stud_id}}/enrollment/create">New Enrollment Record</a>
+                    <a class="list_function" style="margin:5px;" href="/admin/students">Back to Students</a>
+                    <a class="list_function" style="margin:5px;" href="/admin/students/{{$student_model->id}}/edit">Edit Student Info</a>
+                    <a class="list_function" style="margin:5px;" href="/admin/students/{{$student_model->id}}/enrollment/create">New Enrollment Record</a>
                 </div>
             </div>
             <div>
@@ -22,7 +22,8 @@
                     Contact Number: {{$student_model->user->contactNum}}<br>
                     Email: {{$student_model->user->email}}<br>
                     Username: {{$student_model->user->username}}<br>
-                    Program: {{$student_model->curriculum->name}}
+                    Program: {{$student_model->curriculum->name}}<br>
+                    Address: {{$address->street}} {{$address->brgy}} {{$address->province}} {{$address->region}}
                 </div>
             </div>
             <div>

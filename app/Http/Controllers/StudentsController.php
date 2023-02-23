@@ -34,7 +34,7 @@ class StudentsController extends Controller
             ->where('users.owner_type', 'S')
             ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*')
             ->orderBy('lastName', 'ASC')
-            ->get()->paginate(2);
+            ->get()->paginate(5);
         
         //dd($student_users);
         return view('admin.students.index', compact('student_users'));
@@ -52,6 +52,8 @@ class StudentsController extends Controller
         return view('admin.students.create', compact('curricula'));
     }
 
+    
+
     public function store(Request $request, User $user)
     {
         $this->authorize('create', $user);
@@ -64,8 +66,6 @@ class StudentsController extends Controller
             'contactNum' => ['digits:11'],
             'sex' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'accountStatus' => ['required'],
             'owner_type' => ['required'],
             'LRN_no' => ['digits:12', 'required', 'unique:students'],
@@ -76,6 +76,26 @@ class StudentsController extends Controller
             'status' => 'string'
         ]);
 
+        function randomPassword() {
+            $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+            $pass = array(); //remember to declare $pass as an array
+            $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+            for ($i = 0; $i < 8; $i++) {
+                $n = rand(0, $alphaLength);
+                $pass[] = $alphabet[$n];
+            }
+            return implode($pass); //turn the array into a string
+        }
+
+        $new_given = str_replace(' ', '', strtolower($data['givenName']));
+        $new_middle = str_replace(' ', '', strtolower($data['middleName']));
+        $new_last = str_replace(' ', '', strtolower($data['lastName']));
+        //dd($new_given, $new_middle, $new_last);
+
+        $username = $new_given.$new_middle.$new_last.str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+        //dd($username);
+        $rand_password = randomPassword();
+        //dd($rand_password);
         $newUser = \App\Models\User::create([
             'givenName' => $data['givenName'],
             'middleName' => $data['middleName'],
@@ -84,8 +104,8 @@ class StudentsController extends Controller
             'contactNum' => $data['contactNum'],
             'sex' => $data['sex'],
             'email' => $data['email'],
-            'username' => $data['username'],
-            'password' => Hash::make($data['password']),
+            'username' => $username,
+            'password' => Hash::make($rand_password),
             'accountStatus' => $data['accountStatus'],
             'owner_type' => $data['owner_type']
         ]);
@@ -111,7 +131,54 @@ class StudentsController extends Controller
         return redirect()->back()->with("success","New Student Account Created Successfully!");
     }
 
-    public function show($stud_id)
+    public function edit(User $user, $id)
+    {
+        $this->authorize('create', $user);
+        $curricula = DB::table('curricula')
+            ->select('id', 'name')
+            ->orderBy('name', 'ASC')
+            ->get();
+        
+        $student = \App\Models\Student::find($id);
+        //dd($curricula);
+        return view('admin.students.edit', compact('curricula', 'student'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $this->authorize('update', $user);
+        $regions = $this->getRegions();
+        
+        if(strcmp($user->email, $request->email) == 0){
+            $data = request()->validate([
+                'givenName' => '',
+                'middleName' => '',
+                'lastName' => '',
+                'email' => '',
+                'contactNum' => ['digits:11'],
+                'birthdate' => ''
+            ]);
+            if(strcmp($user->contactNum, $request->contactNum) == 0){
+                return redirect()->back()->with("error","No changes made.");
+            }
+        }
+        else{ 
+            $data = request()->validate([
+                'givenName' => '',
+                'middleName' => '',
+                'lastName' => '',
+                'email' => ['string', 'email', 'max:255', 'unique:users'],
+                'contactNum' => ['digits:11'],
+                'birthdate' => ''
+            ]);
+        }
+        $user = Auth::user();
+        $user->update($data);
+        
+        return redirect()->back()->with("success","Changes saved successfully!");
+    }
+
+    public function show(User $user, $stud_id)
     {
         $student_records = DB::table('users')
             ->join('students', 'students.user_id', '=', 'users.id')
@@ -126,15 +193,21 @@ class StudentsController extends Controller
                 'schoolyears.year_start', 'schoolyears.year_end')
             ->orderBy('year_start')
             ->get();
-        $student = DB::table('users')
+        $address = DB::table('addresses')
+            ->join('users', 'addresses.user_id', '=', 'users.id')
+            ->join('barangays', 'addresses.barangay', '=', 'barangays.code', 'left outer')
+            ->join('city_municipalities', 'addresses.city', '=', 'city_municipalities.code', 'left outer')
+            ->join('provinces', 'addresses.province', '=', 'provinces.code', 'left outer')
+            ->join('regions', 'addresses.region', '=', 'regions.code', 'left outer')
             ->join('students', 'students.user_id', '=', 'users.id')
             ->where('students.id', $stud_id)
-            ->select('users.givenName', 'users.middleName', 'users.lastName', 'students.id as stud_id')
+            ->select('barangays.name as brgy', 'city_municipalities.name as city', 'provinces.name as province', 'regions.name as region', 'addresses.street')
             ->first();
+        //dd($address);
         $student_model = \App\Models\Student::find($stud_id);
         //dd($student_model);
         //dd($student_records);
-        return view('admin.students.view', compact('student_records', 'student', 'student_model'));
+        return view('admin.students.view', compact('student_records', 'address', 'student_model'));
     }
 
     public function create_enrollment(User $user, $stud_id)
@@ -206,29 +279,26 @@ class StudentsController extends Controller
         ->join('student_subj_grades', 'student_subj_classes.id', '=', 'student_subj_grades.student_subj_class_id')
         ->get();
 
-        $assigned_subs = DB::table('subjects')
-        ->join('subject_classes', 'subjects.id', '=', 'subject_classes.subject_id')
-        ->join('student_subj_classes', 'student_subj_classes.subject_class_id', '=', 'subject_classes.id')
+        $assigned_subs = DB::table('student_subj_classes')
+        ->where('student_subj_classes.student_id', $stud_id)
+        ->join('subject_classes', 'subject_classes.id', '=', 'student_subj_classes.subject_class_id')
+        ->join('subjects', 'subject_classes.subject_id', '=', 'subjects.id')
         ->select('subjects.name as subject', 'subject_classes.id as subclass_id')
         ->get();
+        //dd($assigned_subs);
 
-        $avail_subs = DB::table('subjects')
-        ->join('subject_classes', 'subjects.id', '=', 'subject_classes.subject_id')
-        ->join('student_subj_classes', 'student_subj_classes.subject_class_id', '=', 'subject_classes.id', 'left outer')
+        $avail_subs = DB::table('subject_classes')
+        ->join('subjects', 'subject_classes.subject_id', '=', 'subjects.id')
+        ->join('sections', 'subject_classes.section_id', '=', 'sections.id')
         ->where('subjects.grade_level', $grade)
-        ->select('subjects.grade_level','student_id as student', 'subjects.name as subject', 'subject_classes.id as subclass_id')
-        ->whereNull('student_id')
+        ->where('subject_classes.section_id', $schoolyear->Section->id)
+        ->whereNotIn('subject_classes.id',  DB::table('student_subj_classes')
+                    ->where('student_subj_classes.student_id', $stud_id)
+                    ->join('subject_classes', 'subject_classes.id', '=', 'student_subj_classes.subject_class_id')->pluck('subject_classes.id'))
+        ->select('subjects.name as subject', 'subject_classes.id as subclass_id', 'sections.name as section')
         ->get();
+
         //dd($avail_subs);
-
-        // $subjects = DB::table('subjects')
-        // ->join('subject_classes', 'subjects.id', '=', 'subject_classes.subject_id')
-        // ->join('sections', 'sections.id', '=', 'subject_classes.section_id')
-        // ->where('sections.grade_level', $grade)
-        // ->select('subjects.name as subject', 'subject_classes.id as subclass_id')
-        // ->get();
-
-        //dd($subjects);
         return view('admin.students.add-subject', compact('student_model', 'grade','section','schoolyear', 'student_records', 'assigned_subs','avail_subs'));
     }
 
@@ -243,10 +313,13 @@ class StudentsController extends Controller
         ]);
         //dd($request->all());
         foreach ($request->subjects as $key => $value) {
-            \App\Models\StudentSubjClass::create([
+            $newStudentSubjClass = \App\Models\StudentSubjClass::create([
                 'student_id' => $data['student'],
                 'student_schoolyear_id' => $data['student_sy'],
                 'subject_class_id' => $value
+            ]);
+            \App\Models\StudentSubjGrade::create([
+                'student_subj_class_id' => $newStudentSubjClass->id
             ]);
         }
             // $newStudentSubClass = \App\Models\StudentSubjClass::create([

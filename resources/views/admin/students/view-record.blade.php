@@ -7,8 +7,8 @@
                 <h2 style="align:left">Enrollment Record for {{$schoolyear->schoolyear->year_start}}-{{$schoolyear->schoolyear->year_end}}</h2>
 
                 <div class="functions_wrap">
-                    <a class="list_function" href="/admin/students/{{$student_model->id}}">Back to Student Record</a>
-                    <a class="list_function" href="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}/add">Enroll Subjects</a>
+                    <a class="list_function" style="margin:5px;" href="/admin/students/{{$student_model->id}}">Back to Student Record</a>
+                    <a class="list_function" style="margin:5px;" href="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}/add">Enroll Subjects</a>
                 </div>
             </div>
             
