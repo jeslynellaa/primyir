@@ -126,9 +126,6 @@
                 </table>
             </form>
         </div>
-        
-        
-
         <span>
             {{$subjects->links()}}
         </span>
@@ -158,7 +155,6 @@
                             <th style="width=10% align=left"><input type="checkbox" name="chkall" id="chkall" onclick="return checkall('selector[]');">Name</th>
                             <th>Acronym</th>
                             <th>Description</th>
-                            <th>Options</th>
                         </tr>	
                     </thead>
                     <tbody>
@@ -168,7 +164,6 @@
                                 <td>{{ $curriculum->name }}</td>
                                 <td>{{ $curriculum->acronym }}</td>
                                 <td>{{ $curriculum->description }}</td>
-                                <td><a href="">View</a></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -176,7 +171,6 @@
             </form>
         </div>
             <span>
-                {{$subjects->links()}}
             </span>
             <style>
                 .w-5{

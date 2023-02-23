@@ -8,6 +8,7 @@
                 <h2 style="align:left">List of SF 1 Records</h2>
 
                 <div class="functions_wrap">
+                    <a class="list_function" href="/sf1">Generate</a>
                     <a class="list_function" href="/admin/reports/sf1/create">Add New Record</a>
                 </div>
             </div>

@@ -108,7 +108,7 @@ class HomeController extends Controller
         }
 
         foreach($record2 as $row) {
-            $labels2[] = $row->grade_level;
+            $labels2[] = 'Grade '. + $row->grade_level;
             $data2[] = $row->user_count;
         }
         foreach($record3 as $row) {

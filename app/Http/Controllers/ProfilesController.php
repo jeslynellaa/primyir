@@ -30,16 +30,16 @@ class ProfilesController extends Controller
         $this->authorize('update', $user);
         $regions = $this->getRegions();
         
-        $region_code = $user->address->region;
+        $region_code = $user->Address->region ?? 5;
         $user_region = DB::table('regions')->where('code', $region_code)->first();
 
-        $province_code = $user->address->province;
+        $province_code = $user->Address->province ?? '';
         $user_province = DB::table('provinces')->where('code', $province_code)->first();
 
-        $city_code = $user->address->city;
+        $city_code = $user->Address->city ?? '';
         $user_city = DB::table('city_municipalities')->where('code', $city_code)->first();
 
-        $barangay_code = $user->address->barangay;
+        $barangay_code = $user->Address->barangay ?? '';
         $user_barangay = DB::table('barangays')->where('code', $barangay_code)->first();
 
         //dd($user_region, $user_province, $user_city, $user_barangay);
@@ -51,7 +51,6 @@ class ProfilesController extends Controller
             'user_city', 
             'user_barangay']
         ));
-        
     }
     
 

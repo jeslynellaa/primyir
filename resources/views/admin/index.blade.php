@@ -208,6 +208,7 @@
                         }
                     ],
                 };
+                
 
                 var graphTarget = $("#graphCanvas");
 

@@ -48,6 +48,7 @@
     <!-- ======= Styles ======
     <link rel="stylesheet" href="assets/css/style.css"> -->
     <link href="{{ asset('css/my_app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
     <!-- =========== Scripts =========  -->
     <script src="{{ asset('js/main.js') }}" defer></script>
@@ -83,16 +84,16 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/faculty/grades">
                         <span class="icon">
                             <i class="fa-solid fa-graduation-cap icon-nav"></i>
                         </span>
-                        <span class="title">Grade</span>
+                        <span class="title">Grades</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="bulletin.php">
+                    <a href="/faculty/bulletin">
                         <span class="icon">
                             <i class="fa-solid fa-newspaper icon-nav"></i>
                         </span>
