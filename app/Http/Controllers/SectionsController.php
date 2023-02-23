@@ -24,8 +24,8 @@ class SectionsController extends Controller
     {
         // Joining sections, teachers, and users into section_teachers for displaying in sections table
         $section_teachers = DB::table('sections')
-            ->join('teachers', 'teachers.id', '=', 'adviser')
-            ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->join('teachers', 'teachers.id', '=', 'adviser', 'left outer')
+            ->join('users', 'users.id', '=', 'teachers.user_id', 'left outer')
             ->select('sections.grade_level', 'sections.name', 'sections.adviser', 'users.givenName', 'users.lastName')
             ->orderBy('grade_level')
             ->get()->paginate(5);
@@ -53,20 +53,29 @@ class SectionsController extends Controller
         $data = request()->validate([
             'name' => ['required', 'string', 'max:50', 'unique:sections'],
             'grade_level' => ['required'],
-            'adviser' => ''
+            'adviser' => 'nullable'
         ]);        
 
         // Creating new section model
-        $new_section = \App\Models\Section::create([
-            'name' => $data['name'],
-            'grade_level' => $data['grade_level'],
-            'adviser' => $data['adviser'],
-        ]);
+        if(isset($data->adviser)){
+            $new_section = \App\Models\Section::create([
+                'name' => $data['name'],
+                'grade_level' => $data['grade_level'],
+                'adviser' => $data['adviser']
+            ]);
 
-        // Updating the assigned teacher's record to reflect advisory class
-        $assign_teach = \App\Models\Teacher::where('id', '=', $data['adviser'])->first();
-        $assign_teach->advisory = 1;
-        $assign_teach->save();
+            // Updating the assigned teacher's record to reflect advisory class
+            $assign_teach = \App\Models\Teacher::where('id', '=', $data['adviser'])->first();
+            $assign_teach->advisory = 1;
+            $assign_teach->save();
+        }
+        else{
+            $new_section = \App\Models\Section::create([
+                'name' => $data['name'],
+                'grade_level' => $data['grade_level']
+            ]);
+        }
+
 
         return redirect()->back()->with("success","New Section Created!");
     }
