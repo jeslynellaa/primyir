@@ -35,8 +35,23 @@ class UsersTableSeeder extends Seeder
                 'accountStatus' => 'Active',
                 'owner_type' => 'A',
                 'remember_token' => NULL,
-                'created_at' => '2023-01-23 15:25:28',
-                'updated_at' => '2023-01-23 15:25:28',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            )
+        ));
+
+        \DB::table('addresses')->insert(array (
+            0 => 
+            array (
+                'id' => 1,
+                'user_id' => 1,
+                'street' => NULL,
+                'barangay' => NULL,
+                'city' => NULL,
+                'province' => NULL,
+                'region' => 5,
+                'created_at' => NULL,
+                'updated_at' => NULL,
             )
         ));
     }
