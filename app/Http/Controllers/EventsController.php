@@ -7,6 +7,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Schoolyear;
 use App\Models\Event;
@@ -42,7 +43,9 @@ class EventsController extends Controller
     public function store(Request $request, User $user)
     {
 
-        //dd(request()->all());
+        //dd(request()->thumbnail);
+        // $filename = request()->thumbnail->getClientOriginalName();
+        // dd($file);
         // Validation of input
         $data = request()->validate([
             'title' => ['required', 'string'],
@@ -51,6 +54,11 @@ class EventsController extends Controller
             'content' => ['required'],
             'thumbnail' => ['image']
         ]);
+
+        $filename = $data['thumbnail']->getClientOriginalName();
+        
+        Storage::putFileAs( 'public', $data['thumbnail'], $filename);
+        //dd($filename);
 
         $userId = Auth::user()->id;
         //dd($userId);
@@ -62,6 +70,7 @@ class EventsController extends Controller
             'date_posted' => $data['event_date'],
             'content' => $data['content'],
             'thumbnail' => $data['thumbnail'],
+            'img' => $filename,
             'admin_id' => $userId
         ]);
 
