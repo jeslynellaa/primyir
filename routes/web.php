@@ -16,6 +16,8 @@ use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\SubjectsController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\BulletinController;
+use App\Http\Controllers\GradesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,8 +76,11 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::get('/admin/faculty', [FacultyController::class, 'index'])->name('admin.faculty.index');
 Route::get('/admin/faculty/create', [FacultyController::class, 'create'])->name('admin.faculty.create');
+Route::patch('/admin/faculty/{teacher}/edit', [FacultyController::class, 'edit'])->name('admin.faculty.edit');
+Route::get('/admin/faculty/{teacher}', [FacultyController::class, 'show'])->name('admin.faculty.show');
+
 Route::post('/admin/faculty', [FacultyController::class, 'store'])->name('admin.faculty.store');
-Route::patch('/admin/faculty/{user}', [FacultyController::class, 'update'])->name('admin.faculty.update');
+Route::patch('/admin/faculty/{teacher}', [FacultyController::class, 'update'])->name('admin.faculty.update');
 
 
 // ======= Admin - SECTION ROUTES ===========
@@ -90,6 +95,9 @@ Route::get('/admin/students', [StudentsController::class, 'index'])->name('admin
 Route::get('/admin/students/create', [StudentsController::class, 'create'])->name('admin.students.create');
 Route::post('/admin/students', [StudentsController::class, 'store'])->name('admin.students.store');
 Route::get('/admin/students/{student}', [StudentsController::class, 'show'])->name('admin.students.show');
+Route::get('/admin/students/{student}/edit', [StudentsController::class, 'edit'])->name('admin.students.edit');
+Route::patch('/admin/students/{student}', [StudentsController::class, 'update'])->name('admin.students.update');
+
 Route::get('/admin/students/{student}/enrollment/create', [StudentsController::class, 'create_enrollment'])->name('admin.students.create_enrollment');
 Route::post('/admin/students/{student}/enrollment', [StudentsController::class, 'store_enrollment'])->name('admin.students.store_enrollment');
 Route::get('/admin/students/{student}/view/{syid}', [StudentsController::class, 'enroll_show'])->name('admin.students.enroll.show');
@@ -139,5 +147,22 @@ Route::get('/admin/reports/sf8', [ReportsController::class, 'sf8'])->name('admin
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
+Route::get('/sf1', [App\Http\Controllers\FacultyController::class, 'generate_sf1'])->name('sf1_pdf');
 Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
 Route::get('/sf4', [App\Http\Controllers\FacultyController::class, 'generate_sf4'])->name('sf4_pdf');
+
+
+
+// ================================ FACULTY ROUTES ========================================
+
+// ======= Faculty - BULLETIN ROUTES ===========
+Route::get('/faculty/bulletin', [BulletinController::class, 'index'])->name('faculty.bulletin.index');
+
+
+// ======= Faculty - GRADE ROUTES ===========
+Route::get('/faculty/grades', [GradesController::class, 'index'])->name('faculty.grades.index');
+Route::get('/faculty/grades/{subclass}', [GradesController::class, 'show'])->name('faculty.grades.show');
+Route::get('/faculty/grades/{subclass}/{grading}/edit', [GradesController::class, 'edit'])->name('faculty.grades.edit');
+Route::patch('/faculty/grades/{subclass}/{grading}', [GradesController::class, 'update'])->name('faculty.grades.update');
+
+Route::get('getGrades', [GradesController::class, 'getGrades'])->name('getGrades');
