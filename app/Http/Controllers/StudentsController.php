@@ -144,35 +144,45 @@ class StudentsController extends Controller
         return view('admin.students.edit', compact('curricula', 'student'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, $id)
     {
         $this->authorize('update', $user);
-        $regions = $this->getRegions();
+
+        $data = request()->validate([
+            'givenName' => ['string', 'max:255'],
+            'middleName' => ['max:255'],
+            'lastName' => ['string', 'max:255'],
+            'birthdate' => [''],
+            'contactNum' => ['nullable', 'digits:11'],
+            'sex' => ['required'],
+            'email' => ['string', 'email', 'max:255', 'unique:users'],
+            'username' => ['max:255', 'unique:users'],
+            'accountStatus' => ['required'],
+            'owner_type' => ['required'],
+            'LRN_no' => ['digits:12', 'unique:students'],
+            'religion' => 'string',
+            'status' => 'string'
+        ]);
+
+        $userid = $id;
+
+        $student = \App\Models\Student::find($id);
+        $student->update([
+            'LRN_no' => $data['LRN_no'],
+            'religion' => $data['religion'],
+            'curriculum_id' => $data['curriculum']
+        ]);
+
+        $studentID = $newStudent->id;
+
+        $newStudentSY = \App\Models\StudentSchoolyear::create([
+            'student_id' => $studentID,
+            'schoolyear_id' => $data['schoolyear_id'],
+            'section_id' => $data['section'],
+            'status' => $data['status']
+        ]);
         
-        if(strcmp($user->email, $request->email) == 0){
-            $data = request()->validate([
-                'givenName' => '',
-                'middleName' => '',
-                'lastName' => '',
-                'email' => '',
-                'contactNum' => ['digits:11'],
-                'birthdate' => ''
-            ]);
-            if(strcmp($user->contactNum, $request->contactNum) == 0){
-                return redirect()->back()->with("error","No changes made.");
-            }
-        }
-        else{ 
-            $data = request()->validate([
-                'givenName' => '',
-                'middleName' => '',
-                'lastName' => '',
-                'email' => ['string', 'email', 'max:255', 'unique:users'],
-                'contactNum' => ['digits:11'],
-                'birthdate' => ''
-            ]);
-        }
-        $user = Auth::user();
+        $student = Auth::user();
         $user->update($data);
         
         return redirect()->back()->with("success","Changes saved successfully!");
