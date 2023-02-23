@@ -83,6 +83,9 @@
                         </div>
                     </form>
                 </div>
+                <div class="btns_wrap" style="float:left;margin-top:1rem;">
+                    <a class="save_btn" style="text-decoration:none; color:black;align:center;" href="/admin/subjects"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back to Records</a>
+                </div>
             </div>
         </div>
     </div>

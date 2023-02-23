@@ -61,14 +61,16 @@
                             </select>
                         </div>
 
+                        
+            <div class="btns_wrap" style="float:left;margin-top:1rem;">
+                <a class="save_btn" style="text-decoration:none; color:black;align:center;" href="/admin/subjects/{{$subject->id}}"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back to Subject Classes</a>
+            </div>
                         <div class="col-md-6 offset-md-4" style="float:left;">
                             <button type="submit" class="save_btn">
                                 {{ __('Create New Subject') }}
                             </button>
                         </div>
                     </form>
-                    
-                    
                 </div>
             </div>
         </div>
