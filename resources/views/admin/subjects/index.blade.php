@@ -142,7 +142,7 @@
                 <h2 style="align:left">List of Curricula</h2>
 
                 <div class="functions_wrap">
-                    <a class="list_function" href="/admin/subjects/create">Add New Curriculum</a>
+                    <a class="list_function" href="/admin/curriculum/create">Add New Curriculum</a>
                 </div>
             </div>
 
@@ -155,6 +155,7 @@
                             <th style="width=10% align=left"><input type="checkbox" name="chkall" id="chkall" onclick="return checkall('selector[]');">Name</th>
                             <th>Acronym</th>
                             <th>Description</th>
+                            <th>Options</th>
                         </tr>	
                     </thead>
                     <tbody>
@@ -164,6 +165,7 @@
                                 <td>{{ $curriculum->name }}</td>
                                 <td>{{ $curriculum->acronym }}</td>
                                 <td>{{ $curriculum->description }}</td>
+                                <td><a href="/admin/curriculum/{{$curriculum->id}}/edit">Edit</a>
                             </tr>
                         @endforeach
                     </tbody>

@@ -9,7 +9,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Subject;
 use App\Models\SubjectClass;
-use App\Models\Curricula;
+use App\Models\Curriculum;
 use App\Models\Schoolyear;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Hash;
@@ -191,6 +191,66 @@ class SubjectsController extends Controller
         //dd($new_subclass);
         return redirect()->back()->with("success","New Subject Created!");
     }
+
+
+    public function curricula_create(User $user)
+    {
+        return view('admin.subjects.create_curricula');
+    }
+
+    public function curricula_store(Request $request, User $user)
+    {
+        // Validation of input
+        $data = request()->validate([
+            'name' => ['required', 'string', 'max:50'],
+            'acronym' => ['required', 'string'],
+            'description' => ['required']
+        ]);
+
+        
+        $new_curriculum = \App\Models\Curriculum::create([
+            'name' => $data['name'],
+            'acronym' => $data['acronym'],
+            'description' => $data['description']
+        ]);
+
+        //dd($new_curriculum);
+        return redirect()->back()->with("success","New Curriculum Created!");
+    }
+
+    public function curricula_edit (Request $request, User $user, $id){
+        $curriculum = Curriculum::find($id);
+        
+        return view('admin.subjects.edit_curricula', compact('curriculum'));
+    }
+
+    public function curricula_update(Request $request, User $user, $id){
+
+        //dd($request->all());
+        
+        $curriculum = Curriculum::find($id);
+        if(strcmp($curriculum->name, $request->name)==0){
+            if(strcmp($curriculum->acronym, $request->acronym)==0){
+                if(strcmp($curriculum->description, $request->description)==0){
+                    return redirect()->back()->with("error","No changes made.");
+                }
+            }
+        }
+        
+        $data = request()->validate([
+            'name' => ['string', 'max:50'],
+            'acronym' => ['string'],
+            'description' => []
+        ]);
+        //dd($data);
+
+
+        $curriculum =\App\Models\Curriculum::find($id);
+        $curriculum->update($data);
+        
+        return redirect()->back()->with("success","Changes saved successfully");
+    }
+
 
     public function getSubjects(Request $request){
         $subjects = DB::table('subjects')

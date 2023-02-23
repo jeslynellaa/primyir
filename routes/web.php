@@ -125,6 +125,12 @@ Route::get('getSubjects', [SubjectsController::class, 'getSubjects'])->name('get
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
     Route::get('getStudents', [StudentsController::class, 'getStudents'])->name('getStudents');
 
+// ======= Admin - CURRICULA ROUTES ===========
+Route::get('/admin/curriculum/create', [SubjectsController::class, 'curricula_create'])->name('admin.curriculum.create');
+Route::post('/admin/curriculum', [SubjectsController::class, 'curricula_store'])->name('admin.curriculum.store');
+Route::get('/admin/curriculum/{subject}/edit', [SubjectsController::class, 'curricula_edit'])->name('admin.curriculum.edit');
+Route::patch('/admin/curriculum/{subject}', [SubjectsController::class, 'curricula_update'])->name('admin.curriculum.update');
+    
 // ======= Admin - EVENT ROUTES ===========
 Route::get('/admin/events', [EventsController::class, 'index'])->name('admin.events.index');
 Route::get('/admin/events/create', [EventsController::class, 'create'])->name('admin.events.create');
