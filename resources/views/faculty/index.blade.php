@@ -1,34 +1,25 @@
 @extends('layouts.faculty-app')
 
 @section('content')
-
     <!-- ======================= Header Carousel ================== -->
-
+    
     <div class="img-slider">
-        <div class="slide active">
-            <img src="/png/primyir.png" alt="">
-        </div>
-        <div class="slide">
-            <img src="/png/primyir1.png" alt="">
-        </div>
-        <div class="slide">
-            <img src="assets/imgs/primyir.png" alt="">
-        </div>
-        <div class="slide">
-            <img src="assets/imgs/primyir.png" alt="">
-        </div>
-        <div class="slide">
-            <img src="assets/imgs/primyir.png" alt="">
-        </div>
-        <div class="navigationnn">
-            <div class="btn active"></div>
-            <div class="btn"></div>
-            <div class="btn"></div>
-            <div class="btn"></div>
-            <div class="btn"></div>
+        <div class="slideshow-container">
+            <!-- Full-width images with number and caption text -->
+            <div class="mySlides fade" id="slide">
+                <img src="png/primyir1.png" style="width:100%">
+            </div>
+
+            <div class="mySlides fade" id="slide">
+                <img src="png/primyir.png" style="width:100%">
+            </div>
+
+            <div class="mySlides fade" id="slide">
+                <img src="png/primyir3.png" style="width:100%">
+            </div>
         </div>
     </div>
-    
+
     <!-- ======================= Welcome ================== -->
     <div class = "trio">
         <div class = "trio-one">
@@ -75,4 +66,45 @@
         </div>
         
     </div>
+
+    <style>
+        /* Slideshow container */
+        .slideshow-container {
+            position: relative;
+            margin: auto;
+        }
+
+        /* Hide the images by default */
+        .mySlides {
+            display: none;
+        }
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let slideIndex = 0;
+            showSlides();
+
+            function showSlides() {
+                let i;
+                let slides = document.getElementsByClassName("mySlides");
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) {slideIndex = 1}
+                    slides[slideIndex-1].style.display = "block";
+                setTimeout(showSlides, 5000); // Change image every 2 seconds
+            }
+        });
+    </script>
 @endsection
