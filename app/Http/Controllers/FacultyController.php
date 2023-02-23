@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Address;
 use App\Models\Teacher;
+use App\Models\StudentRegister;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -26,11 +27,12 @@ class FacultyController extends Controller
         $teacher_users = DB::table('users')
             ->join('teachers', 'teachers.user_id', '=', 'users.id')
             ->where('users.owner_type', 'T')
-            ->select('users.*', 'teachers.department')
+            ->select('users.*', 'teachers.department', 'teachers.id as teach_id')
             ->orderBy('lastName', 'ASC')
             ->get()->paginate(5);
+        $teachers = \App\Models\Teacher::all();
 
-        return view('admin.faculty.index', compact('teacher_users'));
+        return view('admin.faculty.index', compact('teacher_users', 'teachers'));
     }
     
     public function create(User $user)
@@ -85,13 +87,46 @@ class FacultyController extends Controller
         return redirect()->back()->with("success","New Teacher Account Created Successfully!");
     }
 
-    public function update(User $user)
+
+    public function show(User $user, $id)
     {
-        
+        $teacher = \App\Models\Teacher::find($id);
+
+        $teacher_subjects = DB::table('teachers')
+            ->join('subject_classes', 'teachers.id', '=', 'subject_classes.teacher_id')
+            ->join('subjects', 'subjects.id', '=', 'subject_classes.subject_id')
+            ->join('sections', 'sections.id', '=', 'subject_classes.section_id')
+            ->where('teachers.id', $id)
+            ->select('subjects.name as subject', 'sections.grade_level as grade', 'sections.name as section')
+            ->get()->paginate(5);
+
+        $address = DB::table('addresses')
+        ->join('users', 'addresses.user_id', '=', 'users.id')
+        ->join('barangays', 'addresses.barangay', '=', 'barangays.code', 'left outer')
+        ->join('city_municipalities', 'addresses.city', '=', 'city_municipalities.code', 'left outer')
+        ->join('provinces', 'addresses.province', '=', 'provinces.code', 'left outer')
+        ->join('regions', 'addresses.region', '=', 'regions.code', 'left outer')
+        ->join('teachers', 'teachers.user_id', '=', 'users.id')
+        ->where('teachers.id', $id)
+        ->select('barangays.name as brgy', 'city_municipalities.name as city', 'provinces.name as province', 'regions.name as region', 'addresses.street')
+        ->first();
+
+        return view('admin.faculty.view', compact('teacher_subjects', 'teacher', 'address'));
     }
 
+    public function edit(User $user, $id)
+    {
+        $this->authorize('create', $user);
+
+        $teacher = \App\Models\Teacher::find($id);
+
+        return view('admin.faculty.edit', compact('teacher'));
+    }
+
+
     public function generate_sf1(){
-        return view('sf_pdf.sf1');
+        $records = \App\Models\StudentRegister::all();
+        return view('sf_pdf.sf1', compact('records'));
     }
 
     public function generate_sf2(){

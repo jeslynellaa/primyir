@@ -28,19 +28,18 @@
                             <th>Options</th>
                         </tr>	
                     </thead>
-                    
                     <tbody>
-                        @foreach ($teacher_users as $teacher )
+                        @foreach ($teachers as $teacher )
                             <tr>
                                 <td>{{ $loop->index + 1}}</td>
-                                <td>{{ $teacher->lastName }}, {{ $teacher->givenName }} {{ $teacher->middleName }}</td>
+                                <td>{{ $teacher->user->lastName }}, {{ $teacher->user->givenName }} {{ $teacher->user->middleName }}</td>
                                 <td>{{ $teacher->department}}</td>
-                                <td>{{ $teacher->contactNum}}</td>
-                                <td>{{ $teacher->email}}</td>
-                                <td>{{ $teacher->sex}}</td>
-                                <td>{{ $teacher->birthdate}}</td>
-                                <td>{{ $teacher->accountStatus}}</td>
-                                <td><a href="">View</a></td>
+                                <td>{{ $teacher->user->contactNum}}</td>
+                                <td>{{ $teacher->user->email}}</td>
+                                <td>{{ $teacher->user->sex}}</td>
+                                <td>{{ $teacher->user->birthdate}}</td>
+                                <td>{{ $teacher->user->accountStatus}}</td>
+                                <<td><a href="/admin/faculty/{{$teacher->id}}">Classes</a></td>
                             </tr>
                         @endforeach
                     </tbody>
