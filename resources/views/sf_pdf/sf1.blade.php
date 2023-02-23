@@ -213,6 +213,28 @@ $(document).ready(function(){
                 <th>Name</th>
                 <th>Relationship</th>
             </tr>
+            @foreach($records as $record)
+                <tr>
+                    <th>{{$record->Student->LRN_no}}</th>
+                    <th>{{$record->Student->user->lastName}}, {{$record->Student->user->givenName}} {{$record->Student->user->middleName}}</th>
+                    <th>{{$record->Student->user->sex}}</th>
+                    <th>{{$record->Student->user->birthdate}}</th>
+                    <th>{{$record->age}}</th>
+                    <th>{{$record->mother_tongue}}</th>
+                    <th>{{$record->IP_ethnicGroup}}</th>
+                    <th>{{$record->Student->religion}}</th>
+                    <th>{{$record->Student->user->address->street}}</th>
+                    <th>{{$record->Student->user->address->barangay}}</th>
+                    <th>{{$record->Student->user->address->city}}</th>
+                    <th>{{$record->Student->user->address->province}}</th>
+                    <th>{{$record->father_lastName}}, {{$record->father_givenName}} {{$record->father_middleName}}</th>
+                    <th>{{$record->mother_lastName}}, {{$record->mother_givenName}} {{$record->mother_middleName}}</th>
+                    <th>{{$record->guardian_lastName}}</th>
+                    <th>{{$record->guardian_relationship}}</th>
+                    <th>{{$record->parent_guardian_contactNo}}</th>
+                    <th>{{$record->remarks}}</th>
+                </tr>
+            @endforeach
             <script>
                 for (rows = 0; rows <= 49; rows++) {
                     document.write(" <tr> ")
