@@ -58,7 +58,9 @@
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/my_app.css') }}" rel="stylesheet">
-    
+    <link href="{{ asset('css/grades.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
 </head>
 

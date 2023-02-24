@@ -76,7 +76,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::get('/admin/faculty', [FacultyController::class, 'index'])->name('admin.faculty.index');
 Route::get('/admin/faculty/create', [FacultyController::class, 'create'])->name('admin.faculty.create');
-Route::patch('/admin/faculty/{teacher}/edit', [FacultyController::class, 'edit'])->name('admin.faculty.edit');
+Route::get('/admin/faculty/{teacher}/edit', [FacultyController::class, 'edit'])->name('admin.faculty.edit');
+Route::patch('/admin/faculty/{teacher}', [FacultyController::class, 'update'])->name('admin.faculty.update');
 Route::get('/admin/faculty/{teacher}', [FacultyController::class, 'show'])->name('admin.faculty.show');
 
 Route::post('/admin/faculty', [FacultyController::class, 'store'])->name('admin.faculty.store');
@@ -152,6 +153,16 @@ Route::get('/admin/reports/sf8', [ReportsController::class, 'sf8'])->name('admin
 
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
+
+// VIEW GRADES 
+Route::get('/grades', [App\Http\Controllers\StudentsController::class, 'viewGrades'])->name('grades');
+
+
+
+// VIEW GRADES 
+Route::get('/grades', [App\Http\Controllers\StudentsController::class, 'viewGrades'])->name('grades');
+
+
 
 Route::get('/sf1', [App\Http\Controllers\FacultyController::class, 'generate_sf1'])->name('sf1_pdf');
 Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
