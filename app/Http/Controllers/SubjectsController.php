@@ -105,10 +105,10 @@ class SubjectsController extends Controller
        ]);
     }
 
-    public function update(Request $request, User $user){
+    public function update(User $user, Request $request){
 
         //dd($request);
-        $this->authorize('update', $user);
+        $this->authorize('create', $user);
         
         $data = request()->validate([
             'name' => ['string', 'max:50'],

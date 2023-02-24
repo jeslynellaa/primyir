@@ -123,6 +123,59 @@ class FacultyController extends Controller
         return view('admin.faculty.edit', compact('teacher'));
     }
 
+    public function update(Request $request, User $user, $id)
+    {
+        $this->authorize('create', $user);
+
+        $teacher = \App\Models\Teacher::find($id);
+        if(strcmp($teacher->user->email, $request->email) == 0){
+            $email = request()->validate([
+                'email' => ['required', 'string', 'email', 'max:255']
+            ]);
+        }else{
+            $email = request()->validate([
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
+            ]);
+        }
+        if(strcmp($teacher->user->username, $request->username) == 0){
+            $username = request()->validate([
+                'username' => ['required', 'string', 'max:255']
+            ]);
+        }else{
+            $username = request()->validate([
+                'email' => ['required', 'string', 'max:255', 'unique:users']
+            ]);
+        }
+
+        $data = request()->validate([
+            'givenName' => ['required', 'string', 'max:255'],
+            'middleName' => ['max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
+            'birthdate' => ['required'],
+            'contactNum' => ['digits:11'],
+            'sex' => ['required'],
+            'department' => ['required'],
+            'accountStatus' => ['required']
+        ]);
+
+        //dd($data, $email, $username);
+        $teacher->user->update([
+            'givenName' => $data['givenName'],
+            'lastName' => $data['lastName'],
+            'birthdate' => $data['birthdate'],
+            'contactNum' => $data['contactNum'],
+            'email' => $email,
+            'username' => $username,
+            'sex' => $data['sex'],
+            'accountStatus' => $data['accountStatus']
+        ]);
+        $teacher->update([
+            'department' => $data['department']
+        ]);
+
+        return view('admin.faculty.edit', compact('teacher'));
+    }
+
 
     public function generate_sf1(){
         $records = \App\Models\StudentRegister::all();
