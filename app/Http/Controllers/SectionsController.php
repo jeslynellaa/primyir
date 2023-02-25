@@ -28,7 +28,7 @@ class SectionsController extends Controller
             ->join('users', 'users.id', '=', 'teachers.user_id', 'left outer')
             ->select('sections.grade_level', 'sections.name', 'sections.adviser', 'users.givenName', 'users.lastName')
             ->orderBy('grade_level')
-            ->get()->paginate(5);
+            ->get()->paginate(10);
 
         return view('admin.sections.index', compact('section_teachers'));
     }
@@ -53,11 +53,11 @@ class SectionsController extends Controller
         $data = request()->validate([
             'name' => ['required', 'string', 'max:50', 'unique:sections'],
             'grade_level' => ['required'],
-            'adviser' => 'nullable'
+            'adviser' => ''
         ]);        
 
         // Creating new section model
-        if(isset($data->adviser)){
+        if(isset($request->adviser)){
             $new_section = \App\Models\Section::create([
                 'name' => $data['name'],
                 'grade_level' => $data['grade_level'],
@@ -68,12 +68,14 @@ class SectionsController extends Controller
             $assign_teach = \App\Models\Teacher::where('id', '=', $data['adviser'])->first();
             $assign_teach->advisory = 1;
             $assign_teach->save();
+            //dd($new_section);
         }
         else{
             $new_section = \App\Models\Section::create([
                 'name' => $data['name'],
                 'grade_level' => $data['grade_level']
             ]);
+            //dd($new_section);
         }
 
 

@@ -40,7 +40,7 @@ class StudentsController extends Controller
             ->where('users.owner_type', 'S')
             ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*')
             ->orderBy('lastName', 'ASC')
-            ->get()->paginate(5);
+            ->get()->paginate(10);
         
         //dd($student_users);
         return view('admin.students.index', compact('student_users'));
@@ -186,6 +186,9 @@ class StudentsController extends Controller
         $this->authorize('create', $user);
 
         $student = \App\Models\Student::find($id);
+        //dd($request->all());
+        // $birthyear = date("Y", strtotime($request->input('birthdate')));
+        // dd($birthyear);
 
         if((strcmp($student->user->email, $request->email) == 0) && (strcmp($student->user->username, $request->username) == 0)){
             $user_data = request()->validate([

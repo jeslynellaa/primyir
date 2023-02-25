@@ -140,7 +140,7 @@
                 <li>
                     <a href="/admin/events">
                         <span class="icon">
-                            <i class="fa-solid fa-scroll icon-nav"></i>
+                            <i class="fa-solid fa-scroll"></i>
                         </span>
                         <span class="title">Notices</span>
                     </a>

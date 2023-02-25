@@ -20,6 +20,7 @@ use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\SchoolyearsController;
 use App\Mail\TemporaryCredentials;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -95,7 +96,8 @@ Route::patch('/admin/sections/{user}', [SectionsController::class, 'update'])->n
 Route::get('/admin/schoolyears', [SchoolyearsController::class, 'index'])->name('admin.schoolyears.index');
 Route::get('/admin/schoolyears/create', [SchoolyearsController::class, 'create'])->name('admin.schoolyears.create');
 Route::post('/admin/schoolyears', [SchoolyearsController::class, 'store'])->name('admin.schoolyears.store');
-Route::patch('/admin/schoolyears/{user}', [SchoolyearsController::class, 'update'])->name('admin.schoolyears.update');
+Route::get('/admin/schoolyears/{user}/edit', [SchoolyearsController::class, 'edit'])->name('admin.schoolyears.edit');
+Route::put('/admin/schoolyears/{user}', [SchoolyearsController::class, 'update'])->name('admin.schoolyears.update');
 
 
 // ======= Admin - STUDENT ROUTES ===========

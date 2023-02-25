@@ -22,7 +22,7 @@ class SchoolyearsController extends Controller
     public function index()
     {
         $schoolyears = DB::table('schoolyears')
-        ->orderBy('date_start', 'ASC')
+        ->orderBy('date_start', 'DESC')
         ->get();
 
         return view('admin.schoolyears.index', compact('schoolyears'));
@@ -45,66 +45,82 @@ class SchoolyearsController extends Controller
         return view('admin.schoolyears.create', compact('curricula', 'schoolyears'));
     }
 
-    public function store(Request $request, User $user)
+    public function store(Request $request)
     {
         // Validation of input
-        $data = request()->validate([
-            'name' => ['required', 'string', 'max:50'],
-            'grade_level' => ['required'],
-            'curriculum' => ['required'],
-            'schoolyear' => ['required'],
-            'elective' => ''
+        $validator = Validator::make($request->all(), [
+            'date_start' => '',
+            'date_end' => '',
         ]);
 
-        // Checking if the array contains 'elective' property
-        if (isset($data['elective'])){
-            $new_subject = \App\Models\Subject::create([
-                'name' => $data['name'],
-                'grade_level' => $data['grade_level'],
-                'curriculum_id' => $data['curriculum'],
-                'schoolyear_id' => $data['schoolyear'],
-                'elective' => $data['elective'],
-            ]);
-        }
-        else{
-            // if elective is not set, assign with 0
-            $new_subject = \App\Models\Subject::create([
-                'name' => $data['name'],
-                'grade_level' => $data['grade_level'],
-                'curriculum_id' => $data['curriculum'],
-                'schoolyear_id' => $data['schoolyear'],
-                'elective' => 0,
-            ]);
-        }
-        
-        //dd($new_subject);
-        return redirect()->back()->with("success","New Subject Created!");
+        $date_start = date("Y-m-d", strtotime($request->input('date_start')));
+        $date_end = date("Y-m-d", strtotime($request->input('date_end')));
+        $year_start = date("Y", strtotime($request->input('date_start')));
+        $year_end = date("Y", strtotime($request->input('date_end')));
+
+        $schoolyear = new Schoolyear;
+
+        $schoolyear->date_start = $date_start;
+        $schoolyear->date_end = $date_end;
+        $schoolyear->year_start = $year_start;
+        $schoolyear->year_end = $year_end;
+
+        $schoolyear->save();
     }
 
     public function edit ($id){
-        $subjectData = Subject::find($id);
-        return response()->json([
-           'status' =>200,
-           'subjectData' =>$subjectData,
-       ]);
+        $schoolyear = Schoolyear::find($id);
+
+        if($schoolyear){
+            return response()->json([
+                'status' =>200,
+                'schoolyear' =>$schoolyear,
+            ]);
+        }else{
+            return response()->json([
+                'status' =>404,
+                'message' =>"School Year Not Found",
+            ]);
+        }
     }
 
-    public function update(User $user, Request $request){
+    public function update(Request $request, $id){
 
-        //dd($request);
-        $this->authorize('create', $user);
-        
-        $data = request()->validate([
-            'name' => ['string', 'max:50'],
-            'grade_level' =>'',
-            'curriculum' =>'',
-            'schoolyear' =>'',
-            'elective' => ''
+        $validator = Validator::make($request->all(), [
+            'date_start' => '',
+            'date_end' => '',
         ]);
         
-        $subject =\App\Models\Subject::find($request->subject_id);
-        $subject->update($data);
-        
-        return redirect()->back()->with("success","Changes saved successfully");
+        $date_start = date("Y-m-d", strtotime($request->input('date_start')));
+        $date_end = date("Y-m-d", strtotime($request->input('date_end')));
+        $year_start = date("Y", strtotime($request->input('date_start')));
+        $year_end = date("Y", strtotime($request->input('date_end')));
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+            ]);
+        }else{
+            $schoolyear =\App\Models\Schoolyear::find($id);
+            if($schoolyear){
+                $schoolyear->date_start = $date_start;
+                $schoolyear->date_end = $date_end;
+                $schoolyear->year_start = $year_start;
+                $schoolyear->year_end = $year_end;
+                $schoolyear->update();
+
+                return response()->json([
+                    'status' =>200,
+                    'message' => "Changes Saved Successfully!"
+                ]);
+            }else{
+                return response()->json([
+                    'status' =>404,
+                    'message' =>"School Year Not Found",
+                ]);
+            }
+        }
     }
 }
