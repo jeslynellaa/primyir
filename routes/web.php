@@ -112,6 +112,8 @@ Route::get('/admin/students/{student}/view/{syid}', [StudentsController::class, 
 
 Route::get('/admin/students/{student}/view/{syid}/add', [StudentsController::class, 'enroll_add'])->name('admin.students.enroll.add');
 Route::post('/admin/students/{student}/view/{syid}', [StudentsController::class, 'enroll_store'])->name('admin.students.enroll.store');
+Route::get('/admin/students/view/{syid}/edit', [StudentsController::class, 'enroll_edit'])->name('admin.students.enroll_edit');
+Route::put('/admin/students/view/{syid}', [StudentsController::class, 'enroll_update'])->name('admin.students.enroll_update');
 
     //Address Dropdown Routes
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Address;
 use App\Models\Student;
 use App\Models\Section;
+use App\Models\Schoolyear;
 use App\Models\StudentSchoolyear;
 use App\Models\StudentSubjClass;
 use App\Models\StudentSubjGrade;
@@ -146,44 +147,75 @@ class StudentsController extends Controller
 
     public function update(Request $request, User $user, $id)
     {
-        $this->authorize('update', $user);
-
-        $data = request()->validate([
-            'givenName' => ['string', 'max:255'],
-            'middleName' => ['max:255'],
-            'lastName' => ['string', 'max:255'],
-            'birthdate' => [''],
-            'contactNum' => ['nullable', 'digits:11'],
-            'sex' => ['required'],
-            'email' => ['string', 'email', 'max:255', 'unique:users'],
-            'username' => ['max:255', 'unique:users'],
-            'accountStatus' => ['required'],
-            'owner_type' => ['required'],
-            'LRN_no' => ['digits:12', 'unique:students'],
-            'religion' => 'string',
-            'status' => 'string'
-        ]);
-
-        $userid = $id;
+        $this->authorize('create', $user);
 
         $student = \App\Models\Student::find($id);
-        $student->update([
-            'LRN_no' => $data['LRN_no'],
-            'religion' => $data['religion'],
-            'curriculum_id' => $data['curriculum']
-        ]);
 
-        $studentID = $newStudent->id;
+        if((strcmp($student->user->email, $request->email) == 0) && (strcmp($student->user->username, $request->username) == 0)){
+            $user_data = request()->validate([
+                'givenName' => ['string', 'max:255'],
+                'middleName' => ['max:255'],
+                'lastName' => ['string', 'max:255'],
+                'birthdate' => [''],
+                'contactNum' => ['nullable', 'digits:11'],
+                'sex' => ['required'],
+                'email' => '',
+                'username' => '',
+                'accountStatus' => ['required']
+            ]);
+        }else if(strcmp($student->user->email, $request->email) == 0){
+            $user_data = request()->validate([
+                'givenName' => ['string', 'max:255'],
+                'middleName' => ['max:255'],
+                'lastName' => ['string', 'max:255'],
+                'birthdate' => [''],
+                'contactNum' => ['nullable', 'digits:11'],
+                'sex' => ['required'],
+                'email' => '',
+                'username' => ['max:255', 'unique:users'],
+                'accountStatus' => ['required']
+            ]);
+        }else if(strcmp($student->user->username, $request->username) == 0){
+            $user_data = request()->validate([
+                'givenName' => ['string', 'max:255'],
+                'middleName' => ['max:255'],
+                'lastName' => ['string', 'max:255'],
+                'birthdate' => [''],
+                'contactNum' => ['nullable', 'digits:11'],
+                'sex' => ['required'],
+                'email' => ['string', 'email', 'max:255', 'unique:users'],
+                'username' => '',
+                'accountStatus' => ['required']
+            ]);
+        }else{
+            $user_data = request()->validate([
+                'givenName' => ['string', 'max:255'],
+                'middleName' => ['max:255'],
+                'lastName' => ['string', 'max:255'],
+                'birthdate' => [''],
+                'contactNum' => ['nullable', 'digits:11'],
+                'sex' => ['required'],
+                'email' => ['string', 'email', 'max:255', 'unique:users'],
+                'username' => ['max:255', 'unique:users'],
+                'accountStatus' => ['required']
+            ]);
+        }
 
-        $newStudentSY = \App\Models\StudentSchoolyear::create([
-            'student_id' => $studentID,
-            'schoolyear_id' => $data['schoolyear_id'],
-            'section_id' => $data['section'],
-            'status' => $data['status']
-        ]);
-        
-        $student = Auth::user();
-        $user->update($data);
+        if(strcmp($student->LRN_no, $request->LRN_no) == 0){
+            $student_data = request()->validate([
+                'LRN_no' => '',
+                'religion' => 'string'
+            ]);
+        }else{
+            $student_data = request()->validate([
+                'LRN_no' => ['digits:12', 'required', 'unique:students'],
+                'religion' => 'string'
+            ]);
+        }
+        //$userid = $id;
+        //$student = Auth::user();
+        $student->user->update($user_data);
+        $student->update($student_data);
         
         return redirect()->back()->with("success","Changes saved successfully!");
     }
@@ -354,6 +386,67 @@ class StudentsController extends Controller
         //     'status' => $data['status']
         // ]);
         return redirect()->back()->with("success","Subjects Added Successfully!");
+    }
+
+    public function enroll_edit($id){
+
+        $studentSY = StudentSchoolyear::find($id);
+
+        $sections = Section::all();
+        $schoolyears = Schoolyear::all();
+        $grade= $studentSY->section->grade_level;
+        if($studentSY){
+            return response()->json([
+                'status' =>200,
+                'studentSY' => $studentSY,
+                'sections' => $sections,
+                'schoolyears' => $schoolyears,
+                'grade' => $grade
+            ]);
+        }else{
+            return response()->json([
+                'status' =>404,
+                'message' =>"Subject Class Not Found",
+            ]);
+        }
+    }
+
+    public function enroll_update(Request $request, $id){
+
+        //dd($request);
+        
+        $validator = Validator::make($request->all(), [
+            'section_id' => '',
+            'schoolyear_id' =>'',
+            'status' =>'string',
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+            ]);
+        }else{
+            $studentSY =\App\Models\StudentSchoolyear::find($id);
+            if($studentSY){
+                $studentSY->section_id = $request->input('section_id');
+                $studentSY->schoolyear_id = $request->input('schoolyear_id');
+                $studentSY->status = $request->input('status');
+                $studentSY->update();
+
+                return response()->json([
+                    'status' =>200,
+                    'message' => "Changes Saved Successfully!"
+                ]);
+            }else{
+                return response()->json([
+                    'status' =>404,
+                    'message' =>"Student Enrollment Record Not Found",
+                ]);
+            }
+        }
+        //return redirect()->back()->with("success","Changes saved successfully");
     }
 
     public function getSections(Request $request){

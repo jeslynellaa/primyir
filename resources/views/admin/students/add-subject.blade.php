@@ -146,6 +146,9 @@
                         </div>
                     </form>
                 </div>
+                <div class="btns_wrap" style="float:left;margin-top:1rem;">
+                    <a class="save_btn" style="text-decoration:none; color:black;align:center;" href="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back to School Year Record</a>
+                </div>
             </div>
         </div>
     </div>
