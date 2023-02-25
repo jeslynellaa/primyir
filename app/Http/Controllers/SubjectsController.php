@@ -98,30 +98,71 @@ class SubjectsController extends Controller
     }
 
     public function edit ($id){
+
         $subjectData = Subject::find($id);
-        return response()->json([
-           'status' =>200,
-           'subjectData' =>$subjectData,
-       ]);
+        if($subjectData->elective == 1){
+            $elective = true;
+        }else{
+            $elective = false;
+        }
+        $curricula = Curriculum::all();
+        $schoolyears = Schoolyear::all();
+        if($subjectData){
+            return response()->json([
+                'status' =>200,
+                'subjectData' =>$subjectData,
+                'curricula' =>$curricula,
+                'schoolyears' => $schoolyears,
+                'elective' =>$elective,
+            ]);
+        }else{
+            return response()->json([
+                'status' =>404,
+                'message' =>"Subject Not Found",
+            ]);
+        }
     }
 
-    public function update(User $user, Request $request){
+    public function update(Request $request, $id){
 
         //dd($request);
-        $this->authorize('create', $user);
         
-        $data = request()->validate([
+        $validator = Validator::make($request->all(), [
             'name' => ['string', 'max:50'],
             'grade_level' =>'',
-            'curriculum' =>'',
-            'schoolyear' =>'',
+            'curriculum_id' =>'',
+            'schoolyear_id' =>'',
             'elective' => ''
         ]);
-        
-        $subject =\App\Models\Subject::find($request->subject_id);
-        $subject->update($data);
-        
-        return redirect()->back()->with("success","Changes saved successfully");
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+            ]);
+        }else{
+            $subject =\App\Models\Subject::find($id);
+            if($subject){
+                $subject->name = $request->input('name');
+                $subject->grade_level = $request->input('grade_level');
+                $subject->curriculum_id = $request->input('curriculum_id');
+                $subject->schoolyear_id = $request->input('schoolyear_id');
+                $subject->elective = $request->input('elective');
+                $subject->update();
+
+                return response()->json([
+                    'status' =>200,
+                    'message' => "Changes Saved Successfully!"
+                ]);
+            }else{
+                return response()->json([
+                    'status' =>404,
+                    'message' =>"Subject Not Found",
+                ]);
+            }
+        }
+        //return redirect()->back()->with("success","Changes saved successfully");
     }
 
     public function show($id)
