@@ -126,6 +126,8 @@ Route::put('/admin/subjects/{subject}', [SubjectsController::class, 'update'])->
 
 Route::get('/admin/subjects/class/{subclass}/create', [SubjectsController::class, 'create_class'])->name('admin.subjects.class.create');
 Route::post('/admin/subjects/class', [SubjectsController::class, 'store_class'])->name('admin.subjects.class.store');
+Route::get('/admin/subjects/class/{subclass}/edit', [SubjectsController::class, 'edit_class'])->name('admin.subjects.edit_subclass');
+Route::put('/admin/subjects/class/{subclass}', [SubjectsController::class, 'update_class'])->name('admin.subjects.update_subclass');
 
 Route::get('getSubjects', [SubjectsController::class, 'getSubjects'])->name('getSubjects');
 

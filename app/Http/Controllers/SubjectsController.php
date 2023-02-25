@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Subject;
+use App\Models\Section;
 use App\Models\SubjectClass;
 use App\Models\Curriculum;
 use App\Models\Schoolyear;
@@ -174,7 +175,7 @@ class SubjectsController extends Controller
             ->join('sections', 'subject_classes.section_id', '=', 'sections.id')
             ->join('teachers', 'subject_classes.teacher_id', '=', 'teachers.id')
             ->join('users', 'teachers.user_id', '=', 'users.id')
-            ->select('subjects.name as name', 'subjects.grade_level', 'curricula.name as curriculum',
+            ->select('subject_classes.id as id', 'subjects.name as name', 'subjects.grade_level', 'curricula.name as curriculum',
             'sections.name as section', 'sections.grade_level as grade',
             'users.givenName', 'users.middleName', 'users.lastName')
             ->get();
@@ -233,6 +234,66 @@ class SubjectsController extends Controller
         return redirect()->back()->with("success","New Subject Created!");
     }
 
+    public function edit_class ($id){
+
+        $subject_class = SubjectClass::find($id);
+
+        $sections = Section::where('grade_level', $subject_class->subject->grade_level)->get();
+        $teachers = DB::table('teachers')
+        ->join('users', 'users.id', '=', 'teachers.user_id')
+        ->select('teachers.id', 'users.givenName', 'users.middleName','users.lastName')
+        ->orderBy('users.lastName', 'ASC')
+        ->get();
+        if($subject_class){
+            return response()->json([
+                'status' =>200,
+                'subject_class' =>$subject_class,
+                'teachers' => $teachers,
+                'sections' => $sections,
+            ]);
+        }else{
+            return response()->json([
+                'status' =>404,
+                'message' =>"Subject Class Not Found",
+            ]);
+        }
+    }
+
+    public function update_class(Request $request, $id){
+
+        //dd($request);
+        
+        $validator = Validator::make($request->all(), [
+            'section_id' => '',
+            'teacher_id' =>'',
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+            ]);
+        }else{
+            $subject_class =\App\Models\SubjectClass::find($id);
+            if($subject_class){
+                $subject_class->section_id = $request->input('section_id');
+                $subject_class->teacher_id = $request->input('teacher_id');
+                $subject_class->update();
+
+                return response()->json([
+                    'status' =>200,
+                    'message' => "Changes Saved Successfully!"
+                ]);
+            }else{
+                return response()->json([
+                    'status' =>404,
+                    'message' =>"Subject Not Found",
+                ]);
+            }
+        }
+        //return redirect()->back()->with("success","Changes saved successfully");
+    }
 
     public function curricula_create(User $user)
     {
