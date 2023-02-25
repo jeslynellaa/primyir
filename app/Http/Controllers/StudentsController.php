@@ -18,6 +18,11 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 
 class StudentsController extends Controller
 {
@@ -86,13 +91,12 @@ class StudentsController extends Controller
             }
             return implode($pass); //turn the array into a string
         }
-
-        $new_given = str_replace(' ', '', strtolower($data['givenName']));
-        $new_middle = str_replace(' ', '', strtolower($data['middleName']));
-        $new_last = str_replace(' ', '', strtolower($data['lastName']));
+        $new_given = strtolower(substr($data['givenName'], 0, 4));
+        $new_middle = strtolower(substr($data['middleName'], 0, 2));
+        $new_last = strtolower($data['lastName']);
         //dd($new_given, $new_middle, $new_last);
 
-        $username = $new_given.$new_middle.$new_last.str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+        $username = trim($new_given).trim($new_middle).trim($new_last).str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
         //dd($username);
         $rand_password = randomPassword();
         //dd($rand_password);
@@ -128,8 +132,40 @@ class StudentsController extends Controller
             'status' => $data['status']
         ]);
         
-        return redirect()->back()->with("success","New Student Account Created Successfully!");
-    }
+        $mail = new PHPMailer(true);
+        try {
+           //Server settings
+           //$mail->SMTPDebug = 0;                      //Enable verbose debug output
+           $mail->isSMTP();                                            //Send using SMTP
+           $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+           $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+           $mail->Username   = 'sorsgonnationalhs.deped@gmail.com';                     //SMTP username
+           $mail->Password   = 'svptpowspubtxryv';                               //SMTP password
+           $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+           $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set
+
+           //Recipients
+            $mail->setFrom('sorsgonnationalhs.deped@gmail.com', "e-SKWELAHAN");
+           $mail->addAddress($newUser->email);     //Add a recipient
+           //Content
+           $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = 'Username and Temporary Password for your Account';
+            $mail->Body    = 'Good Day ' . $newUser->givenName . ',<br><br>' 
+            . 'Your temporary credentials are: ' .  '<br>' . '<ul>' 
+            . '<li>Your username: ' . $username . '</li>' . '<li>Your temporary password is: ' . $rand_password . '</li>' .'</ul>'
+            . 'Please use these credentials to log in to your account. We recommend that you change your password immediately after logging in.' . '<br><br>'
+            . 'Thank you,' . '<br><br>'
+            . 'e-SKWELAHAN Admin';
+
+            $mail->send();
+                echo 'Message has been sent';
+            } catch (Exception $e) {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+//            Mail::to($request->email)->send(new TemporaryCredentials($username, $rand_password, $user->givenName));
+
+            return redirect()->back()->with("success","New Student Account Created Successfully!");
+}
 
     public function edit(User $user, $id)
     {

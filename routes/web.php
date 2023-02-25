@@ -18,7 +18,7 @@ use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\GradesController;
-
+use App\Mail\TemporaryCredentials;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -105,6 +105,9 @@ Route::get('/admin/students/{student}/view/{syid}', [StudentsController::class, 
 
 Route::get('/admin/students/{student}/view/{syid}/add', [StudentsController::class, 'enroll_add'])->name('admin.students.enroll.add');
 Route::post('/admin/students/{student}/view/{syid}', [StudentsController::class, 'enroll_store'])->name('admin.students.enroll.store');
+    Route::get('/emails/temporary_credentials', function (){
+    return view('emails.temporary_credentials');
+});
 
     //Address Dropdown Routes
     Route::get('getSections', [StudentsController::class, 'getSections'])->name('getSections');
