@@ -128,52 +128,65 @@ class FacultyController extends Controller
         $this->authorize('create', $user);
 
         $teacher = \App\Models\Teacher::find($id);
-        if(strcmp($teacher->user->email, $request->email) == 0){
-            $email = request()->validate([
-                'email' => ['required', 'string', 'email', 'max:255']
+
+        if((strcmp($teacher->user->email, $request->email) == 0) && (strcmp($teacher->user->username, $request->username) == 0)){
+            $user_data = request()->validate([
+                'givenName' => ['string', 'max:255'],
+                'middleName' => ['max:255'],
+                'lastName' => ['string', 'max:255'],
+                'birthdate' => [''],
+                'contactNum' => ['nullable', 'digits:11'],
+                'sex' => ['required'],
+                'email' => '',
+                'username' => '',
+                'accountStatus' => ['required']
+            ]);
+        }else if(strcmp($teacher->user->email, $request->email) == 0){
+            $user_data = request()->validate([
+                'givenName' => ['string', 'max:255'],
+                'middleName' => ['max:255'],
+                'lastName' => ['string', 'max:255'],
+                'birthdate' => [''],
+                'contactNum' => ['nullable', 'digits:11'],
+                'sex' => ['required'],
+                'email' => '',
+                'username' => ['max:255', 'unique:users'],
+                'accountStatus' => ['required']
+            ]);
+        }else if(strcmp($teacher->user->username, $request->username) == 0){
+            $user_data = request()->validate([
+                'givenName' => ['string', 'max:255'],
+                'middleName' => ['max:255'],
+                'lastName' => ['string', 'max:255'],
+                'birthdate' => [''],
+                'contactNum' => ['nullable', 'digits:11'],
+                'sex' => ['required'],
+                'email' => ['string', 'email', 'max:255', 'unique:users'],
+                'username' => '',
+                'accountStatus' => ['required']
             ]);
         }else{
-            $email = request()->validate([
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
+            $user_data = request()->validate([
+                'givenName' => ['string', 'max:255'],
+                'middleName' => ['max:255'],
+                'lastName' => ['string', 'max:255'],
+                'birthdate' => [''],
+                'contactNum' => ['nullable', 'digits:11'],
+                'sex' => ['required'],
+                'email' => ['string', 'email', 'max:255', 'unique:users'],
+                'username' => ['max:255', 'unique:users'],
+                'accountStatus' => ['required']
             ]);
         }
-        if(strcmp($teacher->user->username, $request->username) == 0){
-            $username = request()->validate([
-                'username' => ['required', 'string', 'max:255']
-            ]);
-        }else{
-            $username = request()->validate([
-                'email' => ['required', 'string', 'max:255', 'unique:users']
-            ]);
-        }
 
-        $data = request()->validate([
-            'givenName' => ['required', 'string', 'max:255'],
-            'middleName' => ['max:255'],
-            'lastName' => ['required', 'string', 'max:255'],
-            'birthdate' => ['required'],
-            'contactNum' => ['digits:11'],
-            'sex' => ['required'],
-            'department' => ['required'],
-            'accountStatus' => ['required']
+        $teach_data = request()->validate([
+            'department' => 'string'
         ]);
 
-        //dd($data, $email, $username);
-        $teacher->user->update([
-            'givenName' => $data['givenName'],
-            'lastName' => $data['lastName'],
-            'birthdate' => $data['birthdate'],
-            'contactNum' => $data['contactNum'],
-            'email' => $email,
-            'username' => $username,
-            'sex' => $data['sex'],
-            'accountStatus' => $data['accountStatus']
-        ]);
-        $teacher->update([
-            'department' => $data['department']
-        ]);
-
-        return view('admin.faculty.edit', compact('teacher'));
+        $teacher->user->update($user_data);
+        $teacher->update($teach_data);
+        
+        return redirect()->back()->with("success","Changes Saved Successfully!");
     }
 
 
@@ -191,8 +204,7 @@ class FacultyController extends Controller
     }
 
     public function generate_sf5(){
-    return view('sf_pdf.sf5');
-
-}
+        return view('sf_pdf.sf5');
+    }
 
 }

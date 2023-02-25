@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div>
-                <h3>Student Enrollment Records</h3>
+                <h3>Teacher Loads and Assignments</h3>
             </div>
 
             <form>  					
