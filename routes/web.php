@@ -18,6 +18,7 @@ use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\GradesController;
+use App\Http\Controllers\SchoolyearsController;
 use App\Mail\TemporaryCredentials;
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,12 @@ Route::get('/admin/sections/create', [SectionsController::class, 'create'])->nam
 Route::post('/admin/sections', [SectionsController::class, 'store'])->name('admin.sections.store');
 Route::patch('/admin/sections/{user}', [SectionsController::class, 'update'])->name('admin.sections.update');
 
+// ======= Admin - SCHOOLYEAR ROUTES ===========
+Route::get('/admin/schoolyears', [SchoolyearsController::class, 'index'])->name('admin.schoolyears.index');
+Route::get('/admin/schoolyears/create', [SchoolyearsController::class, 'create'])->name('admin.schoolyears.create');
+Route::post('/admin/schoolyears', [SchoolyearsController::class, 'store'])->name('admin.schoolyears.store');
+Route::patch('/admin/schoolyears/{user}', [SchoolyearsController::class, 'update'])->name('admin.schoolyears.update');
+
 
 // ======= Admin - STUDENT ROUTES ===========
 Route::get('/admin/students', [StudentsController::class, 'index'])->name('admin.students.index');
@@ -118,10 +125,12 @@ Route::get('/admin/subjects/create', [SubjectsController::class, 'create'])->nam
 Route::post('/admin/subjects', [SubjectsController::class, 'store'])->name('admin.subjects.store');
 Route::get('/admin/subjects/{subject}/edit', [SubjectsController::class, 'edit'])->name('admin.subjects.edit');
 Route::get('/admin/subjects/{subject}', [SubjectsController::class, 'show'])->name('admin.subjects.show');
-Route::patch('/admin/subjects/{subject}', [SubjectsController::class, 'update'])->name('admin.subjects.update');
+Route::put('/admin/subjects/{subject}', [SubjectsController::class, 'update'])->name('admin.subjects.update');
 
 Route::get('/admin/subjects/class/{subclass}/create', [SubjectsController::class, 'create_class'])->name('admin.subjects.class.create');
 Route::post('/admin/subjects/class', [SubjectsController::class, 'store_class'])->name('admin.subjects.class.store');
+Route::get('/admin/subjects/class/{subclass}/edit', [SubjectsController::class, 'edit_class'])->name('admin.subjects.edit_subclass');
+Route::put('/admin/subjects/class/{subclass}', [SubjectsController::class, 'update_class'])->name('admin.subjects.update_subclass');
 
 Route::get('getSubjects', [SubjectsController::class, 'getSubjects'])->name('getSubjects');
 
