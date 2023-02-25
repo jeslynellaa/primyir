@@ -119,14 +119,14 @@
                     </a>
                 </li>
 
-                <!-- <li>
-                    <a href="#">
+                <li>
+                    <a href="/admin/schoolyears">
                         <span class="icon">
-                            <i class="fa-solid fa-chair icon-nav"></i>
+                            <i class="fa-solid fa-calendar icon-nav"></i>
                         </span>
-                        <span class="title">Class</span>
+                        <span class="title">School Years</span>
                     </a>
-                </li> -->
+                </li>
 
                 <li>
                     <a href="/admin/subjects">
@@ -140,9 +140,9 @@
                 <li>
                     <a href="/admin/events">
                         <span class="icon">
-                            <i class="fa-solid fa-calendar icon-nav"></i>
+                            <i class="fa-solid fa-scroll icon-nav"></i>
                         </span>
-                        <span class="title">Events</span>
+                        <span class="title">Notices</span>
                     </a>
                 </li>
 
