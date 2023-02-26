@@ -180,6 +180,20 @@
                                     }
                                 });
                             });
+                            $('#section').one('click', function () {
+                                var gradeLevel = $('#grade_level').val();
+                                $('#section').html('');
+                                $.ajax({
+                                    url: '{{ route('getSections') }}?grade_lvl='+gradeLevel,
+                                    type: 'get',
+                                    success: function (res) {
+                                        $('#section').html('<option value="" selected disabled>-- Select Section --</option>');
+                                        $.each(res, function (key, value) {
+                                            $('#section').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                        });
+                                    }
+                                });
+                            });
                             $('#status').val(response.studentSY.status);
 
                             $('#schoolyear').html('<option value="">-- Select School Year --</option>');
