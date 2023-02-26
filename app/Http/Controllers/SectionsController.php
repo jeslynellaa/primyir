@@ -26,7 +26,7 @@ class SectionsController extends Controller
         $section_teachers = DB::table('sections')
             ->join('teachers', 'teachers.id', '=', 'adviser', 'left outer')
             ->join('users', 'users.id', '=', 'teachers.user_id', 'left outer')
-            ->select('sections.grade_level', 'sections.name', 'sections.adviser', 'users.givenName', 'users.lastName')
+            ->select('sections.id as sect_id','sections.grade_level', 'sections.name', 'sections.adviser', 'users.givenName', 'users.lastName')
             ->orderBy('grade_level')
             ->get()->paginate(10);
 
@@ -80,5 +80,68 @@ class SectionsController extends Controller
 
 
         return redirect()->back()->with("success","New Section Created!");
+    }
+    
+    public function edit ($id){
+
+        $section = Section::find($id);
+        $teachers = DB::table('users')
+            ->join('teachers', 'teachers.user_id', '=', 'users.id')
+            ->where('users.accountStatus', 'Active')
+            ->where('teachers.advisory', 0)
+            ->orWhere('teachers.id', $section->adviser)
+            ->select('teachers.id', 'users.givenName', 'users.lastName', 'users.middleName')
+            ->orderBy('lastName', 'ASC')
+            ->get();
+        if($section){
+            return response()->json([
+                'status' =>200,
+                'section' =>$section,
+                'teachers' => $teachers
+            ]);
+        }else{
+            return response()->json([
+                'status' =>404,
+                'message' =>"Section Not Found",
+            ]);
+        }
+    }
+
+    public function update(Request $request, $id){
+
+        //dd($request);
+        
+        $validator = Validator::make($request->all(), [
+            'name' => ['string', 'max:50'],
+            'grade_level' =>'',
+            'adviser' =>'',
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+            ]);
+        }else{
+            $section =\App\Models\Section::find($id);
+            if($section){
+                $section->name = $request->input('name');
+                $section->grade_level = $request->input('grade_level');
+                $section->adviser = $request->input('adviser');
+                $section->update();
+
+                return response()->json([
+                    'status' =>200,
+                    'message' => "Changes Saved Successfully!"
+                ]);
+            }else{
+                return response()->json([
+                    'status' =>404,
+                    'message' =>"Section Not Found",
+                ]);
+            }
+        }
+        //return redirect()->back()->with("success","Changes saved successfully");
     }
 }
