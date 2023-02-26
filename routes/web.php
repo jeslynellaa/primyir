@@ -37,12 +37,14 @@ use App\Mail\TemporaryCredentials;
 // });
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('/sf5', [App\Http\Controllers\FacultyController::class, 'generate_sf5'])->name('sf5_pdf');
 
 Auth::routes();
 
 Route::get('/admin', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin.index');
 Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])->name('faculty.index');
+Route::get('/student', [App\Http\Controllers\HomeController::class, 'student'])->name('student.index');
 
 Route::group(['middleware' => ['auth']], function() {
     /**
@@ -90,14 +92,16 @@ Route::patch('/admin/faculty/{teacher}', [FacultyController::class, 'update'])->
 Route::get('/admin/sections', [SectionsController::class, 'index'])->name('admin.sections.index');
 Route::get('/admin/sections/create', [SectionsController::class, 'create'])->name('admin.sections.create');
 Route::post('/admin/sections', [SectionsController::class, 'store'])->name('admin.sections.store');
-Route::patch('/admin/sections/{user}', [SectionsController::class, 'update'])->name('admin.sections.update');
+Route::get('/admin/sections/{section}/edit', [SectionsController::class, 'edit'])->name('admin.sections.edit');
+Route::put('/admin/sections/{section}', [SectionsController::class, 'update'])->name('admin.sections.update');
 
 // ======= Admin - SCHOOLYEAR ROUTES ===========
 Route::get('/admin/schoolyears', [SchoolyearsController::class, 'index'])->name('admin.schoolyears.index');
 Route::get('/admin/schoolyears/create', [SchoolyearsController::class, 'create'])->name('admin.schoolyears.create');
 Route::post('/admin/schoolyears', [SchoolyearsController::class, 'store'])->name('admin.schoolyears.store');
-Route::get('/admin/schoolyears/{user}/edit', [SchoolyearsController::class, 'edit'])->name('admin.schoolyears.edit');
-Route::put('/admin/schoolyears/{user}', [SchoolyearsController::class, 'update'])->name('admin.schoolyears.update');
+Route::get('/admin/schoolyears/{sy}/edit', [SchoolyearsController::class, 'edit'])->name('admin.schoolyears.edit');
+Route::put('/admin/schoolyears/{sy}', [SchoolyearsController::class, 'update'])->name('admin.schoolyears.update');
+Route::put('/admin/schoolyears/{sy}/set', [SchoolyearsController::class, 'update_current'])->name('admin.schoolyears.update_current');
 
 
 // ======= Admin - STUDENT ROUTES ===========
@@ -153,8 +157,15 @@ Route::patch('/admin/curriculum/{subject}', [SubjectsController::class, 'curricu
 Route::get('/admin/events', [EventsController::class, 'index'])->name('admin.events.index');
 Route::get('/admin/events/create', [EventsController::class, 'create'])->name('admin.events.create');
 Route::post('/admin/events', [EventsController::class, 'store'])->name('admin.events.store');
+Route::get('/admin/events/{event}/edit', [EventsController::class, 'edit'])->name('admin.events.edit');
+Route::put('/admin/events/{event}', [EventsController::class, 'update'])->name('admin.events.update');
+
+
 Route::get('/admin/articles/create', [EventsController::class, 'articles_create'])->name('admin.articles.create');
 Route::post('/admin/articles', [EventsController::class, 'articles_store'])->name('admin.articles.store');
+Route::get('/admin/articles/{article}/edit', [EventsController::class, 'articles_edit'])->name('admin.articles.edit');
+Route::put('/admin/articles/{article}', [EventsController::class, 'articles_update'])->name('admin.articles.update');
+
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
 // ======= Admin - REPORTS/ARTICLES ROUTES ===========
