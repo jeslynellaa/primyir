@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Mail;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use App\Mail\TemporaryCredentials;
 
 
 class StudentsController extends Controller
@@ -133,39 +134,39 @@ class StudentsController extends Controller
             'status' => $data['status']
         ]);
         
-        $mail = new PHPMailer(true);
-        try {
-           //Server settings
-           //$mail->SMTPDebug = 0;                      //Enable verbose debug output
-           $mail->isSMTP();                                            //Send using SMTP
-           $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-           $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-           $mail->Username   = 'sorsgonnationalhs.deped@gmail.com';                     //SMTP username
-           $mail->Password   = 'svptpowspubtxryv';                               //SMTP password
-           $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
-           $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set
+       $mail = new PHPMailer(true);
+       try {
+          //Server settings
+          // $mail->SMTPDebug = 3;                      //Enable verbose debug output
+          $mail->isSMTP();                                            //Send using SMTP
+          $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+          $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+          $mail->Username   = 'sorsogonnationalhs.deped@gmail.com';                     //SMTP username
+          $mail->Password   = 'gjmocqrhdbbtmzjx';                               //SMTP password
+          $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+          $mail->Port       = 587;                              //TCP port to connect to; use 587 if you have set
 
-           //Recipients
-            $mail->setFrom('sorsgonnationalhs.deped@gmail.com', "e-SKWELAHAN");
+          //Recipients
+           $mail->setFrom('sorsogonnationalhs.deped@gmail.com', "e-SKWELAHAN");
            $mail->addAddress($newUser->email);     //Add a recipient
-           //Content
+          //Content
            $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'Username and Temporary Password for your Account';
-            $mail->Body    = 'Good Day ' . $newUser->givenName . ',<br><br>' 
-            . 'Your temporary credentials are: ' .  '<br>' . '<ul>' 
-            . '<li>Your username: ' . $username . '</li>' . '<li>Your temporary password is: ' . $rand_password . '</li>' .'</ul>'
-            . 'Please use these credentials to log in to your account. We recommend that you change your password immediately after logging in.' . '<br><br>'
-            . 'Thank you,' . '<br><br>'
-            . 'e-SKWELAHAN Admin';
+           $mail->Subject = 'Username and Temporary Password for your Account';
+           $mail->Body    = 'Good Day ' . $newUser->givenName . ',<br><br>' 
+           . 'Your temporary credentials are: ' .  '<br>' . '<ul>' 
+           . '<li>Your username: ' . $username . '</li>' . '<li>Your temporary password is: ' . $rand_password . '</li>' .'</ul>'
+           . 'Please use these credentials to log in to your account. We recommend that you change your password immediately after logging in.' . '<br><br>'
+           . 'Thank you,' . '<br><br>'
+           . 'e-SKWELAHAN Admin';
 
-            $mail->send();
-                echo 'Message has been sent';
-            } catch (Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            }
-//            Mail::to($request->email)->send(new TemporaryCredentials($username, $rand_password, $user->givenName));
+           $mail->send();
+               echo "Message has been sent";
+           } catch (Exception $e) {
+               echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+           }
+//    Mail::to($newUser->email)->send(new TemporaryCredentials($username, $rand_password, $newUser->givenName));
 
-            return redirect()->back()->with("success","New Student Account Created Successfully!");
+              return redirect()->back()->with("success","New Student Account Created Successfully!");
 }
 
     public function edit(User $user, $id)
@@ -225,28 +226,28 @@ class StudentsController extends Controller
             ]);
         }else{
             $user_data = request()->validate([
-                'givenName' => ['string', 'max:255'],
-                'middleName' => ['max:255'],
-                'lastName' => ['string', 'max:255'],
-                'birthdate' => [''],
-                'contactNum' => ['nullable', 'digits:11'],
-                'sex' => ['required'],
-                'email' => ['string', 'email', 'max:255', 'unique:users'],
-                'username' => ['max:255', 'unique:users'],
+            'givenName' => ['string', 'max:255'],
+            'middleName' => ['max:255'],
+            'lastName' => ['string', 'max:255'],
+            'birthdate' => [''],
+            'contactNum' => ['nullable', 'digits:11'],
+            'sex' => ['required'],
+            'email' => ['string', 'email', 'max:255', 'unique:users'],
+            'username' => ['max:255', 'unique:users'],
                 'accountStatus' => ['required']
-            ]);
-        }
+        ]);
+    }
 
         if(strcmp($student->LRN_no, $request->LRN_no) == 0){
             $student_data = request()->validate([
                 'LRN_no' => '',
                 'religion' => 'string'
-            ]);
+        ]);
         }else{
             $student_data = request()->validate([
                 'LRN_no' => ['digits:12', 'required', 'unique:students'],
                 'religion' => 'string'
-            ]);
+        ]);
         }
         //$userid = $id;
         //$student = Auth::user();
@@ -426,64 +427,64 @@ class StudentsController extends Controller
 
     public function enroll_edit($id){
 
-        $studentSY = StudentSchoolyear::find($id);
+    $studentSY = StudentSchoolyear::find($id);
 
-        $sections = Section::all();
-        $schoolyears = Schoolyear::all();
-        $grade= $studentSY->section->grade_level;
+    $sections = Section::all();
+    $schoolyears = Schoolyear::all();
+    $grade= $studentSY->section->grade_level;
+    if($studentSY){
+        return response()->json([
+            'status' =>200,
+            'studentSY' => $studentSY,
+            'sections' => $sections,
+            'schoolyears' => $schoolyears,
+            'grade' => $grade
+        ]);
+    }else{
+        return response()->json([
+            'status' =>404,
+            'message' =>"Subject Class Not Found",
+        ]);
+    }
+}
+
+public function enroll_update(Request $request, $id){
+
+    //dd($request);
+    
+    $validator = Validator::make($request->all(), [
+        'section_id' => '',
+        'schoolyear_id' =>'',
+        'status' =>'string',
+    ]);
+
+    if($validator->fails())
+    {
+        return response()->json([
+            'status' => 400,
+            'errors' => $validator->messages(),
+        ]);
+    }else{
+        $studentSY =\App\Models\StudentSchoolyear::find($id);
         if($studentSY){
+            $studentSY->section_id = $request->input('section_id');
+            $studentSY->schoolyear_id = $request->input('schoolyear_id');
+            $studentSY->status = $request->input('status');
+            $studentSY->update();
+
             return response()->json([
                 'status' =>200,
-                'studentSY' => $studentSY,
-                'sections' => $sections,
-                'schoolyears' => $schoolyears,
-                'grade' => $grade
+                'message' => "Changes Saved Successfully!"
             ]);
         }else{
             return response()->json([
                 'status' =>404,
-                'message' =>"Subject Class Not Found",
+                'message' =>"Student Enrollment Record Not Found",
             ]);
         }
     }
-
-    public function enroll_update(Request $request, $id){
-
-        //dd($request);
-        
-        $validator = Validator::make($request->all(), [
-            'section_id' => '',
-            'schoolyear_id' =>'',
-            'status' =>'string',
-        ]);
-
-        if($validator->fails())
-        {
-            return response()->json([
-                'status' => 400,
-                'errors' => $validator->messages(),
-            ]);
-        }else{
-            $studentSY =\App\Models\StudentSchoolyear::find($id);
-            if($studentSY){
-                $studentSY->section_id = $request->input('section_id');
-                $studentSY->schoolyear_id = $request->input('schoolyear_id');
-                $studentSY->status = $request->input('status');
-                $studentSY->update();
-
-                return response()->json([
-                    'status' =>200,
-                    'message' => "Changes Saved Successfully!"
-                ]);
-            }else{
-                return response()->json([
-                    'status' =>404,
-                    'message' =>"Student Enrollment Record Not Found",
-                ]);
-            }
-        }
-        //return redirect()->back()->with("success","Changes saved successfully");
-    }
+    //return redirect()->back()->with("success","Changes saved successfully");
+}
 
     public function getSections(Request $request){
         $sections = DB::table('sections')
