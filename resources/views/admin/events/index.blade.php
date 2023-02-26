@@ -32,23 +32,24 @@
                                 <td>{{ $event->content }}</td>
                                 <td>{{ $event->event_date }}</td>
                                 <td>{{ $event->date_posted }}</td>
-                                <td><a href="">View</a></td>
+                                <td>
+                                    <a href="/admin/events/{{$event->id}}" class="viewbtn">
+                                        &nbsp;<i class="fa-solid fa-eye"></i>&nbsp;
+                                    </a>
+                                    <a href="/admin/events/{{$event->id}}/edit" class="editbtn">
+                                        &nbsp;<i class="fa-solid fa-pen-to-square"></i></i>&nbsp;
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </form>
         </div>
-            <span>
-                {{$events->links()}}
-            </span>
-            <style>
-                .w-5{
-                display: none;
-            }
-            </style>
+        <span>
+            {{$events->links()}}
+        </span>
     </div>
-
     <div class="lists_wrap">
 
         <div class="well">
@@ -70,7 +71,7 @@
                             <th> Author</th>
                             <th> Category</th>
                             <th> Date Posted</th>
-                            <th> Options</th>
+                            <th> View & Edit</th>
                         </tr>	
                     </thead>
                     <tbody>
@@ -82,20 +83,25 @@
                                 <td>{{ $article->author }}</td>
                                 <td>{{ $article->category }}</td>
                                 <td>{{ $article->date_posted }}</td>
-                                <td><a href="">View</a></td>
+                                <td>
+                                    <a href="/admin/articles/{{$article->id}}/edit" class="viewbtn">
+                                        &nbsp;<i class="fa-solid fa-eye"></i>&nbsp;
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </form>
         </div>
-            <span>
-                {{$articles->links()}}
-            </span>
-            <style>
-                .w-5{
-                display: none;
-            }
-            </style>
+
+        <span>
+            {{$articles->links()}}
+        </span>
+        <style>
+            .w-5{
+            display: none;
+        }
+        </style>
     </div>
 @endsection
