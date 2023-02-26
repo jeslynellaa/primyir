@@ -48,7 +48,7 @@
                     <div class="numbers">
                         {{$class_count}}
                     </div>
-                    <div class="cardName">Class</div>
+                    <div class="cardName">Section</div>
                 </div>
 
                 <div class="iconBx">

@@ -54,7 +54,7 @@
                         <div class="form_item">
                             <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Curriculum Description') }}</label>
                             <div class="col-md-6">
-                                <textarea style="padding:10px; font: 16px;" id="description" class="wow form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" autocomplete="description" rows="4" cols="100"></textarea>
+                                <textarea style="padding:10px; font: 20px;" id="description" class="wow form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" autocomplete="description" rows="4" cols="100"></textarea>
                                 @error('description')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

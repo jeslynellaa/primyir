@@ -53,7 +53,7 @@
                                 <td>{{ $subject->grade_level }}</td>
                                 <td>{{ $subject->curriculum }}</td>
                                 <td>
-                                <a href="/admin/subjects/{{$subject->id}}" class="viewbtn">&nbsp;<i class="fa-solid fa-eye"></i>&nbsp;</a>
+                                    <a href="/admin/subjects/{{$subject->id}}" class="viewbtn">&nbsp;<i class="fa-solid fa-eye"></i>&nbsp;</a>
                                     <button type="button" class="edit_subject editbtn btn" value="{{$subject->id}}">
                                         &nbsp;<i class="fa-solid fa-pen-to-square"></i></i>&nbsp;
                                     </button>

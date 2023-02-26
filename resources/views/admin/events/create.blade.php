@@ -51,8 +51,8 @@
                                 <select name="category" class="form-control wow" id="category">
                                     <option selected disabled>-- Select Category --</option>
                                     <option value='Students'> Students </option>
-                                    <option value='Teachers'> Teachers </option>
-                                    <option value='School'> School </option>
+                                    <option value='Faculty'> Faculty </option>
+                                    <option value='Institution'> Institution </option>
                                     <option value='Holidays'> Holidays </option>
                                 </select>
                                 </div>
@@ -63,7 +63,8 @@
                             <div class="form_item">
                                 <label for="content" class="col-md-4 col-form-label text-md-end">{{ __('Content') }}</label>
                                 <div class="col-md-6">
-                                    <input id="content" type="text" class="wow form-control @error('content') is-invalid @enderror" name="content" value="{{ old('content') }}" required autocomplete="content" placeholder="Enter Content" autofocus>
+                                    <textarea style="padding:10px; font: 20px;" id="content" class="wow form-control @error('content') is-invalid @enderror" name="content" value="{{ old('content') }}" required autocomplete="content">
+                                    </textarea>
 
                                     @error('content')
                                         <span class="invalid-feedback" role="alert">
@@ -93,5 +94,14 @@
             </div>
         </div>
     </div>
+    <style>
+        textarea {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+            width: 100%;
+        }
+    </style>
 @endsection
 
