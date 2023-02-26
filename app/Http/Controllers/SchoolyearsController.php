@@ -64,6 +64,7 @@ class SchoolyearsController extends Controller
         $schoolyear->date_end = $date_end;
         $schoolyear->year_start = $year_start;
         $schoolyear->year_end = $year_end;
+        $schoolyear->isCurrent = false;
 
         $schoolyear->save();
     }
@@ -121,6 +122,30 @@ class SchoolyearsController extends Controller
                     'message' =>"School Year Not Found",
                 ]);
             }
+        }
+    }
+
+    public function update_current(Request $request, $id){
+
+        $schoolyear =\App\Models\Schoolyear::find($id);
+        $all_sy = Schoolyear::all();
+        if($schoolyear){
+            foreach($all_sy as $sy){
+                $sy->isCurrent = false;
+                $sy->update();
+            }
+            $schoolyear->isCurrent = true;
+            $schoolyear->update();
+
+            return response()->json([
+                'status' =>200,
+                'message' => "Successfully set this school year as current!"
+            ]);
+        }else{
+            return response()->json([
+                'status' =>404,
+                'message' =>"School Year Not Found",
+            ]);
         }
     }
 }
