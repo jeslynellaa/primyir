@@ -50,6 +50,11 @@ class HomeController extends Controller
         return redirect()->route($route_name);
     }
 
+    public function index()
+    {
+        return redirect()->route('home');
+    }
+
     public function admin()
     {
         $student_count = DB::table('users')
@@ -167,5 +172,10 @@ class HomeController extends Controller
     public function faculty()
     {
         return view('faculty.index');
+    }
+
+    public function student()
+    {
+        return view('students.index');
     }
 }
