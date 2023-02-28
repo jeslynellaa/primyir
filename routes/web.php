@@ -164,6 +164,8 @@ Route::post('/admin/reports/sf1', [ReportsController::class, 'sf1_store'])->name
 Route::get('/admin/reports/sf2', [ReportsController::class, 'sf2'])->name('admin.reports.sf2');
 Route::get('/admin/reports/sf6', [ReportsController::class, 'sf6'])->name('admin.reports.sf6');
 Route::get('/admin/reports/sf8', [ReportsController::class, 'sf8'])->name('admin.reports.sf8');
+Route::get('/admin/reports/sf8/create', [ReportsController::class, 'sf8_create'])->name('admin.reports.sf8_create');
+Route::post('/admin/reports/sf8/create', [ReportsController::class, 'sf8_store'])->name('admin.reports.sf8_create');
 
 
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');

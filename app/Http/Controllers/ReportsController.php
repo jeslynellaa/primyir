@@ -111,6 +111,80 @@ class ReportsController extends Controller
         return view('admin.reports.sf8');
     }
 
+    public function sf8_create(){
+        return view('admin.reports.sf8_create');
+    }
+    public function sf8_store(Request $request)
+    {
+        // validate the input data
+        $validated = $request->validate([
+            'age' => 'required|integer|min:1',
+            'weight' => 'required|numeric|min:1',
+            'height' => 'required|numeric|min:0.5|max:3',
+        ]);
+
+        // calculate BMI and BMI category
+        $height_squared = $validated['height'] ** 2;
+        $bmi = $validated['weight'] / $height_squared;
+
+        if ($bmi < 16) {
+            $bmi_category = "Severely Wasted";
+        } else if ($bmi >= 16 && $bmi < 18.5) {
+            $bmi_category = "Wasted";
+        } else if ($bmi >= 18.5 && $bmi <= 24.9) {
+            $bmi_category = "Normal";
+        } else if ($bmi >= 25 && $bmi <= 29.9) {
+            $bmi_category = "Overweight";
+        } else {
+            $bmi_category = "Obese";
+        }
+
+        // calculate height-for-age based on WHO guidelines for children 5-19 years old
+        $age_in_months = $validated['age'] * 12;
+        $z_score = $this->calculateHeightForAgeZScore($validated['height'], $validated['age'], 'male');
+        if ($z_score < -3) {
+            $height_for_age = "Severely Stunted";
+        } else if ($z_score < -2) {
+            $height_for_age = "Stunted";
+        } else if ($z_score < 2) {
+            $height_for_age = "Normal";
+        } else {
+            $height_for_age = "Tall";
+        }
+
+        // create and save the DepedForm instance to the database
+        $form = new DepedForm;
+        $form->age = $validated['age'];
+        $form->weight = $validated['weight'];
+        $form->height = $validated['height'];
+        $form->height_squared = $height_squared;
+        $form->bmi = $bmi;
+        $form->bmi_category = $bmi_category;
+        $form->height_for_age = $height_for_age;
+        $form->remarks = $request->input('remarks', '');
+        $form->save();
+
+        return redirect()->back()->with('success', 'Form submitted successfully!');
+    }
+
+    private function calculateHeightForAgeZScore($height, $age, $gender)
+    {
+        // calculate L, M, S parameters for WHO height-for-age tables
+        $tables = json_decode(file_get_contents(storage_path('app/who_height_for_age.json')), true);
+        $table = $tables[$gender];
+        $months = $age * 12;
+
+        $l = $table[$months]['l'];
+        $m = $table[$months]['m'];
+        $s = $table[$months]['s'];
+
+        // calculate z-score using WHO formula
+        $x = $height / $m;
+        $z = ((($x ** $l) - 1) / ($l * $s));
+
+        return $z;
+    }
+
     public function getStudents(Request $request){
         $students = DB::table('student_schoolyears')
             ->where('section_id', $request->section)
@@ -120,4 +194,3 @@ class ReportsController extends Controller
         }
     }
 }
-
