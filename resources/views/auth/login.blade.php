@@ -52,43 +52,23 @@
 
                         <div class="actual-form">
                             <div class="input-wrap">
-                                <!--input
-                                    type="text"
-                                    name="username"
-                                    minlength="1"
-                                    class="input-field"
-                                    autocomplete="off"
-                                />
-                                <label>Username</label-->
-                                
-                            
                                 <input 
-                                id="email" 
-                                type="email" 
-                                class="input-field form-control @error('email') is-invalid @enderror" 
-                                name="email" value="{{ old('email') }}" 
+                                id="username" 
+                                type="username" 
+                                class="input-field form-control @error('username') is-invalid @enderror" 
+                                name="username" value="{{ old('username') }}" 
                                 required 
                                 autocomplete="off">
 
-                                @error('email')
+                                @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <label for="email">Email</label>
+                                <label for="username">Username or Email</label>
                             </div>
 
                             <div class="input-wrap">
-                                <!--input
-                                    type="password"
-                                    name="password"
-                                    minlength="1"
-                                    class="input-field"
-                                    autocomplete="off"
-                                />
-                                <label>Password</label-->
-                                
-                                
                                 <input 
                                 id="password" 
                                 type="password" 
@@ -122,63 +102,6 @@
                             </p>
                         </div> <!--END OF ACTUAL FORM -->
 				    </form>
-
-                    <!-- =========== SIGN-UP FORM ============== -->
-					<form action="" method="POST" autocomplete="off" class="sign-up-form">
-						<div class="logo">
-							<img src="/png/login/logo.png" alt="easyclass" />
-						</div>
-
-						<div class="heading">
-							<h2>Get Started</h2>
-							<h6>Already have an account?</h6>
-							<a href="#" class="toggle">Sign in</a>
-						</div>
-
-						<div class="actual-form">
-							<div class="input-wrap">
-								<input
-									type="text"
-									name="username"
-									minlength="1"
-									class="input-field"
-									autocomplete="off"
-									required
-								/>
-								<label>Username</label>
-							</div>
-
-							<div class="input-wrap">
-								<input
-									type="email"
-									class="input-field"
-									autocomplete="off"
-									required
-								/>
-								<label>Email</label>
-							</div>
-
-							<div class="input-wrap">
-								<input
-									type="password"
-									name="password"
-									minlength="1"
-									class="input-field"
-									autocomplete="off"
-									required
-								/>
-								<label>Password</label>
-							</div>
-
-							<input type="submit" name="submit" value="Sign Up" class="sign-btn" />
-
-							<p class="text">
-								By signing up, I agree to the
-								<a href="#">Terms of Services</a> and
-								<a href="#">Privacy Policy</a>
-							</p>
-						</div> <!-- End of actual form -->
-					</form>
                     
 				</div> <!-- End of forms wrap div -->
 
