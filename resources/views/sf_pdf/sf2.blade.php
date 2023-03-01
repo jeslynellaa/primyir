@@ -448,31 +448,31 @@ $(document).ready(function(){
             <div class="codes">
                 <p><b>1. CODES FOR CHECKING ATTENDANCE</b></p>
                 <p>(blank) - Present; (x)- Absent; Tardy (half shaded= Upper for Late Commer, Lower for Cutting Classes)</p>
-                <p><b>2. </b></p>
-                <p><b>a. </b></p>
-                <p>a.1.</p>
-                <p>a.2.</p>
-                <p>a.3.</p>
-                <p>a.4.</p>
-                <p><b>b. </b></p>
-                <p>b.1.</p>
-                <p>b.2.</p>
-                <p>b.3.</p>
-                <p>b.4.</p>
-                <p>b.5.</p>
-                <p>b.6.</p>
-                <p>b.7.</p>
-                <p><b>c. </b></p>
-                <p>c.1.</p>
-                <p>c.2.</p>
-                <p>c.3.</p>
-                <p><b>d. </b></p>
-                <p>d.1.</p>
-                <p>d.2.</p>
-                <p>d.3.</p>
-                <p><b>e. </b></p>
-                <p>e.1.</p>
-                <p><b>f. </b></p>
+                <p><b>2.REASONS/CAUSES FOR DROPPING</b></p>
+                <p><b>a.Domestic-Related Factors </b></p>
+                <p>a.1. Had to take care of siblings</p>
+                <p>a.2. Early marriage/pregnancy</p>
+                <p>a.3. Parent's attitude toward schooling</p>
+                <p>a.4. Family problems</p>
+                <p><b>b. Individual Related Factors</b></p>
+                <p>b.1. Illness </p>
+                <p>b.2. Overage</p>
+                <p>b.3. Death</p>
+                <p>b.4. Drug Abuse</p>
+                <p>b.5. Poor Academic performance</p>
+                <p>b.6. Lack of Interest/Distractions</p>
+                <p>b.7. Hunger/Malnutrition</p>
+                <p><b>c. School-Related Factors</b></p>
+                <p>c.1. Teacher Factor</p>
+                <p>c.2. Physical condition of classroom</p>
+                <p>c.3. Peer influence </p>
+                <p><b>d. Geographic/Environmental</b></p>
+                <p>d.1. Distance between home and school</p>
+                <p>d.2. Armed conflict (incl. Tribal wars & clanfeuds)</p>
+                <p>d.3. Calamities/Disasters </p>
+                <p><b>e. Financial-Related</b></p>
+                <p>e.1. Child labor, work </p>
+                <p><b>f. Others(Specify) </b></p>
             </div>
 
             <div class="summary">
