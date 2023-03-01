@@ -118,6 +118,9 @@ Route::get('/admin/students/{student}/view/{syid}', [StudentsController::class, 
 
 Route::get('/admin/students/{student}/view/{syid}/add', [StudentsController::class, 'enroll_add'])->name('admin.students.enroll.add');
 Route::post('/admin/students/{student}/view/{syid}', [StudentsController::class, 'enroll_store'])->name('admin.students.enroll.store');
+
+Route::delete('/admin/students/{student}/view/{syid}/destroy', [StudentsController::class, 'destroy'])->name('admin.students.subclass.destroy');
+
 Route::get('/admin/students/view/{syid}/edit', [StudentsController::class, 'enroll_edit'])->name('admin.students.enroll_edit');
 Route::put('/admin/students/view/{syid}', [StudentsController::class, 'enroll_update'])->name('admin.students.enroll_update');
 
@@ -168,12 +171,22 @@ Route::put('/admin/articles/{article}', [EventsController::class, 'articles_upda
 
 // Route::patch('/sections/{user}', [SectionsController::class, 'update'])->name('sections.update');
 
-// ======= Admin - REPORTS/ARTICLES ROUTES ===========
+// ======= Admin - REPORTS ===========
 Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports.index');
 Route::get('/admin/reports/create', [ReportsController::class, 'create'])->name('admin.reports.create');
+
 Route::get('/admin/reports/sf1', [ReportsController::class, 'sf1'])->name('admin.reports.sf1');
-Route::get('/admin/reports/sf1/create', [ReportsController::class, 'sf1_create'])->name('admin.reports.sf1_create');
+Route::get('/admin/reports/sf1/create-update/{studentsy}', [ReportsController::class, 'sf1_create'])->name('admin.reports.sf1_create');
 Route::post('/admin/reports/sf1', [ReportsController::class, 'sf1_store'])->name('admin.reports.sf1_store');
+Route::patch('/admin/reports/sf1/{id}', [ReportsController::class, 'sf1_update'])->name('admin.reports.sf1_update');
+Route::get('/admin/reports/sf1/{sy}/{section}', [ReportsController::class, 'sf1_show'])->name('admin.reports.sf1_show');
+
+
+
+Route::get('/admin/reports/sf1/{sy}/{section}/generate', [App\Http\Controllers\ReportsController::class, 'generate_sf1'])->name('sf1_pdf');
+Route::get('/sf2', [App\Http\Controllers\ReportsController::class, 'generate_sf2'])->name('sf2_pdf');
+Route::get('/sf4', [App\Http\Controllers\ReportsController::class, 'generate_sf4'])->name('sf4_pdf');
+
 Route::get('/admin/reports/sf2', [ReportsController::class, 'sf2'])->name('admin.reports.sf2');
 Route::get('/admin/reports/sf6', [ReportsController::class, 'sf6'])->name('admin.reports.sf6');
 Route::get('/admin/reports/sf8', [ReportsController::class, 'sf8'])->name('admin.reports.sf8');
@@ -191,10 +204,6 @@ Route::get('/grades', [App\Http\Controllers\StudentsController::class, 'viewGrad
 Route::get('/grades', [App\Http\Controllers\StudentsController::class, 'viewGrades'])->name('grades');
 
 
-
-Route::get('/sf1', [App\Http\Controllers\FacultyController::class, 'generate_sf1'])->name('sf1_pdf');
-Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
-Route::get('/sf4', [App\Http\Controllers\FacultyController::class, 'generate_sf4'])->name('sf4_pdf');
 
 
 
