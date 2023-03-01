@@ -35,7 +35,9 @@ class StudentsController extends Controller
 
     public function index()
     {
-
+        // $currentSY = Schoolyear::where('isCurrent', true)->first();
+        // dd($currentSY);
+        
         $student_users = DB::table('users')
             ->join('students', 'students.user_id', '=', 'users.id')
             ->where('users.owner_type', 'S')
@@ -54,23 +56,29 @@ class StudentsController extends Controller
             ->select('id', 'name')
             ->orderBy('name', 'ASC')
             ->get();
-        
+        $schoolyears = DB::table('schoolyears')
+            ->orderBy('year_start', 'DESC')
+            ->get();
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
+        //dd($currentSY);
         //dd($curricula);
-        return view('admin.students.create', compact('curricula'));
+        return view('admin.students.create', compact('curricula', 'schoolyears', 'currentSY'));
     }
 
     
 
     public function store(Request $request, User $user)
     {
+        dd($request->all());
         $this->authorize('create', $user);
+        //dd($request->all());
 
         $data = request()->validate([
             'givenName' => ['required', 'string', 'max:255'],
             'middleName' => ['max:255'],
             'lastName' => ['required', 'string', 'max:255'],
             'birthdate' => ['required'],
-            'contactNum' => ['digits:11'],
+            //'contactNum' => ['digits:11'],
             'sex' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'accountStatus' => ['required'],
@@ -82,6 +90,17 @@ class StudentsController extends Controller
             'religion' => 'string',
             'status' => 'string'
         ]);
+
+        if(is_null($request->input('contactNum'))){
+            $data2 = request()->validate([
+                'contactNum' => ''
+            ]);
+        }else{
+            $data2 = request()->validate([
+                'contactNum' => ['digits:11']
+            ]);
+            
+        }
 
         function randomPassword() {
             $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
@@ -102,19 +121,35 @@ class StudentsController extends Controller
         //dd($username);
         $rand_password = randomPassword();
         //dd($rand_password);
-        $newUser = \App\Models\User::create([
-            'givenName' => $data['givenName'],
-            'middleName' => $data['middleName'],
-            'lastName' => $data['lastName'],
-            'birthdate' => $data['birthdate'],
-            'contactNum' => $data['contactNum'],
-            'sex' => $data['sex'],
-            'email' => $data['email'],
-            'username' => $username,
-            'password' => Hash::make($rand_password),
-            'accountStatus' => $data['accountStatus'],
-            'owner_type' => $data['owner_type']
-        ]);
+
+        if(isset($request->contactNum)){
+            $newUser = \App\Models\User::create([
+                'givenName' => $data['givenName'],
+                'middleName' => $data['middleName'],
+                'lastName' => $data['lastName'],
+                'birthdate' => $data['birthdate'],
+                'contactNum' => $data2['contactNum'],
+                'sex' => $data['sex'],
+                'email' => $data['email'],
+                'username' => $username,
+                'password' => Hash::make($rand_password),
+                'accountStatus' => $data['accountStatus'],
+                'owner_type' => $data['owner_type']
+            ]);
+        }else{
+            $newUser = \App\Models\User::create([
+                'givenName' => $data['givenName'],
+                'middleName' => $data['middleName'],
+                'lastName' => $data['lastName'],
+                'birthdate' => $data['birthdate'],
+                'sex' => $data['sex'],
+                'email' => $data['email'],
+                'username' => $username,
+                'password' => Hash::make($rand_password),
+                'accountStatus' => $data['accountStatus'],
+                'owner_type' => $data['owner_type']
+            ]);
+        }
 
         $userid = $newUser->id;
 
@@ -145,26 +180,32 @@ class StudentsController extends Controller
           $mail->Password   = 'gjmocqrhdbbtmzjx';                               //SMTP password
           $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
           $mail->Port       = 587;                              //TCP port to connect to; use 587 if you have set
+          $mail->SMTPOptions = array(
+            'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+            )
+        );
 
           //Recipients
-           $mail->setFrom('sorsogonnationalhs.deped@gmail.com', "e-SKWELAHAN");
-           $mail->addAddress($newUser->email);     //Add a recipient
-          //Content
-           $mail->isHTML(true);                                  //Set email format to HTML
-           $mail->Subject = 'Username and Temporary Password for your Account';
-           $mail->Body    = 'Good Day ' . $newUser->givenName . ',<br><br>' 
-           . 'Your temporary credentials are: ' .  '<br>' . '<ul>' 
-           . '<li>Your username: ' . $username . '</li>' . '<li>Your temporary password is: ' . $rand_password . '</li>' .'</ul>'
-           . 'Please use these credentials to log in to your account. We recommend that you change your password immediately after logging in.' . '<br><br>'
-           . 'Thank you,' . '<br><br>'
-           . 'e-SKWELAHAN Admin';
+          $mail->setFrom('sorsogonnationalhs.deped@gmail.com', "e-SKWELAHAN");
+          $mail->addAddress($newUser->email);     //Add a recipient
+         //Content
+          $mail->isHTML(true);                                  //Set email format to HTML
+          $mail->Subject = "User's Portal Log-in Credentials";
+          $mail->Body    = '<b>Pagbati, ' . $newUser->givenName . '</b>:<br><br>' 
+          . 'You may now access the Primyir Portal by going to https://primyir-eskwelahan.online/ and entering the following credentials: ' .  '<br>' . '<ul>' 
+          . '<li><b>Username:</b> ' . $username . '</li>' . '<li><b>Email:</b> ' . $newUser->email . '</li>' . '<li><b>Temporary password:</b> ' . $rand_password . '</li>' .'</ul>'
+          . 'Be sure to immediately change your password after signing in. If you are having trouble signing in with your account, please visit the administration office. Thank you and God bless!' . '<br><br>'
+          . 'Sama-sama nating iangat ang Edukalidad na Edukasyon.';
 
            $mail->send();
                echo "Message has been sent";
            } catch (Exception $e) {
                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
            }
-//    Mail::to($newUser->email)->send(new TemporaryCredentials($username, $rand_password, $newUser->givenName));
+            //    Mail::to($newUser->email)->send(new TemporaryCredentials($username, $rand_password, $newUser->givenName));
 
               return redirect()->back()->with("success","New Student Account Created Successfully!");
 }
@@ -345,10 +386,12 @@ class StudentsController extends Controller
         // ->get();
 
         $grades = Student::join('student_subj_classes','students.id','student_subj_classes.student_id')
-                            ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
-                            ->where('student_subj_classes.student_schoolyear_id', $syid)
-                            // ->where('id', $stud_id)
-                            ->get();
+            ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
+            ->join('subject_classes', 'student_subj_classes.subject_class_id', 'subject_classes.id')
+            ->join('subjects', 'subject_classes.subject_id', 'subjects.id')
+            ->where('student_subj_classes.student_schoolyear_id', $syid)
+            // ->where('id', $stud_id)
+            ->get();
         // dd($grades);
         return view('admin.students.view-record', compact('student_model', 'schoolyear', 'grades'));
     }
@@ -372,7 +415,8 @@ class StudentsController extends Controller
         ->where('student_subj_classes.student_id', $stud_id)
         ->join('subject_classes', 'subject_classes.id', '=', 'student_subj_classes.subject_class_id')
         ->join('subjects', 'subject_classes.subject_id', '=', 'subjects.id')
-        ->select('subjects.name as subject', 'subject_classes.id as subclass_id')
+        ->join('sections', 'sections.id', '=', 'subject_classes.section_id')
+        ->select('student_subj_classes.id as stud_subj_id','subjects.name as subject', 'subject_classes.id as subclass_id', 'sections.name', 'sections.grade_level')
         ->get();
         //dd($assigned_subs);
 
@@ -411,21 +455,20 @@ class StudentsController extends Controller
                 'student_subj_class_id' => $newStudentSubjClass->id
             ]);
         }
-            // $newStudentSubClass = \App\Models\StudentSubjClass::create([
-            //     'student_id' => $data['student'],
-            //     'subject_class_id' => $data['subjects[$key]'],
-            //     'student_schoolyear_id' => $data['student_sy'],
-            // ]);
-        
-        // 
-
-        // $newStudentSY = \App\Models\StudentSchoolyear::create([
-        //     'student_id' => $data['student_id'],
-        //     'schoolyear_id' => $data['schoolyear'],
-        //     'section_id' => $data['section'],
-        //     'status' => $data['status']
-        // ]);
         return redirect()->back()->with("success","Subjects Added Successfully!");
+    }
+
+    public function destroy(User $user, Request $request) {
+        //dd($request->all());
+        foreach ($request->assigned as $key => $value) {
+            $student_subj_class = StudentSubjClass::find($value);
+            $student_subj_grade = $student_subj_class->StudentSubjGrade;
+            $student_subj_grade->delete();
+            $student_subj_class->delete();
+        }
+        // echo "Record deleted successfully.<br/>";
+        // echo '<a href = "/delete-records">Click Here</a> to go back.';
+        return redirect()->back()->with("success","Successfully unenrolled in selected subjects");
     }
 
     public function enroll_edit($id){
@@ -510,7 +553,7 @@ public function enroll_update(Request $request, $id){
     }
 
     public function viewGrades(){
-    return view('student.gradeProfile.index');
+        return view('student.gradeProfile.index');
     }
 
 

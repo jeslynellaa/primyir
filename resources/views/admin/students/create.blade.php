@@ -138,6 +138,27 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form_wrap fullname">
+                            <div class="form_item">
+                                <label for="status" class="col-md-4 col-form-label text-md-end">Student's Status</label>
+                                <select name="status" class="form-control wow" id="status">
+                                    <option disabled>-- Select status --</option>
+                                    <option value="New" selected>New</option>
+                                    <option value="Continuing">Continuing</option>
+                                    <option value="Transferee">Transferee</option>
+                                </select>
+                            </div>
+
+                            <div class="form_item">
+                                <label for="schoolyear_id" class="col-md-4 col-form-label text-md-end">School Year</label>
+                                <select name="schoolyear_id" class="form-control wow" id="schoolyear_id">
+                                    <option selected disabled>-- Select School Year --</option>
+                                    @foreach ($schoolyears as $schoolyear)
+                                        <option value="{{ $schoolyear->id }}" @if($schoolyear->id ==$currentSY->id) echo selected @endif> {{ $schoolyear->year_start}} - {{ $schoolyear->year_end}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form_wrap select_box">
                             <div class="form_item">
@@ -175,41 +196,31 @@
                             </div>
 
                             <div class="form_item">
-                                <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="wow form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                                <label for="accountStatus" class="col-md-4 col-form-label text-md-end">Account Status</label>
+                                <select name="accountStatus" class="form-control wow" id="accountStatus">
+                                    <option selected disabled>-- Select Account Status --</option>
+                                    <option value='Active' selected>Active </option>
+                                    <option value='Inactive'> Inactive</option>
+                                </select>
                             </div>
                         </div>
-                        
                         <div class="form_item">
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+
                             <div class="col-md-6">
-                                <input hidden id="accountStatus" type="text" class="wow form-control @error('accountStatus') is-invalid @enderror" name="accountStatus" value="Active" required autocomplete="accountStatus" autofocus>
+                                <input id="email" type="email" class="wow form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="form_item">
                             <div class="col-md-6">
                                 <input hidden id="owner_type" type="text" class="wow form-control @error('owner_type') is-invalid @enderror" name="owner_type" value="S" required autocomplete="owner_type" autofocus>
-                            </div>
-                        </div>
-
-                        <div class="form_item">
-                            <div class="col-md-6">
-                                <input hidden id="status" type="text" class="wow form-control @error('status') is-invalid @enderror" name="status" value="New" required autocomplete="status" autofocus>
-                            </div>
-                        </div>
-
-                        <div class="form_item">
-                            <div class="col-md-6">
-                                <input hidden id="schoolyear_id" type="text" class="wow form-control @error('schoolyear_id') is-invalid @enderror" name="schoolyear_id" value=10103 required autocomplete="schoolyear_id" autofocus>
                             </div>
                         </div>
 
