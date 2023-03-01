@@ -37,6 +37,7 @@ use App\Mail\TemporaryCredentials;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('/sf5', [App\Http\Controllers\FacultyController::class, 'generate_sf5'])->name('sf5_pdf');
+Route::get('/sf9', [App\Http\Controllers\FacultyController::class, 'generate_sf9'])->name('sf9_pdf');
 
 Auth::routes();
 
