@@ -8,7 +8,7 @@
 
                 <div class="functions_wrap">
                     <a class="list_function" style="margin:5px;" href="/admin/students/{{$student_model->id}}">Back to Student Record</a>
-                    <a class="list_function" style="margin:5px;" href="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}/add">Enroll Subjects</a>
+                    <a class="list_function" style="margin:5px;" href="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}/add">Manage Subjects</a>
                 </div>
             </div>
             
@@ -32,24 +32,24 @@
                         </tr>	
                     </thead>
                     @forelse($grades as $grade)
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td>{{$grade->student_subj_class_id}}</td>
-                        <td>{{$grade->first_grading}}</td>
-                        <td>{{$grade->second_grading}}</td>
-                        <td>{{$grade->third_grading}}</td>
-                        <td>{{$grade->fourth_grading}}</td>
-                        <td>{{$grade->gen_ave}}</td>
-                        <td>{{$grade->remarks}}</td>
-                    </tr>
-                    </tbody>
+                        <tbody>
+                            <tr>
+                                <td>{{ $loop->index + 1}}</td>
+                                <td>{{$grade->name}}</td>
+                                <td>{{$grade->first_grading}}</td>
+                                <td>{{$grade->second_grading}}</td>
+                                <td>{{$grade->third_grading}}</td>
+                                <td>{{$grade->fourth_grading}}</td>
+                                <td>{{$grade->gen_ave}}</td>
+                                <td>{{$grade->remarks}}</td>
+                            </tr>
+                        </tbody>
                     @empty
-                    <tbody>
-                    <tr>
-                        <td>No Data</td>
-                    </tr>
-                    </tbody>
+                        <tbody>
+                            <tr>
+                                <td>No Data</td>
+                            </tr>
+                        </tbody>
                     @endforelse
                 </table>
             </form>

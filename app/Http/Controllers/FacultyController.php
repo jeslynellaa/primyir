@@ -98,7 +98,7 @@ class FacultyController extends Controller
             ->join('sections', 'sections.id', '=', 'subject_classes.section_id')
             ->where('teachers.id', $id)
             ->select('subjects.name as subject', 'sections.grade_level as grade', 'sections.name as section')
-            ->get()->paginate(5);
+            ->get();
 
         $address = DB::table('addresses')
         ->join('users', 'addresses.user_id', '=', 'users.id')

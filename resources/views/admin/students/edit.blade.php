@@ -160,8 +160,8 @@
                                 <div class="col-md-6">
                                     <label for="accountStatus" class="col-md-4 col-form-label text-md-end">Account Status</label>
                                     <select name="accountStatus" class="form-control wow" id="accountStatus">
-                                        <option value="Active" @if($student->user->accountStatus =='Active') echo checked @endif>Active</option>
-                                        <option value="Inactive" @if($student->user->accountStatus =='Inactive') echo checked @endif>Inactive</option>
+                                        <option value="Active" @if($student->user->accountStatus =='Active') echo selected @endif>Active</option>
+                                        <option value="Inactive" @if($student->user->accountStatus =='Inactive') echo selected @endif>Inactive</option>
                                     </select>
                                 </div>
                             </div>
