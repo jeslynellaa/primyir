@@ -128,8 +128,27 @@ class SectionsController extends Controller
             if($section){
                 $section->name = $request->input('name');
                 $section->grade_level = $request->input('grade_level');
+
+                if(isset($section->adviser)){
+                    if($section->adviser != $request->adviser){
+                        $old_adviser = Teacher::where('id', '=', $section->adviser);
+                        $old_adviser->update([
+                            'advisory' => 0
+                        ]);
+                        
+                        $new_adviser = Teacher::where('id', '=', $request->adviser);
+                        $new_adviser->update([
+                            'advisory' => 1
+                        ]);
+                    }
+                }
+                else{
+                    $assign_teach = Teacher::where('id', '=', $request->adviser)->first();
+                    $assign_teach->advisory = 1;
+                    $assign_teach->save();
+                }
                 $section->adviser = $request->input('adviser');
-                $section->update();
+                $section->save();
 
                 return response()->json([
                     'status' =>200,
