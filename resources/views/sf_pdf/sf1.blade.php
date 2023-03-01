@@ -152,11 +152,11 @@ $(document).ready(function(){
                         <div class="school-id">
                             <span class="bold">School ID:</span>
                             <span>00111</span>
-                            <span>Region V</span>
+                            <span>Region V (BICOL REGION)</span>
                         </div>
                         <div class="school-name">
                             <span class="bold">School Name:</span>
-                            <span>Sorsogon NHS</span>
+                            <span>Sorsogon National High School</span>
                         </div>
                     </div>
                     <div class="sub-info">
@@ -172,15 +172,15 @@ $(document).ready(function(){
                     <div class="sub-info">
                         <div class="School Year">
                             <span class="bold">School Year:</span>
-                            <span>2022-2023</span>
+                            <span>{{$schoolyear->year_start}}-{{$schoolyear->year_end}}</span>
                         </div>
                         <div class="Grade Level">
                             <span class="bold">Grade Level:</span>
-                            <span>SHS</span>
+                            <span>{{$section->grade_level}}</span>
                         </div>
                         <div class="Section">
                             <span class="bold">Section:</span>
-                            <span>Section</span>
+                            <span>{{$section->name}}</span>
                         </div>
                     </div>
                 </div>
@@ -218,7 +218,12 @@ $(document).ready(function(){
                     <th>{{$record->Student->LRN_no}}</th>
                     <th>{{$record->Student->user->lastName}}, {{$record->Student->user->givenName}} {{$record->Student->user->middleName}}</th>
                     <th>{{$record->Student->user->sex}}</th>
-                    <th>{{$record->Student->user->birthdate}}</th>
+                    <th>
+                        <?php
+                            $date=date_create($record->Student->user->birthdate);
+                            echo date_format($date,"m/d/Y");
+                        ?>
+                    </th>
                     <th>{{$record->age}}</th>
                     <th>{{$record->mother_tongue}}</th>
                     <th>{{$record->IP_ethnicGroup}}</th>
