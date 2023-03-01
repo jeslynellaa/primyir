@@ -46,21 +46,21 @@
                             </th>
                             <th>Gen. Average</th>
                             <th>Remarks</th>
-                            <th>Options</th>
+                            <th>SY</th>
                         </tr>	
                     </thead>
                     <tbody>
-                        @foreach ($student_grades as $student )
+                        @foreach ($students as $student )
                             <tr>
                                 <td>{{ $loop->index + 1}}</td>
-                                <td>{{ $student->lastname }}, {{ $student->givenname }} {{ $student->middlename }}</td>
-                                <td>{{ $student->first_grading ?? "-"}}</td>
-                                <td>{{ $student->second_grading ?? "-"}}</td>
-                                <td>{{ $student->third_grading ?? "-"}}</td>
-                                <td>{{ $student->fourth_grading ?? "-"}}</td>
-                                <td>{{ $student->gen_ave ?? "-"}}</td>
-                                <td>{{ $student->remarks ?? "-" }}</td>
-                                <td><a href="#">View</a></td>
+                                <td>{{ $student->Student->User->lastName }}, {{ $student->Student->User->givenName }} {{ $student->Student->User->middleName }}</td>
+                                <td>{{ $student->StudentSubjGrade->first_grading ?? "-"}}</td>
+                                <td>{{ $student->StudentSubjGrade->second_grading ?? "-"}}</td>
+                                <td>{{ $student->StudentSubjGrade->third_grading ?? "-"}}</td>
+                                <td>{{ $student->StudentSubjGrade->fourth_grading ?? "-"}}</td>
+                                <td>{{ $student->StudentSubjGrade->gen_ave ?? "-"}}</td>
+                                <td>{{ $student->StudentSubjGrade->remarks ?? "-" }}</td>
+                                <td>{{ $student->StudentSchoolyear->Schoolyear->year_start }}-{{ $student->StudentSchoolyear->Schoolyear->year_end }}</td>
                             </tr>
                         @endforeach
                     </tbody>

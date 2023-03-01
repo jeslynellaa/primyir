@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Section;
+use App\Models\Schoolyear;
 use App\Models\SubjectClass;
 use App\Models\StudentSubjClass;
 use App\Models\StudentSubjGrade;
@@ -33,7 +34,7 @@ class GradesController extends Controller
             ->join('sections', 'sections.id', '=', 'subject_classes.section_id')
             ->select('subject_classes.id as subclass_id', 'subject_classes.teacher_id','subjects.name as subject', 'sections.name as section', 'sections.grade_level as grade')
             ->orderBy('grade')
-            ->get()->paginate(5);
+            ->get();
         //dd($subject_classes);
 
         return view ('faculty.grades.index', compact('subject_classes'));
@@ -42,8 +43,13 @@ class GradesController extends Controller
     public function show(User $user, $id)
     {
         //dd($id);
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
         $subject_class = \App\Models\SubjectClass::find($id);
-        $students = \App\Models\StudentSubjClass::where('subject_class_id', $id)->get();
+        //$students = \App\Models\StudentSubjClass::where('subject_class_id', $id)->get();
+        $students = StudentSubjClass::where([
+            'subject_class_id' => $id,
+            'student_schoolyear_id' => $currentSY->id
+        ])->get();
         $faculty = Auth::user();
         //dd( $students);
         // Joining sections, teachers, and users into section_teachers for displaying in sections table
@@ -60,6 +66,7 @@ class GradesController extends Controller
 
     public function edit(Request $request, User $user, $id, $grading)
     {
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
         //dd($grading);
         $subject_class = \App\Models\SubjectClass::find($id);
         $grading = $grading;
@@ -73,6 +80,11 @@ class GradesController extends Controller
                     ->where('subject_class_id', $id)
                     ->select('users.lastname', 'users.givenname','users.middlename', 'student_subj_grades.first_grading as grades', 'student_subj_grades.id as id')
                     ->get();
+                    $students = StudentSubjClass::where([
+                        'subject_class_id' => $id,
+                        'student_schoolyear_id' => $currentSY->id
+                    ])->get();
+                    
               break;
             case 2:
                 $student_grades = DB::table('student_subj_classes')
@@ -101,7 +113,7 @@ class GradesController extends Controller
                 ->select('users.lastname', 'users.givenname','users.middlename', 'student_subj_grades.fourth_grading as grades', 'student_subj_grades.id as id')
                 ->get(); 
         }
-        return view('faculty.grades.edit', compact('subject_class','grading', 'student_grades'));
+        return view('faculty.grades.edit', compact('subject_class','grading', 'students'));
     }
 
 

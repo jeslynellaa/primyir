@@ -40,11 +40,11 @@
                                         </tr>	
                                     </thead>
                                     <tbody>
-                                        @foreach ( $student_grades as $student )
+                                        @foreach ( $students as $student )
                                             <tr>
                                                 <td>{{ $loop->index + 1}}</td>
                                                 <td>
-                                                    {{ $student->lastname }}, {{ $student->givenname }} {{ $student->middlename }}
+                                                    {{ $student->User->lastname }}, {{ $student->User->givenname }} {{ $student->User->middlename }}
                                                     <div class="form_item">
                                                         <div class="col-md-6">
                                                             <input hidden id="student_subgrades[]" type="text" class="wow form-control @error('student_subgrades') is-invalid @enderror" name="student_subgrades[]" value="{{$student->id}}" required>
