@@ -39,6 +39,7 @@ use App\Mail\TemporaryCredentials;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('/sf5', [App\Http\Controllers\FacultyController::class, 'generate_sf5'])->name('sf5_pdf');
+Route::get('/sf9', [App\Http\Controllers\FacultyController::class, 'generate_sf9'])->name('sf9_pdf');
 
 Auth::routes();
 
@@ -190,6 +191,8 @@ Route::get('/sf4', [App\Http\Controllers\ReportsController::class, 'generate_sf4
 Route::get('/admin/reports/sf2', [ReportsController::class, 'sf2'])->name('admin.reports.sf2');
 Route::get('/admin/reports/sf6', [ReportsController::class, 'sf6'])->name('admin.reports.sf6');
 Route::get('/admin/reports/sf8', [ReportsController::class, 'sf8'])->name('admin.reports.sf8');
+Route::get('/admin/reports/sf8/create', [ReportsController::class, 'sf8_create'])->name('admin.reports.sf8_create');
+Route::post('/admin/reports/sf8/create', [ReportsController::class, 'sf8_store'])->name('admin.reports.sf8_create');
 
 
 Route::post('/admin/reports', [ReportsController::class, 'store'])->name('admin.reports.store');
