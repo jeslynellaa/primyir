@@ -473,64 +473,64 @@ class StudentsController extends Controller
 
     public function enroll_edit($id){
 
-    $studentSY = StudentSchoolyear::find($id);
+        $studentSY = StudentSchoolyear::find($id);
 
-    $sections = Section::all();
-    $schoolyears = Schoolyear::all();
-    $grade= $studentSY->section->grade_level;
-    if($studentSY){
-        return response()->json([
-            'status' =>200,
-            'studentSY' => $studentSY,
-            'sections' => $sections,
-            'schoolyears' => $schoolyears,
-            'grade' => $grade
-        ]);
-    }else{
-        return response()->json([
-            'status' =>404,
-            'message' =>"Subject Class Not Found",
-        ]);
-    }
-}
-
-public function enroll_update(Request $request, $id){
-
-    //dd($request);
-    
-    $validator = Validator::make($request->all(), [
-        'section_id' => '',
-        'schoolyear_id' =>'',
-        'status' =>'string',
-    ]);
-
-    if($validator->fails())
-    {
-        return response()->json([
-            'status' => 400,
-            'errors' => $validator->messages(),
-        ]);
-    }else{
-        $studentSY =\App\Models\StudentSchoolyear::find($id);
+        $sections = Section::all();
+        $schoolyears = Schoolyear::all();
+        $grade= $studentSY->section->grade_level;
         if($studentSY){
-            $studentSY->section_id = $request->input('section_id');
-            $studentSY->schoolyear_id = $request->input('schoolyear_id');
-            $studentSY->status = $request->input('status');
-            $studentSY->update();
-
             return response()->json([
                 'status' =>200,
-                'message' => "Changes Saved Successfully!"
+                'studentSY' => $studentSY,
+                'sections' => $sections,
+                'schoolyears' => $schoolyears,
+                'grade' => $grade
             ]);
         }else{
             return response()->json([
                 'status' =>404,
-                'message' =>"Student Enrollment Record Not Found",
+                'message' =>"Subject Class Not Found",
             ]);
         }
     }
-    //return redirect()->back()->with("success","Changes saved successfully");
-}
+
+    public function enroll_update(Request $request, $id){
+
+        //dd($request);
+        
+        $validator = Validator::make($request->all(), [
+            'section_id' => '',
+            'schoolyear_id' =>'',
+            'status' =>'string',
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+            ]);
+        }else{
+            $studentSY =\App\Models\StudentSchoolyear::find($id);
+            if($studentSY){
+                $studentSY->section_id = $request->input('section_id');
+                $studentSY->schoolyear_id = $request->input('schoolyear_id');
+                $studentSY->status = $request->input('status');
+                $studentSY->update();
+
+                return response()->json([
+                    'status' =>200,
+                    'message' => "Changes Saved Successfully!"
+                ]);
+            }else{
+                return response()->json([
+                    'status' =>404,
+                    'message' =>"Student Enrollment Record Not Found",
+                ]);
+            }
+        }
+        //return redirect()->back()->with("success","Changes saved successfully");
+    }
 
     public function getSections(Request $request){
         $sections = DB::table('sections')
@@ -555,6 +555,5 @@ public function enroll_update(Request $request, $id){
     public function viewGrades(){
         return view('student.gradeProfile.index');
     }
-
 
 }
