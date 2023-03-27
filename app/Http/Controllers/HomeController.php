@@ -87,6 +87,7 @@ class HomeController extends Controller
         $record2 = DB::table('students')
             ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
             ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
+            ->join('users', 'user_id', 'users.id')
             ->select(DB::raw('count(*) as user_count, grade_level'))
             ->groupBy('grade_level')
             ->where('student_schoolyears.schoolyear_id', '=', 10103)
@@ -95,6 +96,7 @@ class HomeController extends Controller
         $record3 = DB::table('students')
             ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
             ->join('schoolyears', 'student_schoolyears.schoolyear_id', '=', 'schoolyears.id')
+            ->join('users', 'user_id', 'users.id')
             ->select(DB::raw('count(*) as user_count, schoolyear_id, year_start, year_end'))
             ->groupBy('schoolyear_id', 'year_start', 'year_end')
             ->get();
