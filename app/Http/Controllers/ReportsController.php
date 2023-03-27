@@ -10,6 +10,7 @@ use App\Models\Section;
 use App\Models\Schoolyear;
 use App\Models\StudentSchoolyear;
 use App\Models\StudentRegister;
+use App\Models\StudentHealth;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +27,9 @@ class ReportsController extends Controller
         return view ('admin.reports.index');
     }
 
-    public function sf1(){
+// ===================== SF 1 FUNCTIONS ========================================
+    public function sf1(User $user){
+        $this->authorize('create', $user);
         $currentSY = Schoolyear::where('isCurrent', true)->first();
         //dd($currentSY);
 
@@ -211,36 +214,232 @@ class ReportsController extends Controller
         //dd($records);
         return view('sf_pdf.sf1', compact('schoolyear','section','records'));
     }
-
-
-    public function sf2(){
-        return view('sf_pdf.sf2');
-    }
-
-    public function sf4(){
-        return view('sf_pdf.sf4');
+// ================================= END OF SF1 =====================================================
+    public function generate_sf9(){
+        return view('sf_pdf.sf9');
     }
     
     public function sf6(){
         return view('admin.reports.sf6');
     }
+    
+// ================================= SF5 FUNCTIONS =====================================================
+public function sf5(){
+    $currentSY = Schoolyear::where('isCurrent', true)->first();
 
+    $section_sy = DB::table('sections')
+    ->crossJoin('schoolyears')
+    ->orderBy('schoolyears.year_start', 'DESC')
+    ->orderBy('sections.grade_level', 'ASC')
+    ->select('schoolyears.id as sy', 'year_start', 'year_end', 'isCurrent',
+        'sections.id as section', 'name','grade_level', 'adviser')
+    ->get()->paginate(20);
+
+    return view('admin.reports.sf5.view', compact('section_sy'));
+}
+
+public function sf5_show(User $user, $sy, $section_id){
+    $schoolyear = Schoolyear::where('id','=', $sy)->first();
+    //dd($schoolyear);
+    $section = Section::where('id','=', $section_id)->first();
+    
+    $students = DB::table('student_schoolyears')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->join('sections', 'section_id', 'sections.id')
+        ->where('student_schoolyears.section_id', $section_id)
+        ->where('student_schoolyears.schoolyear_id', $sy)
+        ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*')
+        ->get();
+    //dd($students);
+
+    //dd($section_sy);
+    return view('admin.reports.sf5.show', compact('schoolyear','section','students'));
+}
+
+public function sf5_create(User $user, $studentsy){
+    $this->authorize('create', $user);
+    //dd($studentsy);
+
+    $studSY = StudentSchoolyear::where('id', $studentsy)->first();
+    //dd($studSY->StudentRegister);
+
+    $studentHealth = StudentHealth::where([
+        'student_id' => $studSY->student_id,
+        'schoolyear_id' => $studSY->schoolyear_id
+    ])->first();
+    //dd($studentReg);
+    $schoolyears = DB::table('schoolyears')
+        ->orderBy('year_start')
+        ->get();
+    
+    if(isset($studentHealth)){
+        return view('admin.reports.sf5.edit', compact('schoolyears', 'studSY', 'studentHealth'));
+    }else{
+        return view('admin.reports.sf5.create', compact('schoolyears', 'studSY'));
+    }
+}
+
+public function sf5_store(Request $request)
+{
+    // validate the input data
+    $validated = $request->validate([
+        'schoolyear' => ['required'],
+        'grade_lvl' => ['required'],
+        'section' => ['required'],
+        'student' => ['required'],
+        'age' => 'required|integer|min:1',
+        'weight' => 'required|numeric|min:1',
+        'height' => 'required|numeric|min:0.5|max:3',
+    ]);
+    //dd($request->all());
+
+    $new_sf8 = \App\Models\StudentHealth::create([
+        'student_id' => $validated['student'],
+        'section_id' => $validated['section'],
+        'age' => $validated['age'],
+        'weight' => $validated['weight'],
+        'height' => $validated['height'],
+        'height2' => $height_squared,
+        'bmi2' => $bmi,
+        'bmi_category' =>$bmi_category,
+        'hfa' => $height_for_age,
+        'remarks' => $request->input('remarks', ''),
+        'schoolyear_id' => $validated['schoolyear']
+    ]);
+
+    return redirect()->back()->with('success', 'SF8 Created Successfully!');
+}
+
+public function sf5_update(Request $request, User $user, $id)
+{
+    $studentHealth = StudentHealth::where('id', $id)->first();
+    //dd($studentReg);
+    // Validation of input
+    $data = request()->validate([
+        'schoolyear' => ['required'],
+        'grade_lvl' => ['required'],
+        'section' => ['required'],
+        'student' => ['required'],
+        'age' => 'required|integer|min:1',
+        'weight' => 'required|numeric|min:1',
+        'height' => 'required|numeric|min:0.5|max:3',
+        'bmi2' => 'required|numeric',
+        'height2' => 'required|numeric|min:0.5|max:3',
+    ]);
+    
+    $studentHealth->student_id = $data['student'];
+    $studentHealth->section_id = $data['section'];
+    $studentHealth->age = $data['age'];
+    $studentHealth->weight = $data['weight'];
+    $studentHealth->height = $data['height'];
+    $studentHealth->bmi2 = $data['bmi2'];
+    $studentHealth->height2 = $data['height2'];
+    $studentHealth->bmi_category = $bmi_category;
+    $studentHealth->hfa = $height_for_age;
+    $studentHealth->remarks = $request->input('remarks', '');
+    $studentHealth->save();
+
+    return redirect()->back()->with("success","Changes Saved Successfully!");
+}
+public function generate_sf5(User $user, $sy, $section_id){
+    $schoolyear = Schoolyear::where('id','=', $sy)->first();
+    //dd($schoolyear);
+    $section = Section::where('id','=', $section_id)->first();
+
+    $m_records = DB::table('student_healths')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->where('student_healths.section_id', $section_id)
+    ->where('student_healths.schoolyear_id', $sy)
+    ->where('users.sex', 'M')->get();
+    //dd($m_records);
+    $f_records = DB::table('student_healths')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->where('student_healths.section_id', $section_id)
+    ->where('student_healths.schoolyear_id', $sy)
+    ->where('users.sex', 'F')->get();
+    //dd($f_records);
+    return view('sf_pdf.sf5', compact('schoolyear','section','m_records', 'f_records'));
+}
+
+// ================================= END OF SF5 =====================================================
+
+// ================================= SF8 FUNCTIONS =====================================================
     public function sf8(){
-        return view('admin.reports.sf8');
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
+
+        $section_sy = DB::table('sections')
+        ->crossJoin('schoolyears')
+        ->orderBy('schoolyears.year_start', 'DESC')
+        ->orderBy('sections.grade_level', 'ASC')
+        ->select('schoolyears.id as sy', 'year_start', 'year_end', 'isCurrent',
+            'sections.id as section', 'name','grade_level', 'adviser')
+        ->get()->paginate(20);
+
+        return view('admin.reports.sf8.view', compact('section_sy'));
     }
 
-    public function sf8_create(){
-        return view('admin.reports.sf8_create');
+    public function sf8_show(User $user, $sy, $section_id){
+        $schoolyear = Schoolyear::where('id','=', $sy)->first();
+        //dd($schoolyear);
+        $section = Section::where('id','=', $section_id)->first();
+        
+        $students = DB::table('student_schoolyears')
+        ->join('students', 'student_id', 'students.id')
+        ->join('users', 'user_id', 'users.id')
+        ->join('sections', 'section_id', 'sections.id')
+            ->where('student_schoolyears.section_id', $section_id)
+            ->where('student_schoolyears.schoolyear_id', $sy)
+            ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*')
+            ->get();
+        //dd($students);
+
+        //dd($section_sy);
+        return view('admin.reports.sf8.show', compact('schoolyear','section','students'));
     }
+
+    public function sf8_create(User $user, $studentsy){
+        $this->authorize('create', $user);
+        //dd($studentsy);
+
+        $studSY = StudentSchoolyear::where('id', $studentsy)->first();
+        //dd($studSY->StudentRegister);
+
+        $studentHealth = StudentHealth::where([
+            'student_id' => $studSY->student_id,
+            'schoolyear_id' => $studSY->schoolyear_id
+        ])->first();
+        //dd($studentReg);
+        $schoolyears = DB::table('schoolyears')
+            ->orderBy('year_start')
+            ->get();
+        
+        if(isset($studentHealth)){
+            return view('admin.reports.sf8.edit', compact('schoolyears', 'studSY', 'studentHealth'));
+        }else{
+            return view('admin.reports.sf8.create', compact('schoolyears', 'studSY'));
+        }
+    }
+
     public function sf8_store(Request $request)
     {
         // validate the input data
         $validated = $request->validate([
+            'schoolyear' => ['required'],
+            'grade_lvl' => ['required'],
+            'section' => ['required'],
+            'student' => ['required'],
             'age' => 'required|integer|min:1',
             'weight' => 'required|numeric|min:1',
             'height' => 'required|numeric|min:0.5|max:3',
         ]);
+        //dd($request->all());
 
+        $age = $request->age;
+        $weight = $request->weight;
+        $height = $request->height;
         // calculate BMI and BMI category
         $height_squared = $validated['height'] ** 2;
         $bmi = $validated['weight'] / $height_squared;
@@ -257,51 +456,130 @@ class ReportsController extends Controller
             $bmi_category = "Obese";
         }
 
-        // calculate height-for-age based on WHO guidelines for children 5-19 years old
-        $age_in_months = $validated['age'] * 12;
-        $z_score = $this->calculateHeightForAgeZScore($validated['height'], $validated['age'], 'male');
-        if ($z_score < -3) {
-            $height_for_age = "Severely Stunted";
-        } else if ($z_score < -2) {
-            $height_for_age = "Stunted";
-        } else if ($z_score < 2) {
-            $height_for_age = "Normal";
-        } else {
-            $height_for_age = "Tall";
+        // calculate height-for-age based on WHO guidelines for children 5-19 years old// Data source: https://www.who.int/growthref/en/
+        if ($validated['age'] >= 5 && $validated['age'] <= 19) {
+            if ($validated['height'] < 1.00) {
+                $height_for_age = "Severely Stunted";
+            } else if ($validated['height'] >= 1.00 && $validated['height'] <= 1.15) {
+                $height_for_age = "Stunted";
+            } else if ($validated['height'] > 1.15 && $validated['height'] <= 1.30) {
+                $height_for_age = "Mildly Stunted";
+            } else if ($validated['height'] > 1.30 && $validated['height'] <= 1.45) {
+                $height_for_age = "Normal";
+            } else if ($validated['height'] > 1.45 && $validated['height'] <= 1.60) {
+                $height_for_age = "Mildly Tall";
+            } else if ($validated['height'] > 1.60 && $validated['height'] <= 1.75) {
+                $height_for_age = "Tall";
+            } else if ($validated['height'] > 1.75) {
+                $height_for_age = "Very Tall";
+            }
         }
 
-        // create and save the DepedForm instance to the database
-        $form = new DepedForm;
-        $form->age = $validated['age'];
-        $form->weight = $validated['weight'];
-        $form->height = $validated['height'];
-        $form->height_squared = $height_squared;
-        $form->bmi = $bmi;
-        $form->bmi_category = $bmi_category;
-        $form->height_for_age = $height_for_age;
-        $form->remarks = $request->input('remarks', '');
-        $form->save();
+        $new_sf8 = \App\Models\StudentHealth::create([
+            'student_id' => $validated['student'],
+            'section_id' => $validated['section'],
+            'age' => $validated['age'],
+            'weight' => $validated['weight'],
+            'height' => $validated['height'],
+            'height2' => $height_squared,
+            'bmi2' => $bmi,
+            'bmi_category' =>$bmi_category,
+            'hfa' => $height_for_age,
+            'remarks' => $request->input('remarks', ''),
+            'schoolyear_id' => $validated['schoolyear']
+        ]);
 
-        return redirect()->back()->with('success', 'Form submitted successfully!');
+        return redirect()->back()->with('success', 'SF8 Created Successfully!');
     }
 
-    private function calculateHeightForAgeZScore($height, $age, $gender)
+    public function sf8_update(Request $request, User $user, $id)
     {
-        // calculate L, M, S parameters for WHO height-for-age tables
-        $tables = json_decode(file_get_contents(storage_path('app/who_height_for_age.json')), true);
-        $table = $tables[$gender];
-        $months = $age * 12;
+        $studentHealth = StudentHealth::where('id', $id)->first();
+        //dd($studentReg);
+        // Validation of input
+        $data = request()->validate([
+            'schoolyear' => ['required'],
+            'grade_lvl' => ['required'],
+            'section' => ['required'],
+            'student' => ['required'],
+            'age' => 'required|integer|min:1',
+            'weight' => 'required|numeric|min:1',
+            'height' => 'required|numeric|min:0.5|max:3',
+            'bmi2' => 'required|numeric',
+            'height2' => 'required|numeric|min:0.5|max:3',
+        ]);
+        
+        // calculate BMI and BMI category
+        $height_squared = $data['height'] ** 2;
+        $bmi = $data['weight'] / $height_squared;
+        if ($bmi < 16) {
+            $bmi_category = "Severely Wasted";
+        } else if ($bmi >= 16 && $bmi < 18.5) {
+            $bmi_category = "Wasted";
+        } else if ($bmi >= 18.5 && $bmi <= 24.9) {
+            $bmi_category = "Normal";
+        } else if ($bmi >= 25 && $bmi <= 29.9) {
+            $bmi_category = "Overweight";
+        } else {
+            $bmi_category = "Obese";
+        }
 
-        $l = $table[$months]['l'];
-        $m = $table[$months]['m'];
-        $s = $table[$months]['s'];
+        // calculate height-for-age based on WHO guidelines for children 5-19 years old// Data source: https://www.who.int/growthref/en/
+        if ($data['age'] >= 5 && $data['age'] <= 19) {
+            if ($data['height'] < 1.00) {
+                $height_for_age = "Severely Stunted";
+            } else if ($data['height'] >= 1.00 && $data['height'] <= 1.15) {
+                $height_for_age = "Stunted";
+            } else if ($data['height'] > 1.15 && $data['height'] <= 1.30) {
+                $height_for_age = "Mildly Stunted";
+            } else if ($data['height'] > 1.30 && $data['height'] <= 1.45) {
+                $height_for_age = "Normal";
+            } else if ($data['height'] > 1.45 && $data['height'] <= 1.60) {
+                $height_for_age = "Mildly Tall";
+            } else if ($data['height'] > 1.60 && $data['height'] <= 1.75) {
+                $height_for_age = "Tall";
+            } else if ($data['height'] > 1.75) {
+                $height_for_age = "Very Tall";
+            }
+        }        
 
-        // calculate z-score using WHO formula
-        $x = $height / $m;
-        $z = ((($x ** $l) - 1) / ($l * $s));
+        $studentHealth->student_id = $data['student'];
+        $studentHealth->section_id = $data['section'];
+        $studentHealth->age = $data['age'];
+        $studentHealth->weight = $data['weight'];
+        $studentHealth->height = $data['height'];
+        $studentHealth->bmi2 = $data['bmi2'];
+        $studentHealth->height2 = $data['height2'];
+        $studentHealth->bmi_category = $bmi_category;
+        $studentHealth->hfa = $height_for_age;
+        $studentHealth->remarks = $request->input('remarks', '');
+        $studentHealth->save();
 
-        return $z;
+        return redirect()->back()->with("success","Changes Saved Successfully!");
     }
+    public function generate_sf8(User $user, $sy, $section_id){
+        $schoolyear = Schoolyear::where('id','=', $sy)->first();
+        //dd($schoolyear);
+        $section = Section::where('id','=', $section_id)->first();
+
+        $m_records = DB::table('student_healths')
+        ->join('students', 'student_id', 'students.id')
+        ->join('users', 'user_id', 'users.id')
+        ->where('student_healths.section_id', $section_id)
+        ->where('student_healths.schoolyear_id', $sy)
+        ->where('users.sex', 'M')->get();
+        //dd($m_records);
+        $f_records = DB::table('student_healths')
+        ->join('students', 'student_id', 'students.id')
+        ->join('users', 'user_id', 'users.id')
+        ->where('student_healths.section_id', $section_id)
+        ->where('student_healths.schoolyear_id', $sy)
+        ->where('users.sex', 'F')->get();
+        //dd($f_records);
+        return view('sf_pdf.sf8', compact('schoolyear','section','m_records', 'f_records'));
+    }
+    
+// ================================= END OF SF8 =====================================================
 
     public function getStudents(Request $request){
         $students = DB::table('student_schoolyears')
