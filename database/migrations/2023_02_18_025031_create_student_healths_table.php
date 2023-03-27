@@ -21,10 +21,10 @@ class CreateStudentHealthsTable extends Migration
             $table->unsignedBigInteger('schoolyear_id');
 
             $table->integer('age');
-            $table->integer('weight');
-            $table->integer('height');
-            $table->integer('height2');
-            $table->integer('bmi2');
+            $table->float('weight',3,2);
+            $table->float('height',3,2);
+            $table->float('height2',3,2);
+            $table->float('bmi2',3,2);
             $table->string('bmi_category');
             $table->string('hfa');
             $table->string('remarks', 1000)->nullable();
