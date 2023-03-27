@@ -27,6 +27,10 @@ class Student extends Model
         return $this->hasMany(StudentRegister::class);
     }
 
+    public function StudentData(){
+        return $this->hasOne(StudentData::class);
+    }
+
     public function Attendances(){
         return $this->hasMany(Attendance::class);
     }

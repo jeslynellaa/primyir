@@ -11,6 +11,10 @@ class Schoolyear extends Model
 
     protected $guarded =[];
 
+    public function Sections(){
+        return $this->hasMany(Section::class);
+    }
+
     public function Subjects(){
         return $this->hasMany(Subject::class);
     }

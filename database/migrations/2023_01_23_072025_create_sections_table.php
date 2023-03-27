@@ -18,9 +18,11 @@ class CreateSectionsTable extends Migration
             $table->integer('grade_level');
             $table->string('name', 30);
             $table->unsignedBigInteger('adviser')->nullable();
+            $table->unsignedBigInteger('schoolyear_id');
             $table->timestamps();
 
             $table->index('adviser');
+            $table->index('schoolyear_id');
         });
     }
 
