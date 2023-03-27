@@ -28,6 +28,16 @@ class ProfilesController extends Controller
     public function edit(User $user)
     {
         $this->authorize('update', $user);
+        $role = $user->owner_type;
+        if ($role == 'A'){
+            $roleName = 'admin';
+        }
+        else if ($role == 'T'){
+            $roleName = 'faculty';
+        }
+        else{
+            $roleName = 'student';
+        }
         $regions = $this->getRegions();
         
         $region_code = $user->Address->region ?? 5;
@@ -49,7 +59,7 @@ class ProfilesController extends Controller
             'user_region', 
             'user_province', 
             'user_city', 
-            'user_barangay']
+            'user_barangay', 'roleName']
         ));
     }
     

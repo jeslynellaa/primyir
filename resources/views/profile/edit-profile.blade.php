@@ -1,4 +1,4 @@
-@extends('layouts.admin-app')
+@extends('layouts.'.$roleName.'-app')
 
 @section('content')
     <div class='signup-container'>
