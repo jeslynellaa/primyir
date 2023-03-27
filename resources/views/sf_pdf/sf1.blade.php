@@ -195,11 +195,11 @@ $(document).ready(function(){
                 <th rowspan="2">Birtdate (mm/dd/yyyy)</th>
                 <th rowspan="2">AGE as of 1st Friday "June"</th>
                 <th rowspan="2">Mother Tongue</th>
-                <th rowspan="2">IP Ethnic Group)</th>
+                <th rowspan="2">IP (Ethnic Group)</th>
                 <th rowspan="2">Religion</th>
                 <th colspan="4">Address</th>
                 <th colspan="2">Parents</th>
-                <th colspan="2">Guardian(If not Parent</th>
+                <th colspan="2">Guardian(If not Parent)</th>
                 <th rowspan="2">Contact Number of Parent or Guardian</th>
                 <th colspan="1">Remarks</th>
             </tr>
