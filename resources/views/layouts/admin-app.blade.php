@@ -173,7 +173,7 @@
             </div>
 
             <div class="user">
-                <img src="/png/customer01.jpg" onclick="toggleMn()">
+                <img src="/png/user.png" onclick="toggleMn()">
             </div>
 
             @if(!Route::is('register'))
