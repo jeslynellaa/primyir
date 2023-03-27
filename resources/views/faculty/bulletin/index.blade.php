@@ -1,7 +1,78 @@
 @extends('layouts.faculty-app')
 
 @section('content')
+<?php
 
+//index.php
+$dbhost = "localhost";
+$dbuser = "root";
+$dbpass = "123456";
+$db = "eskwelahan2";
+
+$connect=mysqli_connect($dbhost, $dbuser, $dbpass, $db);
+function make_query($connect)
+{
+ $query = "SELECT * FROM `notices` ORDER BY RAND() LIMIT 5";
+ $result = mysqli_query($connect, $query);
+ return $result;
+}
+
+function make_slide_indicators($connect)
+{
+ $output = ''; 
+ $count = 0;
+ $result = make_query($connect);
+ while($row = mysqli_fetch_array($result))
+ {
+  if($count == 0)
+  {
+   $output .= '
+   <li data-target="#dynamic_slide_show" data-slide-to="'.$count.'" class="active"></li>
+   ';
+  }
+  else
+  {
+   $output .= '
+   <li data-target="#dynamic_slide_show" data-slide-to="'.$count.'"></li>
+   ';
+  }
+  $count = $count + 1;
+ }
+ return $output;
+}
+
+function make_slides($connect)
+{
+ $output = '';
+ $count = 0;
+ $result = make_query($connect);
+ while($row = mysqli_fetch_array($result))
+ {
+  if($count == 0)
+  {
+   $output .= '<div class="item active">';
+  }
+  else
+  {
+   $output .= '<div class="item">';
+  }
+  $output .= 
+  '
+  <div><img src="/png/'.$row["img"].'" title="<h3>'.$row["title"].'</h3>'.$row["small-content"].'"></div>
+</div>
+  ';
+  $count = $count + 1;
+ }
+ return $output;
+}
+?>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 
     <!-- ======= Styles ======-->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -11,7 +82,6 @@
     <!-- ======================= Header ================== -->
 
     <div class="bxslider">
-        <?php echo make_slides($connect); ?>
     </div>
 
     <!-- ======================= News Proper ================== -->
@@ -48,7 +118,7 @@
                     echo 
                     '<td>
                     <div class="news-card">
-                        <img src="../assets/imgs/'.$row["img"].'">       
+                        <img src="/png/'.$row["img"].'">       
                         <div class="news-info">
                             <div class = "news-tag">
                                 <a href="category.php?category='.$row["category"].'" class="categpage">'.$row["category"].'</a>
@@ -104,7 +174,7 @@
 
                             <div class="image-content">
                                 <div class="card-image">
-                                    <img src="../assets/imgs/'.$row["img"].'" alt="" class="card-img">
+                                    <img src="/png/'.$row["img"].'" alt="" class="card-img">
                                 </div>
                             </div>';
                         
