@@ -14,30 +14,6 @@
             </div>
         </a>
 
-        <a class="card" href="/admin/reports/sf2">
-            <div>
-                <div class="numbers">
-                    SF 2
-                </div>
-                <div class="cardName">Student Attendances</div>
-            </div>
-            <div class="iconBx">
-                    <i class="fa-solid fa-square-check icon-dash"></i>
-            </div>
-        </a>
-
-        <a class="card" href="/admin/reports/sf4">
-            <div>
-                <div class="numbers">
-                    SF 4
-                </div>
-                <div class="cardName">Monthly Learner's Movement and Attendance</div>
-            </div>
-            <div class="iconBx">
-                    <i class="fa-solid fa-folder icon-dash"></i>
-            </div>
-        </a>
-
         <a class="card" href="/admin/reports/sf5">
             <div>
                 <div class="numbers">
