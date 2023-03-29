@@ -19,6 +19,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\SchoolyearsController;
+use App\Http\Controllers\SearchController;
 use App\Mail\TemporaryCredentials;
 
 /*
@@ -52,7 +53,8 @@ Route::group(['middleware' => ['auth']], function() {
     * Logout Route
     */
     Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
- });
+});
+Route::get('/students/search', [App\Http\Controllers\StudentsController::class, 'student_search'])->name('student_search');
 
 // Route::get('/student', [App\Http\Controllers\HomeController::class, 'student'])->name('student.index');
 

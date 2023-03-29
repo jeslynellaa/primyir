@@ -556,5 +556,19 @@ public function enroll_update(Request $request, $id){
         return view('student.gradeProfile.index');
     }
 
+    public function student_search(Request $request){
+        $query = $request->input('query');
+        $student_users = DB::table('users')
+                    ->join('students', 'students.user_id', '=', 'users.id')
+                    ->where('givenName', 'LIKE', "%$query%")
+                    ->orWhere('middleName', 'LIKE', "%$query%")
+                    ->orWhere('lastName', 'LIKE', "%$query%")
+                    ->orWhere('LRN_no', 'LIKE', "%$query%")
+                    ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*')
+                    ->orderBy('lastName', 'ASC')
+                    ->get()
+                    ->paginate(10);
+        return view('admin.students.index', compact('student_users'));
+    }
 
 }
