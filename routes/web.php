@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
 });
 Route::get('/students/search', [App\Http\Controllers\StudentsController::class, 'student_search'])->name('student_search');
+Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'faculty_search'])->name('faculty_search');
 
 // Route::get('/student', [App\Http\Controllers\HomeController::class, 'student'])->name('student.index');
 
