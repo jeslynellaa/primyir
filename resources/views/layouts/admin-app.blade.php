@@ -9,7 +9,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>Primyir Online Portal</title>
+    <title>e-SKWELAHAN Online Portal</title>
     <!-- ======= add icon link ====== -->
     <link rel = "icon" href = "/png/snhs.png" type = "image/x-icon">
 
@@ -79,7 +79,7 @@
                                 <img src="/png/snhss.png" class="=logoo">
                             </div>
                         </span>
-                        <span class="title"><b>Primyir Online Portal</b></span>
+                        <span class="title"><b>e-SKWELAHAN</b></span>
                     </a>
                 </li>
 
