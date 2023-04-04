@@ -88,7 +88,7 @@
                         <span class="icon">
                             <i class="fa-solid fa-graduation-cap icon-nav"></i>
                         </span>
-                        <span class="title">Grades</span>
+                        <span class="title">Classes & Grades</span>
                     </a>
                 </li>
 
@@ -102,16 +102,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
-                        <span class="icon">
-                            <i class="fa-solid fa-chair icon-nav"></i>
-                        </span>
-                        <span class="title">Class</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
+                    <a href="/faculty/reports">
                         <span class="icon">
                             <i class="fa-solid fa-file icon-nav"></i>
                         </span>
