@@ -70,25 +70,33 @@ class ProfilesController extends Controller
         $this->authorize('update', $user);
         $regions = $this->getRegions();
         
-        if(strcmp($user->email, $request->email) == 0){
+        if(strcmp($user->email, $request->email) == 0 && strcmp($user->username, $request->username) == 0){
             $data = request()->validate([
-                'givenName' => '',
-                'lastName' => '',
                 'email' => '',
                 'contactNum' => ['digits:11'],
-                'birthdate' => ''
+                'username' => ''
             ]);
             if(strcmp($user->contactNum, $request->contactNum) == 0){
                 return redirect()->back()->with("error","No changes made.");
             }
         }
-        else{ 
+        else if(strcmp($user->email, $request->email) == 0){ 
             $data = request()->validate([
-                'givenName' => '',
-                'lastName' => '',
-                'email' => ['string', 'email', 'max:255', 'unique:users'],
+                'email' => '',
                 'contactNum' => ['digits:11'],
-                'birthdate' => ''
+                'username' => ['required', 'string', 'max:255', 'unique:users']
+            ]);
+        }else if(strcmp($user->username, $request->username) == 0){ 
+            $data = request()->validate([
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'contactNum' => ['digits:11'],
+                'username' => ''
+            ]);
+        }else{
+            $data = request()->validate([
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'contactNum' => ['digits:11'],
+                'username' => ['required', 'string', 'max:255', 'unique:users']
             ]);
         }
         $user = Auth::user();
