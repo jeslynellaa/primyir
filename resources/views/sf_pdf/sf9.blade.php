@@ -104,13 +104,13 @@ hr {
     text-align: center;
 }
 
-/* .quarter {
-    margin: 2rem;
-} */
+.quarter {
+    text-align: center;
+}
 
 .sub-quarter {
     display: flex;
-     margin: 1rem 0;
+    margin: 1rem 0;
 }
 
 .line{
@@ -262,20 +262,19 @@ $(document).ready(function(){
                             <h4 style="margin-left: 5rem;">DEPARTMENT OF EDUCATION</h4>
                         </div>
                         <div class="quarter">
-                            <div class="sub-quarter">
-                                <span>Region</span>
-                                <span class="line"></span>
+                            <div class="sub-quarter" style="align:center">
+                                <span style="margin-right:0.3rem">Region V </span>
                             </div>
-                            <div class="sub-quarter">
-                                <span>Division</span>
-                                <span class="line"></span>
+                            <div class="sub-quarter" style="align:center">
+                                <span style="margin-right:0.3rem">Division of </span>
+                                <span class="line"> </span>
                             </div>
-                            <div class="sub-quarter">
-                                <span>District</span>
+                            <div class="sub-quarter" style="align:center">
+                                <span style="margin-right:0.3rem">District</span>
                                 <span class="line"></span>
                             </div>  
-                            <div class="sub-quarter">
-                                <span>School</span>
+                            <div class="sub-quarter" style="align:center">
+                                <span style="margin-right:0.3rem">School</span>
                                 <span class="line"></span>
                             </div>                      
                         </div>
@@ -380,19 +379,17 @@ $(document).ready(function(){
                         <h4>REPORT ON LEARNING PROGRESS AND ACHIEVEMENT</h4>
                     </div>
                     <table style="width: 90%; margin: 2rem; padding: 2rem">
-                        <tr style="background-color: #f0f0f0">
-                            <th colspan = "1">Learning Areas</th>
+                        <tr style="background-color: #f0f0f0" style="align-items:center">
+                            <th rowspan = "2" >Learning Areas</th>
                             <th colspan = "4">Quarter</th>
-                            <th>Final Rating</th>
-                            <th>Remarks</th>
+                            <th rowspan = "2">Final<br> Rating</th>
+                            <th rowspan = "2">Remarks</th>
                         </tr>
-                        <tr>
-                            <th></th>
+                        <tr style="background-color: #f0f0f0">
                             <th>1</th>
                             <th>2</th>
                             <th>3</th>
                             <th>4</th>
-                            <th></th>
                         </tr>
                         <tr>
                             <th><span class="move">Filipino</span></th>
@@ -440,7 +437,7 @@ $(document).ready(function(){
                             <td></td>
                         </tr>
                         <tr>
-                            <th><span class="move">Edukasyon sa Pagpapakatao(EsP)</span></th>
+                            <th><span class="move">Edukasyon sa <br>Pagpapakatao(EsP)</span></th>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -449,7 +446,7 @@ $(document).ready(function(){
                             <td></td>
                         </tr>
                         <tr>
-                            <th><span class="move">Edukasyong Pantahanan at Pangkabuhayan(EPP)</span></th>
+                            <th><span class="move">Edukasyong Pantahanan at <br>Pangkabuhayan(EPP)</span></th>
                             <td></td>
                             <td></td>
                             <td></td>
