@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\StudentRegister;
+use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,10 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+ 
+        Gate::define('access-forms', function (User $user) {
+            return $user->owner_type != 'S';
+        });
 
         //
     }
