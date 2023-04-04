@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Section;
+use App\Models\Student;
+use App\Models\StudentSubjClass;
+use App\Models\StudentSubjGrade;
 use App\Models\Schoolyear;
+use App\Models\PromotionCandidate;
 use App\Models\StudentSchoolyear;
 use App\Models\StudentRegister;
 use App\Models\StudentHealth;
@@ -15,6 +20,7 @@ use App\Models\Teacher;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ReportsController extends Controller
 {
@@ -26,10 +32,20 @@ class ReportsController extends Controller
     public function index(){
         return view ('admin.reports.index');
     }
+    
+    public function faculty_index(User $user){
+        $teacher = Auth::user()->Teacher;
+        $advisory = $teacher->Section;
+        //dd($advisory);
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
+
+        return view ('faculty.reports.index', compact('advisory', 'currentSY'));
+    }
 
 // ===================== SF 1 FUNCTIONS ========================================
     public function sf1(User $user){
-        $this->authorize('create', $user);
+        Gate::authorize('access-forms', $user);
+
         $currentSY = Schoolyear::where('isCurrent', true)->first();
         //dd($currentSY);
 
@@ -46,17 +62,25 @@ class ReportsController extends Controller
     }
 
     public function sf1_create(User $user, $studentsy){
-        $this->authorize('create', $user);
+        Gate::authorize('access-forms', $user);
         //dd($studentsy);
 
+        if (Auth::user()->owner_type == 'A'){
+            $roleName = 'admin';
+        }
+        else if (Auth::user()->owner_type == 'T'){
+            $roleName = 'faculty';
+        }
+
         $studSY = StudentSchoolyear::where('id', $studentsy)->first();
+        $student = Student::where('id', $studSY->student_id)->first();
         //dd($studSY->StudentRegister);
 
         $studentReg = StudentRegister::where([
             'student_id' => $studSY->student_id,
             'schoolyear_id' => $studSY->schoolyear_id
         ])->first();
-        //dd($studentReg);
+        //dd($studentReg->StudentData);
         $schoolyears = DB::table('schoolyears')
             ->orderBy('year_start')
             ->get();
@@ -72,9 +96,9 @@ class ReportsController extends Controller
         //dd($schoolyears);
         
         if(isset($studentReg)){
-            return view('admin.reports.sf1.edit', compact('schoolyears', 'studSY', 'studentReg'));
+            return view('admin.reports.sf1.edit', compact('roleName', 'schoolyears', 'studSY', 'student', 'studentReg'));
         }else{
-            return view('admin.reports.sf1.create', compact('schoolyears', 'studSY'));
+            return view('admin.reports.sf1.create', compact('roleName', 'schoolyears', 'studSY'));
         }
     }
 
@@ -103,12 +127,10 @@ class ReportsController extends Controller
             'remarks' => '',
         ]);        
 
-
-        $new_sf1 = \App\Models\StudentRegister::create([
+        $new_studentData = \App\Models\StudentData::create([
             'student_id' => $data['student'],
-            'section_id' => $data['section'],
-            'age' => $data['age'],
             'mother_tongue' => $data['mother_tongue'],
+            'IP_ethnicGroup' => $data['IP_ethnicGroup'],
             'father_givenName' => $data['father_givenName'],
             'father_middleName' => $data['father_middleName'],
             'father_lastName' => $data['father_lastName'],
@@ -119,7 +141,13 @@ class ReportsController extends Controller
             'guardian_middleName' => $data['guardian_middleName'],
             'guardian_lastName' => $data['guardian_lastName'],
             'guardian_relationship' => $data['guardian_relationship'],
-            'parent_guardian_contactNo' => $data['contact'],
+            'parent_guardian_contactNo' => $data['contact']
+        ]);
+
+        $new_sf1 = \App\Models\StudentRegister::create([
+            'student_id' => $data['student'],
+            'section_id' => $data['section'],
+            'age' => $data['age'],
             'remarks' => $data['remarks'],
             'schoolyear_id' => $data['schoolyear'],
         ]);
@@ -177,32 +205,48 @@ class ReportsController extends Controller
     }
 
     public function sf1_show(User $user, $sy, $section_id){
+        Gate::authorize('access-forms', $user);
+        
         $schoolyear = Schoolyear::where('id','=', $sy)->first();
         //dd($schoolyear);
         $section = Section::where('id','=', $section_id)->first();
         //dd($section);
         
-        // $students = \App\Models\StudentSchoolyear::where([
-        //     'section_id' => $section_id,
-        //     'schoolyear_id' => $sy
-        // ])->get();
-        
-        $students = DB::table('student_schoolyears')
-        ->join('students', 'student_id', 'students.id')
-        ->join('users', 'user_id', 'users.id')
-        ->join('sections', 'section_id', 'sections.id')
-            ->where('student_schoolyears.section_id', $section_id)
-            ->where('student_schoolyears.schoolyear_id', $sy)
-            ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*')
-            ->get();
-        //dd($students);
+        if(Route::is('admin.reports.sf1_show')){
+            $students = DB::table('student_schoolyears')
+            ->join('students', 'student_id', 'students.id')
+            ->join('users', 'user_id', 'users.id')
+            ->join('sections', 'section_id', 'sections.id')
+                ->where('student_schoolyears.section_id', $section_id)
+                ->where('student_schoolyears.schoolyear_id', $sy)
+                ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*')
+                ->get();
+            //dd($students);
 
-        //dd($section_sy);
-        return view('admin.reports.sf1.show', compact('schoolyear','section','students'));
+            //dd($section_sy);
+            return view('admin.reports.sf1.show', compact('schoolyear','section','students'));
+        }
+
+        if(Route::is('faculty.reports.sf1_show')){
+            $students = DB::table('student_schoolyears')
+            ->join('students', 'student_id', 'students.id')
+            ->join('users', 'user_id', 'users.id')
+            ->join('sections', 'section_id', 'sections.id')
+                ->where('student_schoolyears.section_id', $section_id)
+                ->where('student_schoolyears.schoolyear_id', $sy)
+                ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*')
+                ->get();
+            //dd($students);
+
+            //dd($section_sy);
+            return view('faculty.reports.sf1.show', compact('schoolyear','section','students'));
+        }
     }
 
     
     public function generate_sf1(User $user, $sy, $section_id){
+        Gate::authorize('access-forms', $user);
+        
         $schoolyear = Schoolyear::where('id','=', $sy)->first();
         //dd($schoolyear);
         $section = Section::where('id','=', $section_id)->first();
@@ -215,13 +259,6 @@ class ReportsController extends Controller
         return view('sf_pdf.sf1', compact('schoolyear','section','records'));
     }
 // ================================= END OF SF1 =====================================================
-    public function generate_sf9(){
-        return view('sf_pdf.sf9');
-    }
-    
-    public function sf6(){
-        return view('admin.reports.sf6');
-    }
     
 // ================================= SF5 FUNCTIONS =====================================================
 public function sf5(){
@@ -247,14 +284,19 @@ public function sf5_show(User $user, $sy, $section_id){
     ->join('students', 'student_id', 'students.id')
     ->join('users', 'user_id', 'users.id')
     ->join('sections', 'section_id', 'sections.id')
+    ->join('promotion_candidates', 'promotion_candidates.student_id', 'students.id', 'left outer')
         ->where('student_schoolyears.section_id', $section_id)
         ->where('student_schoolyears.schoolyear_id', $sy)
-        ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*')
+        ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*', 'promotion_candidates.*')
         ->get();
     //dd($students);
+    $studentSY = StudentSchoolyear::where([
+        'section_id' => $section_id,
+        'schoolyear_id' => $sy
+    ])->get();
 
-    //dd($section_sy);
-    return view('admin.reports.sf5.show', compact('schoolyear','section','students'));
+    //dd($studentSY);
+    return view('admin.reports.sf5.show', compact('schoolyear','section','studentSY'));
 }
 
 public function sf5_create(User $user, $studentsy){
@@ -263,8 +305,25 @@ public function sf5_create(User $user, $studentsy){
 
     $studSY = StudentSchoolyear::where('id', $studentsy)->first();
     //dd($studSY->StudentRegister);
-
-    $studentHealth = StudentHealth::where([
+    $grades = Student::join('student_subj_classes','students.id','student_subj_classes.student_id')
+    ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
+    ->join('subject_classes', 'student_subj_classes.subject_class_id', 'subject_classes.id')
+    ->join('subjects', 'subject_classes.subject_id', 'subjects.id')
+    ->where('student_subj_classes.student_schoolyear_id', $studentsy)
+    ->sum('gen_ave');
+    $count = Student::join('student_subj_classes','students.id','student_subj_classes.student_id')
+    ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
+    ->join('subject_classes', 'student_subj_classes.subject_class_id', 'subject_classes.id')
+    ->join('subjects', 'subject_classes.subject_id', 'subjects.id')
+    ->where('student_subj_classes.student_schoolyear_id', $studentsy)
+    ->count();
+    // dd($count);
+    // dd($grades);
+    if($count>0){
+        $final_average = $grades/$count;
+    }
+    //dd($final_average);
+    $candidate = PromotionCandidate::where([
         'student_id' => $studSY->student_id,
         'schoolyear_id' => $studSY->schoolyear_id
     ])->first();
@@ -273,10 +332,10 @@ public function sf5_create(User $user, $studentsy){
         ->orderBy('year_start')
         ->get();
     
-    if(isset($studentHealth)){
-        return view('admin.reports.sf5.edit', compact('schoolyears', 'studSY', 'studentHealth'));
+    if(isset($candidate)){
+        return view('admin.reports.sf5.edit', compact('schoolyears', 'studSY', 'candidate'));
     }else{
-        return view('admin.reports.sf5.create', compact('schoolyears', 'studSY'));
+        return view('admin.reports.sf5.create', compact('schoolyears', 'studSY', 'final_average'));
     }
 }
 
@@ -288,32 +347,27 @@ public function sf5_store(Request $request)
         'grade_lvl' => ['required'],
         'section' => ['required'],
         'student' => ['required'],
-        'age' => 'required|integer|min:1',
-        'weight' => 'required|numeric|min:1',
-        'height' => 'required|numeric|min:0.5|max:3',
+        'gen_average' => 'required|integer|min:60',
+        'action_taken' => 'required|string',
+        'failed_areas' => '',
     ]);
     //dd($request->all());
 
-    $new_sf8 = \App\Models\StudentHealth::create([
+    $new_sf5 = \App\Models\PromotionCandidate::create([
         'student_id' => $validated['student'],
         'section_id' => $validated['section'],
-        'age' => $validated['age'],
-        'weight' => $validated['weight'],
-        'height' => $validated['height'],
-        'height2' => $height_squared,
-        'bmi2' => $bmi,
-        'bmi_category' =>$bmi_category,
-        'hfa' => $height_for_age,
-        'remarks' => $request->input('remarks', ''),
+        'gen_average' => $validated['gen_average'],
+        'action_taken' => $validated['action_taken'],
+        'failed_areas' => $validated['failed_areas'],
         'schoolyear_id' => $validated['schoolyear']
     ]);
 
-    return redirect()->back()->with('success', 'SF8 Created Successfully!');
+    return redirect()->back()->with('success', 'SF5 Created Successfully!');
 }
 
 public function sf5_update(Request $request, User $user, $id)
 {
-    $studentHealth = StudentHealth::where('id', $id)->first();
+    $promotion_candidate = PromotionCandidate::where('id', $id)->first();
     //dd($studentReg);
     // Validation of input
     $data = request()->validate([
@@ -321,24 +375,17 @@ public function sf5_update(Request $request, User $user, $id)
         'grade_lvl' => ['required'],
         'section' => ['required'],
         'student' => ['required'],
-        'age' => 'required|integer|min:1',
-        'weight' => 'required|numeric|min:1',
-        'height' => 'required|numeric|min:0.5|max:3',
-        'bmi2' => 'required|numeric',
-        'height2' => 'required|numeric|min:0.5|max:3',
+        'gen_average' => 'required|integer|min:60',
+        'action_taken' => 'required|string',
+        'failed_areas' => '',
     ]);
     
-    $studentHealth->student_id = $data['student'];
-    $studentHealth->section_id = $data['section'];
-    $studentHealth->age = $data['age'];
-    $studentHealth->weight = $data['weight'];
-    $studentHealth->height = $data['height'];
-    $studentHealth->bmi2 = $data['bmi2'];
-    $studentHealth->height2 = $data['height2'];
-    $studentHealth->bmi_category = $bmi_category;
-    $studentHealth->hfa = $height_for_age;
-    $studentHealth->remarks = $request->input('remarks', '');
-    $studentHealth->save();
+    $promotion_candidate->student_id = $data['student'];
+    $promotion_candidate->section_id = $data['section'];
+    $promotion_candidate->gen_average = $data['gen_average'];
+    $promotion_candidate->action_taken = $data['action_taken'];
+    $promotion_candidate->failed_areas = $data['failed_areas'];
+    $promotion_candidate->save();
 
     return redirect()->back()->with("success","Changes Saved Successfully!");
 }
@@ -347,24 +394,196 @@ public function generate_sf5(User $user, $sy, $section_id){
     //dd($schoolyear);
     $section = Section::where('id','=', $section_id)->first();
 
-    $m_records = DB::table('student_healths')
+    $m_records = DB::table('promotion_candidates')
     ->join('students', 'student_id', 'students.id')
     ->join('users', 'user_id', 'users.id')
-    ->where('student_healths.section_id', $section_id)
-    ->where('student_healths.schoolyear_id', $sy)
+    ->where('promotion_candidates.section_id', $section_id)
+    ->where('promotion_candidates.schoolyear_id', $sy)
     ->where('users.sex', 'M')->get();
     //dd($m_records);
-    $f_records = DB::table('student_healths')
+    $f_records = DB::table('promotion_candidates')
     ->join('students', 'student_id', 'students.id')
     ->join('users', 'user_id', 'users.id')
-    ->where('student_healths.section_id', $section_id)
-    ->where('student_healths.schoolyear_id', $sy)
+    ->where('promotion_candidates.section_id', $section_id)
+    ->where('promotion_candidates.schoolyear_id', $sy)
     ->where('users.sex', 'F')->get();
     //dd($f_records);
     return view('sf_pdf.sf5', compact('schoolyear','section','m_records', 'f_records'));
 }
 
 // ================================= END OF SF5 =====================================================
+
+// ================================= SF6 FUNCTIONS =====================================================
+public function sf6(){
+    $currentSY = Schoolyear::where('isCurrent', true)->first();
+
+    // $section_sy = DB::table('sections')
+    // ->crossJoin('schoolyears')
+    // ->orderBy('schoolyears.year_start', 'DESC')
+    // ->orderBy('sections.grade_level', 'ASC')
+    // ->select('schoolyears.id as sy', 'year_start', 'year_end', 'isCurrent',
+    //     'sections.id as section', 'name','grade_level', 'adviser')
+    // ->get()->paginate(20);
+
+    $schoolyears = Schoolyear::orderBy('year_start', 'DESC')->get();
+
+    return view('admin.reports.sf6.view', compact('schoolyears'));
+}
+
+public function sf6_show(User $user, $sy, $section_id){
+    $schoolyear = Schoolyear::where('id','=', $sy)->first();
+    //dd($schoolyear);
+    $section = Section::where('id','=', $section_id)->first();
+    
+    $students = DB::table('student_schoolyears')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->join('sections', 'section_id', 'sections.id')
+    ->join('promotion_candidates', 'promotion_candidates.student_id', 'students.id', 'left outer')
+        ->where('student_schoolyears.section_id', $section_id)
+        ->where('student_schoolyears.schoolyear_id', $sy)
+        ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*', 'promotion_candidates.*')
+        ->get();
+    //dd($students);
+    $studentSY = StudentSchoolyear::where([
+        'section_id' => $section_id,
+        'schoolyear_id' => $sy
+    ])->get();
+
+    //dd($studentSY);
+    return view('admin.reports.sf6.show', compact('schoolyear','section','studentSY'));
+}
+
+public function sf6_create(User $user, $studentsy){
+    $this->authorize('create', $user);
+    //dd($studentsy);
+
+    $studSY = StudentSchoolyear::where('id', $studentsy)->first();
+    //dd($studSY->StudentRegister);
+    $grades = Student::join('student_subj_classes','students.id','student_subj_classes.student_id')
+    ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
+    ->join('subject_classes', 'student_subj_classes.subject_class_id', 'subject_classes.id')
+    ->join('subjects', 'subject_classes.subject_id', 'subjects.id')
+    ->where('student_subj_classes.student_schoolyear_id', $studentsy)
+    ->sum('gen_ave');
+    $count = Student::join('student_subj_classes','students.id','student_subj_classes.student_id')
+    ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
+    ->join('subject_classes', 'student_subj_classes.subject_class_id', 'subject_classes.id')
+    ->join('subjects', 'subject_classes.subject_id', 'subjects.id')
+    ->where('student_subj_classes.student_schoolyear_id', $studentsy)
+    ->count();
+    // dd($count);
+    // dd($grades);
+    if($count>0){
+        $final_average = $grades/$count;
+    }
+    //dd($final_average);
+    $candidate = PromotionCandidate::where([
+        'student_id' => $studSY->student_id,
+        'schoolyear_id' => $studSY->schoolyear_id
+    ])->first();
+    //dd($studentReg);
+    $schoolyears = DB::table('schoolyears')
+        ->orderBy('year_start')
+        ->get();
+    
+    if(isset($candidate)){
+        return view('admin.reports.sf6.edit', compact('schoolyears', 'studSY', 'candidate'));
+    }else{
+        return view('admin.reports.sf6.create', compact('schoolyears', 'studSY', 'final_average'));
+    }
+}
+
+public function sf6_store(Request $request)
+{
+    // validate the input data
+    $validated = $request->validate([
+        'schoolyear' => ['required'],
+        'grade_lvl' => ['required'],
+        'section' => ['required'],
+        'student' => ['required'],
+        'gen_average' => 'required|integer|min:60',
+        'action_taken' => 'required|string',
+        'failed_areas' => '',
+    ]);
+    //dd($request->all());
+
+    $new_sf5 = \App\Models\PromotionCandidate::create([
+        'student_id' => $validated['student'],
+        'section_id' => $validated['section'],
+        'gen_average' => $validated['gen_average'],
+        'action_taken' => $validated['action_taken'],
+        'failed_areas' => $validated['failed_areas'],
+        'schoolyear_id' => $validated['schoolyear']
+    ]);
+
+    return redirect()->back()->with('success', 'SF5 Created Successfully!');
+}
+
+public function sf6_update(Request $request, User $user, $id)
+{
+    $promotion_candidate = PromotionCandidate::where('id', $id)->first();
+    //dd($studentReg);
+    // Validation of input
+    $data = request()->validate([
+        'schoolyear' => ['required'],
+        'grade_lvl' => ['required'],
+        'section' => ['required'],
+        'student' => ['required'],
+        'gen_average' => 'required|integer|min:60',
+        'action_taken' => 'required|string',
+        'failed_areas' => '',
+    ]);
+    
+    $promotion_candidate->student_id = $data['student'];
+    $promotion_candidate->section_id = $data['section'];
+    $promotion_candidate->gen_average = $data['gen_average'];
+    $promotion_candidate->action_taken = $data['action_taken'];
+    $promotion_candidate->failed_areas = $data['failed_areas'];
+    $promotion_candidate->save();
+
+    return redirect()->back()->with("success","Changes Saved Successfully!");
+}
+public function generate_sf6(User $user, $sy){
+    $schoolyear = Schoolyear::where('id','=', $sy)->first();
+    //dd($schoolyear);
+
+    $gr7_records = DB::table('promotion_candidates')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->join('sections', 'section_id', 'sections.id')
+    ->where('promotion_candidates.schoolyear_id', $sy)
+    ->where('sections.grade_level', 7)
+    ->get();
+    //dd($gr7_records);
+    $gr8_records = DB::table('promotion_candidates')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->join('sections', 'section_id', 'sections.id')
+    ->where('promotion_candidates.schoolyear_id', $sy)
+    ->where('sections.grade_level', 8)
+    ->get();
+    //dd($gr8_records);
+    $gr9_records = DB::table('promotion_candidates')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->join('sections', 'section_id', 'sections.id')
+    ->where('promotion_candidates.schoolyear_id', $sy)
+    ->where('sections.grade_level', 9)
+    ->get();
+    //dd($gr9_records);
+    $gr10_records = DB::table('promotion_candidates')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->join('sections', 'section_id', 'sections.id')
+    ->where('promotion_candidates.schoolyear_id', $sy)
+    ->where('sections.grade_level', 10)
+    ->get();
+    //dd($gr10_records);
+    return view('sf_pdf.sf6', compact('schoolyear','gr7_records', 'gr8_records', 'gr9_records', 'gr10_records'));
+}
+
+// ================================= END OF SF6 =====================================================
 
 // ================================= SF8 FUNCTIONS =====================================================
     public function sf8(){
@@ -580,6 +799,160 @@ public function generate_sf5(User $user, $sy, $section_id){
     }
     
 // ================================= END OF SF8 =====================================================
+
+// ================================= SF9 FUNCTIONS =====================================================
+public function sf9(){
+    $currentSY = Schoolyear::where('isCurrent', true)->first();
+
+    $section_sy = DB::table('sections')
+    ->crossJoin('schoolyears')
+    ->orderBy('schoolyears.year_start', 'DESC')
+    ->orderBy('sections.grade_level', 'ASC')
+    ->select('schoolyears.id as sy', 'year_start', 'year_end', 'isCurrent',
+        'sections.id as section', 'name','grade_level', 'adviser')
+    ->get()->paginate(20);
+
+    return view('admin.reports.sf9.view', compact('section_sy'));
+}
+
+public function sf9_show(User $user, $sy, $section_id){
+    $schoolyear = Schoolyear::where('id','=', $sy)->first();
+    //dd($schoolyear);
+    $section = Section::where('id','=', $section_id)->first();
+    
+    $students = DB::table('student_schoolyears')
+    ->join('students', 'student_id', 'students.id')
+    ->join('users', 'user_id', 'users.id')
+    ->join('sections', 'section_id', 'sections.id')
+    ->join('promotion_candidates', 'promotion_candidates.student_id', 'students.id', 'left outer')
+        ->where('student_schoolyears.section_id', $section_id)
+        ->where('student_schoolyears.schoolyear_id', $sy)
+        ->select('student_schoolyears.id as studentsy', 'students.*', 'users.*', 'sections.*', 'promotion_candidates.*')
+        ->get();
+    //dd($students);
+    $studentSY = StudentSchoolyear::where([
+        'section_id' => $section_id,
+        'schoolyear_id' => $sy
+    ])->get();
+
+    //dd($studentSY);
+    return view('admin.reports.sf9.show', compact('schoolyear','section','studentSY'));
+}
+
+public function sf9_create(User $user, $studentsy){
+    $this->authorize('create', $user);
+    //dd($studentsy);
+
+    $studSY = StudentSchoolyear::where('id', $studentsy)->first();
+    //dd($studSY->StudentRegister);
+    $grades = Student::join('student_subj_classes','students.id','student_subj_classes.student_id')
+    ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
+    ->join('subject_classes', 'student_subj_classes.subject_class_id', 'subject_classes.id')
+    ->join('subjects', 'subject_classes.subject_id', 'subjects.id')
+    ->where('student_subj_classes.student_schoolyear_id', $studentsy)
+    ->sum('gen_ave');
+    $count = Student::join('student_subj_classes','students.id','student_subj_classes.student_id')
+    ->join('student_subj_grades', 'student_subj_classes.id', 'student_subj_grades.student_subj_class_id')
+    ->join('subject_classes', 'student_subj_classes.subject_class_id', 'subject_classes.id')
+    ->join('subjects', 'subject_classes.subject_id', 'subjects.id')
+    ->where('student_subj_classes.student_schoolyear_id', $studentsy)
+    ->count();
+    // dd($count);
+    // dd($grades);
+    if($count>0){
+        $final_average = $grades/$count;
+    }
+    //dd($final_average);
+    $candidate = PromotionCandidate::where([
+        'student_id' => $studSY->student_id,
+        'schoolyear_id' => $studSY->schoolyear_id
+    ])->first();
+    //dd($studentReg);
+    $schoolyears = DB::table('schoolyears')
+        ->orderBy('year_start')
+        ->get();
+    
+    if(isset($candidate)){
+        return view('admin.reports.sf9.edit', compact('schoolyears', 'studSY', 'candidate'));
+    }else{
+        return view('admin.reports.sf9.create', compact('schoolyears', 'studSY', 'final_average'));
+    }
+}
+
+public function sf9_store(Request $request)
+{
+    // validate the input data
+    $validated = $request->validate([
+        'schoolyear' => ['required'],
+        'grade_lvl' => ['required'],
+        'section' => ['required'],
+        'student' => ['required'],
+        'gen_average' => 'required|integer|min:60',
+        'action_taken' => 'required|string',
+        'failed_areas' => '',
+    ]);
+    //dd($request->all());
+
+    $new_sf5 = \App\Models\PromotionCandidate::create([
+        'student_id' => $validated['student'],
+        'section_id' => $validated['section'],
+        'gen_average' => $validated['gen_average'],
+        'action_taken' => $validated['action_taken'],
+        'failed_areas' => $validated['failed_areas'],
+        'schoolyear_id' => $validated['schoolyear']
+    ]);
+
+    return redirect()->back()->with('success', 'SF9 Created Successfully!');
+}
+
+public function sf9_update(Request $request, User $user, $id)
+{
+    $promotion_candidate = PromotionCandidate::where('id', $id)->first();
+    //dd($studentReg);
+    // Validation of input
+    $data = request()->validate([
+        'schoolyear' => ['required'],
+        'grade_lvl' => ['required'],
+        'section' => ['required'],
+        'student' => ['required'],
+        'gen_average' => 'required|integer|min:60',
+        'action_taken' => 'required|string',
+        'failed_areas' => '',
+    ]);
+    
+    $promotion_candidate->student_id = $data['student'];
+    $promotion_candidate->section_id = $data['section'];
+    $promotion_candidate->gen_average = $data['gen_average'];
+    $promotion_candidate->action_taken = $data['action_taken'];
+    $promotion_candidate->failed_areas = $data['failed_areas'];
+    $promotion_candidate->save();
+
+    return redirect()->back()->with("success","Changes Saved Successfully!");
+}
+public function generate_sf9(User $user, $student){
+    $studentSY = StudentSchoolyear::where('id', '=', $student)->first();
+    $schoolyear = Schoolyear::where('id', '=', $studentSY->schoolyear_id)->first();
+    //dd($schoolyear);
+    $section = Section::where('id','=', $studentSY->section_id)->first();
+
+    // $m_records = DB::table('promotion_candidates')
+    // ->join('students', 'student_id', 'students.id')
+    // ->join('users', 'user_id', 'users.id')
+    // ->where('promotion_candidates.section_id', $section_id)
+    // ->where('promotion_candidates.schoolyear_id', $sy)
+    // ->where('users.sex', 'M')->get();
+    // //dd($m_records);
+    // $f_records = DB::table('promotion_candidates')
+    // ->join('students', 'student_id', 'students.id')
+    // ->join('users', 'user_id', 'users.id')
+    // ->where('promotion_candidates.section_id', $section_id)
+    // ->where('promotion_candidates.schoolyear_id', $sy)
+    // ->where('users.sex', 'F')->get();
+    //dd($f_records);
+    return view('sf_pdf.sf9', compact('studentSY', 'schoolyear','section'));
+}
+
+// ================================= END OF SF9 =====================================================
 
     public function getStudents(Request $request){
         $students = DB::table('student_schoolyears')

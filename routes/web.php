@@ -191,6 +191,14 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/admin/reports/sf5/{sy}/{section}', [ReportsController::class, 'sf5_show'])->name('admin.reports.sf5_show');
         Route::get('/admin/reports/sf5/{sy}/{section}/generate', [App\Http\Controllers\ReportsController::class, 'generate_sf5'])->name('sf5_pdf');
 
+    // ============= SF 6 ===========
+        Route::get('/admin/reports/sf6', [ReportsController::class, 'sf6'])->name('admin.reports.sf6');
+        Route::get('/admin/reports/sf6/create-update/{studentsy}', [ReportsController::class, 'sf6_create'])->name('admin.reports.sf6_create');
+        Route::post('/admin/reports/sf6', [ReportsController::class, 'sf6_store'])->name('admin.reports.sf6_store');
+        Route::patch('/admin/reports/sf6/{id}', [ReportsController::class, 'sf6_update'])->name('admin.reports.sf6_update');
+        Route::get('/admin/reports/sf6/{sy}', [ReportsController::class, 'sf6_show'])->name('admin.reports.sf6_show');
+        Route::get('/admin/reports/sf6/{sy}/generate', [App\Http\Controllers\ReportsController::class, 'generate_sf6'])->name('sf6_pdf');
+
     // ============= SF 8 ===========
         Route::get('/admin/reports/sf8', [ReportsController::class, 'sf8'])->name('admin.reports.sf8');
         Route::get('/admin/reports/sf8/create-update/{studentsy}', [ReportsController::class, 'sf8_create'])->name('admin.reports.sf8_create');
@@ -199,11 +207,13 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/admin/reports/sf8/{sy}/{section}', [ReportsController::class, 'sf8_show'])->name('admin.reports.sf8_show');
         Route::get('/admin/reports/sf8/{sy}/{section}/generate', [App\Http\Controllers\ReportsController::class, 'generate_sf8'])->name('sf8_pdf');
 
-        Route::get('/sf9', [App\Http\Controllers\ReportsController::class, 'generate_sf9'])->name('sf9_pdf');
-        Route::get('/sf9', [App\Http\Controllers\FacultyController::class, 'generate_sf9'])->name('sf9_pdf');
-
-        Route::get('/admin/reports/sf6', [ReportsController::class, 'sf6'])->name('admin.reports.sf6');
-
+    // ============= SF 9 ===========
+        Route::get('/admin/reports/sf9', [ReportsController::class, 'sf9'])->name('admin.reports.sf9');
+        Route::get('/admin/reports/sf9/create-update/{studentsy}', [ReportsController::class, 'sf9_create'])->name('admin.reports.sf9_create');
+        Route::post('/admin/reports/sf9', [ReportsController::class, 'sf9_store'])->name('admin.reports.sf9_store');
+        Route::patch('/admin/reports/sf9/{id}', [ReportsController::class, 'sf9_update'])->name('admin.reports.sf9_update');
+        Route::get('/admin/reports/sf9/{student}/generate', [App\Http\Controllers\ReportsController::class, 'generate_sf9'])->name('sf9_pdf');
+        Route::get('/admin/reports/sf9/{sy}/{section}', [ReportsController::class, 'sf9_show'])->name('admin.reports.sf9_show');
 
 // ======== VIEW GRADES =============
 Route::get('/grades', [App\Http\Controllers\StudentsController::class, 'viewGrades'])->name('grades');
@@ -223,6 +233,16 @@ Route::patch('/faculty/grades/{subclass}/{grading}', [GradesController::class, '
 
 Route::get('getGrades', [GradesController::class, 'getGrades'])->name('getGrades');
 
+// ======= Faculty - REPORT ROUTES ===========
+Route::get('/faculty/reports', [ReportsController::class, 'faculty_index'])->name('faculty.reports.index');
+Route::get('/faculty/reports/create', [ReportsController::class, 'faculty_create'])->name('faculty.reports.create');
+Route::post('/faculty/reports', [ReportsController::class, 'faculty_store'])->name('faculty.reports.store');
+
+// ============= SF 1 ===========
+    Route::get('/faculty/reports/sf1/create-update/{studentsy}', [ReportsController::class, 'sf1_create'])->name('faculty.reports.sf1_create');
+    Route::post('/faculty/reports/sf1', [ReportsController::class, 'sf1_store'])->name('faculty.reports.sf1_store');
+    Route::patch('/faculty/reports/sf1/{id}', [ReportsController::class, 'sf1_update'])->name('faculty.reports.sf1_update');
+    Route::get('/faculty/reports/sf1/{sy}/{section}', [ReportsController::class, 'sf1_show'])->name('faculty.reports.sf1_show');
 
 // ================================ STUDENT ROUTES ========================================
 
