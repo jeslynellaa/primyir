@@ -21,7 +21,7 @@ class CreatePromotionCandidatesTable extends Migration
             $table->unsignedBigInteger('schoolyear_id');
 
             $table->integer('gen_average');
-            $table->string('action_takes', 50);
+            $table->string('action_taken', 50);
             $table->string('failed_areas', 200)->nullable();
 
             $table->timestamps();
