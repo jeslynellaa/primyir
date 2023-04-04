@@ -50,7 +50,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="/admin/reports/sf9">
             <div>
                 <div class="numbers">
                     SF 9
