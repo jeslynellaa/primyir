@@ -9,7 +9,13 @@
                     <div class="numbers">
                         {{$student_count}}
                     </div>
-                    <div class="cardName">Student</div>
+                    <div class="cardName">
+                        @if ($student_count<=1)
+                            Student
+                        @else
+                            Students
+                        @endif
+                    </div>
                 </div>
 
                 <div class="iconBx">
@@ -35,7 +41,13 @@
                     <div class="numbers">
                         {{$event_count}}
                     </div>
-                    <div class="cardName">Event</div>
+                    <div class="cardName">
+                        @if ($event_count<=1)
+                            Upcoming Event
+                        @else
+                            Upcoming Events
+                        @endif
+                    </div>
                 </div>
 
                 <div class="iconBx">
@@ -48,7 +60,13 @@
                     <div class="numbers">
                         {{$class_count}}
                     </div>
-                    <div class="cardName">Section</div>
+                    <div class="cardName">
+                        @if ($class_count<=1)
+                            Section
+                        @else
+                            Sections
+                        @endif
+                    </div>
                 </div>
 
                 <div class="iconBx">
@@ -59,10 +77,9 @@
 
         <!-- ================ Order Details List ================= -->
         <div class="details">
-
             <div class="recentCustomers">
                 <div class="cardHeader">
-                    <h2>School Years</h2>
+                    <h3>Students <br>Per School Year</h3>
                     <div class="btnn">
                         <button id="button7"><i class="fa-solid fa-chart-line hayst"></i></button>
                         <button id="button8"><i class="fa-solid fa-chart-simple hayst"></i></button>
@@ -78,7 +95,7 @@
 
             <div class="recentOrders">
                 <div class="cardHeader">
-                    <h2>Grade Level</h2>
+                    <h3>Students <br>Per Grade Level</h3>
                     <div class="btnn">
                         <button id="button1"><i class="fa-solid fa-chart-line hayst"></i></button>
                         <button id="button2"><i class="fa-solid fa-chart-simple hayst"></i></button>
@@ -97,11 +114,9 @@
                 </div>
             </div>
 
-
-            <!-- ================= New Customers ================ -->
             <div class="recentCustomers">
                 <div class="cardHeader">
-                    <h2>Curriculums</h2>
+                    <h3>Students <br>Per Curriculum</h3>
                     <div class="btnn">
                         <button id="button4"><i class="fa-solid fa-chart-line hayst"></i></button>
                         <button id="button5"><i class="fa-solid fa-chart-simple hayst"></i></button>
@@ -114,6 +129,7 @@
                 </div>
             </div>
         </div> <!--End of details-->
+        
         <div class="details2">
             <div class="calendar">
 
