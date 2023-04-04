@@ -34,7 +34,6 @@
                             <th>Email</th>
                             <th>Sex</th>
                             <th>Birthdate</th>
-                            <th>Status</th>
                             <th>Options</th>
                         </tr>	
                     </thead>
@@ -48,7 +47,6 @@
                                 <td>{{ $teacher->email}}</td>
                                 <td>{{ $teacher->sex}}</td>
                                 <td>{{ $teacher->birthdate}}</td>
-                                <td>{{ $teacher->accountStatus}}</td>
                                 <td><a href="/admin/faculty/{{$teacher->id}}">Classes</a></td>
                             </tr>
                         @endforeach

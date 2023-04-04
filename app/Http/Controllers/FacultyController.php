@@ -27,6 +27,7 @@ class FacultyController extends Controller
         $teacher_users = DB::table('users')
             ->join('teachers', 'teachers.user_id', '=', 'users.id')
             ->where('users.owner_type', 'T')
+            ->where('users.accountStatus', 'Active')
             ->select('users.*', 'teachers.department', 'teachers.id as teach_id')
             ->orderBy('lastName', 'ASC')
             ->get()->paginate(15);
