@@ -2,20 +2,22 @@
 
 @section('content')
     <div class="lists_wrap">
-        <form action="{{ route ('faculty_search')}}" method="GET">
-            <div class="search">
-                <input type="text" id="search-input" name="query" placeholder="Search here" 
-        class="form-control"> 
-                <button type="submit" class="btn btn-primary" id="search-button">
-                    <ion-icon name="search-outline"></ion-icon>
-                </button>      
-            </div>
-        </form>
         <div class="well">
             <div class="well_top" style="align-items:center">
                 <h2 style="align:left">List of Faculty</h2>
+                <form action="{{ route ('faculty_search')}}" method="GET">
+                    <div class="search form_item" style="display:flex">
+                        <input type="text" id="search-input" name="query" placeholder="Search here" class="form-control"> 
+                        <button type="submit" class="btn btn-primary" id="search-button">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </button>      
+                    </div>
+                </form>
 
                 <div class="functions_wrap">
+                    @if(Route::is('faculty_search'))
+                        <a class="list_function" href="/admin/faculty">Back to full list</a>
+                    @endif
                     <a class="list_function" href="/admin/faculty/create">Add New Teacher</a>
                 </div>
             </div>
@@ -47,7 +49,7 @@
                                 <td>{{ $teacher->sex}}</td>
                                 <td>{{ $teacher->birthdate}}</td>
                                 <td>{{ $teacher->accountStatus}}</td>
-                                <<td><a href="/admin/faculty/{{$teacher->id}}">Classes</a></td>
+                                <td><a href="/admin/faculty/{{$teacher->id}}">Classes</a></td>
                             </tr>
                         @endforeach
                     </tbody>
