@@ -2,6 +2,22 @@
 
 @section('content')
     <div class="lists_wrap">
+        <form action="{{ route ('student_search')}}" method="GET">
+            <div class="search">
+                <input type="text" id="search-input" name="query" placeholder="Search here" class="form-control"> 
+                <button type="submit" class="btn btn-primary" id="search-button">
+                    <ion-icon name="search-outline"></ion-icon>
+                </button>      
+            </div>
+        </form>
+        <!-- <div class="search"> -->
+            <!-- <label> -->
+                <!-- <input type="text" id="search-input" placeholder="Search here" class="form-control"> --> 
+                <!-- <button class="btn btn-primary" id="search-button"> -->
+                    <!-- <ion-icon name="search-outline"></ion-icon> -->
+                <!-- </button>      -->
+                <!-- </label> -->
+        <!-- </div> -->
 
         <div class="well">
             <div class="well_top" style="align-items:center">
@@ -51,4 +67,10 @@
                 }
             </style>
     </div>
+    <!-- <script> 
+        // document.getElementById('search-button').onclick = function (){
+            // var query = document.getElementById('search-input').value;
+            // // window.location.href = "{{ route ('student_search') }}?query=" + query;
+        // };
+    // </script>-->
 @endsection

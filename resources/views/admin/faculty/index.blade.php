@@ -2,7 +2,15 @@
 
 @section('content')
     <div class="lists_wrap">
-
+        <form action="{{ route ('faculty_search')}}" method="GET">
+            <div class="search">
+                <input type="text" id="search-input" name="query" placeholder="Search here" 
+        class="form-control"> 
+                <button type="submit" class="btn btn-primary" id="search-button">
+                    <ion-icon name="search-outline"></ion-icon>
+                </button>      
+            </div>
+        </form>
         <div class="well">
             <div class="well_top" style="align-items:center">
                 <h2 style="align:left">List of Faculty</h2>
@@ -29,16 +37,16 @@
                         </tr>	
                     </thead>
                     <tbody>
-                        @foreach ($teachers as $teacher )
+                        @foreach ($teacher_users as $teacher )
                             <tr>
                                 <td>{{ $loop->index + 1}}</td>
-                                <td>{{ $teacher->user->lastName }}, {{ $teacher->user->givenName }} {{ $teacher->user->middleName }}</td>
+                                <td>{{ $teacher->lastName }}, {{ $teacher->givenName }} {{ $teacher->middleName }}</td>
                                 <td>{{ $teacher->department}}</td>
-                                <td>{{ $teacher->user->contactNum}}</td>
-                                <td>{{ $teacher->user->email}}</td>
-                                <td>{{ $teacher->user->sex}}</td>
-                                <td>{{ $teacher->user->birthdate}}</td>
-                                <td>{{ $teacher->user->accountStatus}}</td>
+                                <td>{{ $teacher->contactNum}}</td>
+                                <td>{{ $teacher->email}}</td>
+                                <td>{{ $teacher->sex}}</td>
+                                <td>{{ $teacher->birthdate}}</td>
+                                <td>{{ $teacher->accountStatus}}</td>
                                 <<td><a href="/admin/faculty/{{$teacher->id}}">Classes</a></td>
                             </tr>
                         @endforeach
