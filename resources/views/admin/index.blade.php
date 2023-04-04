@@ -4,7 +4,7 @@
     <div>
         <!-- ======================= Cards ================== -->
         <div class="cardBox">
-            <div class="card">
+            <a class="card" href="/admin/students">
                 <div>
                     <div class="numbers">
                         {{$student_count}}
@@ -21,9 +21,9 @@
                 <div class="iconBx">
                     <i class="fa-solid fa-graduation-cap icon-dash"></i>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a class="card" href="/admin/faculty">
                 <div>
                     <div class="numbers">
                         {{$faculty_count}}
@@ -34,9 +34,9 @@
                 <div class="iconBx">
                     <i class="fa-solid fa-user icon-dash"></i>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a class="card" href="/admin/events">
                 <div>
                     <div class="numbers">
                         {{$event_count}}
@@ -53,9 +53,9 @@
                 <div class="iconBx">
                     <i class="fa-regular fa-calendar-days icon-dash"></i>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a class="card" href="/admin/sections">
                 <div>
                     <div class="numbers">
                         {{$class_count}}
@@ -72,7 +72,7 @@
                 <div class="iconBx">
                     <i class="fa-solid fa-book icon-dash"></i>
                 </div>
-            </div>
+            </a>
         </div><!--End of Cardbox -->
 
         <!-- ================ Order Details List ================= -->
@@ -129,9 +129,9 @@
                 </div>
             </div>
         </div> <!--End of details-->
-        
+
         <div class="details2">
-            <div class="calendar">
+            <!-- <div class="calendar">
 
                 <div class="cardHeader">
                     <h2>Calendar</h2>
@@ -140,7 +140,7 @@
                 <iframe src="https://embed.styledcalendar.com/#rWS5eOO6rwZCPuYqakFU" title="Styled Calendar" class="styled-calendar-container" style="width: 100%; border: none;" data-cy="calendar-embed-iframe"></iframe>
                 <script async type="module" src="https://embed.styledcalendar.com/assets/parent-window.js"></script>
 
-            </div>
+            </div> -->
             <div class="events">
                 
                 <div class="cardHeader">
