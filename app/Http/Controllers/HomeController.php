@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Section;
+use App\Models\Schoolyear;
 use App\Models\Teacher;
 use App\Models\Curriculum;
 use Illuminate\Support\Facades\Hash;
@@ -57,6 +58,7 @@ class HomeController extends Controller
 
     public function admin()
     {
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
         $student_count = DB::table('users')
         ->where('users.accountStatus', 'Active')
         ->where('users.owner_type', 'S')
@@ -79,18 +81,19 @@ class HomeController extends Controller
         $record1 = DB::table('students')
             ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
             ->join('curricula', 'students.curriculum_id', '=', 'curricula.id')
+            ->join('users', 'user_id', 'users.id')
             ->select(DB::raw('count(*) as user_count, curricula.name'))
             ->groupBy('curricula.name')
-            ->where('student_schoolyears.schoolyear_id', '=', 10103)
+            ->where('student_schoolyears.schoolyear_id', '=', $currentSY->id)
             ->get();
-
+        //dd($record1);
         $record2 = DB::table('students')
             ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
             ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
             ->join('users', 'user_id', 'users.id')
             ->select(DB::raw('count(*) as user_count, grade_level'))
             ->groupBy('grade_level')
-            ->where('student_schoolyears.schoolyear_id', '=', 10103)
+            ->where('student_schoolyears.schoolyear_id', '=', $currentSY->id)
             ->get();
 
         $record3 = DB::table('students')
