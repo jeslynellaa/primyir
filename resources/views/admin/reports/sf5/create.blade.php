@@ -4,7 +4,7 @@
     <div class="wrapper">
         <div class="form_wrap">
             <div class="form_1 data_info">
-                <h2>School Form 5</h2>
+                <h2>School Form 5 - CREATE</h2>
                 
                 <!-- ERROR NOTIFS -->
                 @if (session('error'))
@@ -58,28 +58,30 @@
                     <hr>
 
                     <div class="form_wrap fullname">
-                        <div class="form_item" style="width:33%; margin-right:10px;">
-                            <label for="age">Age:</label>
-                            <input type="text" name="age" id="age" class="wow form-control" required>
+                        <div class="form_item" style="margin-right:10px;">
+                            <label for="gen_average">General Average:</label>
+                            <input type="text" name="gen_average" value="{{$final_average}}"id="gen_average" class="wow form-control" required>
                         </div>
-                        <div class="form_item" style="width:33%; margin-right:10px;">
-                            <label for="height">Height (in m):</label>
-                            <input type="text" name="height" id="height" class="wow form-control" required>
+                        <div class="form_item" style="margin-right:10px;">
+                            <label for="action_taken">Action Taken:</label>
+                            <input type="text" name="action_taken" 
+                            @if ($final_average >= 74.6)
+                                echo value="Promoted"
+                            @else
+                                echo value="Retained"
+                            @endif
+                            id="action_taken" class="wow form-control" required>
                         </div>
+                    </div>
                     
-                        <div class="form_item" style="width:33%;">
-                            <label for="weight">Weight (in kg):</label>
-                            <input type="text" name="weight" id="weight" class="wow form-control" required>
-                        </div>
-                    </div>
                     <div class="form_item">
-                        <label for="remarks">Remarks:</label>
-                        <input type="text" name="remarks" id="remarks" class="wow form-control">
+                        <label for="failed_areas">Failed Learning Areas:</label>
+                        <input type="text" name="failed_areas" id="failed_areas" class="wow form-control">
                     </div>
-                        <div class="col-md-6">
-                            <input hidden readonly id="student" 
-                            type="text" value="{{$studSY->Student->id}}" name="student">
-                        </div>
+                    <div class="col-md-6">
+                        <input hidden readonly id="student"
+                        type="text" value="{{$studSY->Student->id}}" name="student">
+                    </div>
 
                     <div class="col-md-6 offset-md-4" style="align:right;">
                         <button type="submit" class="save_btn">

@@ -4,7 +4,7 @@
     <div class="wrapper">
         <div class="form_wrap">
             <div class="form_1 data_info">
-                <h2>School Form 5</h2>
+                <h2>School Form 5 - EDIT</h2>
                 
                 <!-- ERROR NOTIFS -->
                 @if (session('error'))
@@ -23,7 +23,7 @@
                     @endforeach
                 @endif
             
-                <form method="POST" action="/admin/reports/sf5/{{$studentHealth->id}}">
+                <form method="POST" action="/admin/reports/sf5/{{$candidate->id}}">
                     @csrf
                     @method('PATCH')
 
@@ -59,50 +59,23 @@
                     <hr>
 
                     <div class="form_wrap fullname">
-                        <div class="form_item" style="width:33%; margin-right:10px;">
-                            <label for="age">Age:</label>
-                            <input type="text" value="{{$studentHealth->age}}" name="age" id="age" class="wow form-control" required>
+                        <div class="form_item" style="margin-right:10px;">
+                            <label for="gen_average">General Average:</label>
+                            <input type="text" value="{{$candidate->gen_average}}" name="gen_average" id="gen_average" class="wow form-control" required>
                         </div>
-                        <div class="form_item" style="width:33%; margin-right:10px;">
-                            <label for="height">Height (in m):</label>
-                            <input type="text" value="{{$studentHealth->height}}" name="height" id="height" class="wow form-control" required>
-                        </div>
-                    
-                        <div class="form_item" style="width:33%;">
-                            <label for="weight">Weight (in kg):</label>
-                            <input type="text" value="{{$studentHealth->weight}}" name="weight" id="weight" class="wow form-control" required>
-                        </div>
-                    </div>
-                    <div class="form_wrap fullname">
-                        <div class="form_item" style="width:50%; margin-right:10px;">
-                            <label for="height2">Height<sup>2</sup> (in m<sup>2</sup>):</label>
-                            <input type="text" value="{{$studentHealth->height2}}" name="height2" id="height2" class="wow form-control" required>
-                        </div>
-                    
-                        <div class="form_item" style="width:50%;">
-                            <label for="bmi2">BMI</label>
-                            <input type="text" value="{{$studentHealth->bmi2}}" name="bmi2" id="bmi2" class="wow form-control" required>
-                        </div>
-                    </div>
-                    <div class="form_wrap fullname">
-                        <div class="form_item" style="width:50%; margin-right:10px;">
-                            <label for="bmi_category">BMI Category</label>
-                            <input readonly disabled type="text" value="{{$studentHealth->bmi_category}}" name="bmi_category" id="bmi_category" class="wow form-control" required>
-                        </div>
-                    
-                        <div class="form_item" style="width:50%;">
-                            <label for="hfa">Height for Age</label>
-                            <input readonly disabled type="text" value="{{$studentHealth->hfa}}" name="hfa" id="hfa" class="wow form-control" required>
+                        <div class="form_item" style="margin-right:10px;">
+                            <label for="action_taken">Action Taken:</label>
+                            <input type="text" value="{{$candidate->action_taken}}" name="action_taken" id="action_taken" class="wow form-control" required>
                         </div>
                     </div>
                     <div class="form_item">
-                        <label for="remarks">Remarks:</label>
-                        <input type="text" value="{{$studentHealth->remarks}}" name="remarks" id="remarks" class="wow form-control">
+                        <label for="failed_areas">Failed Learning Areas:</label>
+                        <input type="text" value="{{$candidate->failed_areas}}" name="failed_areas" id="failed_areas" class="wow form-control">
                     </div>
-                        <div class="col-md-6">
-                            <input hidden readonly id="student" 
-                            type="text" value="{{$studSY->Student->id}}" name="student">
-                        </div>
+                    <div class="col-md-6">
+                        <input hidden readonly id="student"
+                        type="text" value="{{$studSY->Student->id}}" name="student">
+                    </div>
 
                     <div class="col-md-6 offset-md-4" style="align:right;">
                         <button type="submit" class="save_btn">

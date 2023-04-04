@@ -20,25 +20,32 @@
                             <th style="width=10% align=left">No.</th>
                             <th>LRN</th>
                             <th>Student</th>
-                            <th>Section</th>
+                            <th>Gen. Average</th>
+                            <th>Action Taken</th>
+                            <th>Failed Learning Areas</th>
                             <th>Options</th>
                         </tr>	
                     </thead>
 
                     <tbody>
-                        @foreach($students as $student)
+                        @foreach($studentSY as $student)
                             <tr>
                                 <td>{{ $loop->index + 1}}</td>
-                                <td>{{ $student->LRN_no }}</td>
-                                <td>{{ $student->lastName}}, {{ $student->givenName}} {{ $student->middleName}}</td>
-                                <td>{{ $student->name }}</td>
-                                <td><a href="/admin/reports/sf5/create-update/{{$student->studentsy}}">Create or Edit</a></td>
+                                <td>{{ $student->Student->LRN_no }}</td>
+                                <td>{{ $student->Student->User->lastName}}, {{ $student->Student->User->givenName}} {{ $student->Student->User->middleName}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <a href="/admin/reports/sf5/create-update/{{$student->id}}">Create or Edit </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </form>
         </div>
+
         <span>
         </span>
             
