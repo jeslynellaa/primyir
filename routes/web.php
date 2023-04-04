@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
 });
 Route::get('/students/search', [App\Http\Controllers\StudentsController::class, 'student_search'])->name('student_search');
+Route::get('/students/filter', [App\Http\Controllers\StudentsController::class, 'student_filter'])->name('student_filter');
 Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'faculty_search'])->name('faculty_search');
 
     Route::get('curricula', [HomeController::class, 'getCurricula'])->name('curricula');

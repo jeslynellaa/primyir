@@ -35,15 +35,19 @@ class StudentsController extends Controller
 
     public function index()
     {
-        // $currentSY = Schoolyear::where('isCurrent', true)->first();
-        // dd($currentSY);
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
+        //dd($currentSY);
         
         $student_users = DB::table('users')
             ->join('students', 'students.user_id', '=', 'users.id')
+            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
             ->where('users.owner_type', 'S')
-            ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*')
+            ->where('users.accountStatus', 'Active')
+            ->where('student_schoolyears.schoolyear_id', $currentSY->id)
+            ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'student_schoolyears.*', 'sections.name', 'sections.grade_level')
             ->orderBy('lastName', 'ASC')
-            ->get()->paginate(10);
+            ->get()->paginate(15);
         
         //dd($student_users);
         return view('admin.students.index', compact('student_users'));
@@ -559,15 +563,36 @@ class StudentsController extends Controller
     public function student_search(Request $request){
         $query = $request->input('query');
         $student_users = DB::table('users')
-                    ->join('students', 'students.user_id', '=', 'users.id')
-                    ->where('givenName', 'LIKE', "%$query%")
-                    ->orWhere('middleName', 'LIKE', "%$query%")
-                    ->orWhere('lastName', 'LIKE', "%$query%")
-                    ->orWhere('LRN_no', 'LIKE', "%$query%")
-                    ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*')
-                    ->orderBy('lastName', 'ASC')
-                    ->get()
-                    ->paginate(10);
+            ->join('students', 'students.user_id', '=', 'users.id')
+            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
+            ->where('givenName', 'LIKE', "%$query%")
+            ->orWhere('middleName', 'LIKE', "%$query%")
+            ->orWhere('lastName', 'LIKE', "%$query%")
+            ->orWhere('LRN_no', 'LIKE', "%$query%")
+            ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'student_schoolyears.*', 'sections.name', 'sections.grade_level')
+            ->orderBy('lastName', 'ASC')
+            ->get()
+            ->paginate(10);
+        return view('admin.students.index', compact('student_users'));
+    }
+    
+    public function student_filter(Request $request){
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
+        $section = $request->input('section');
+        $grade_level = $request->input('grade_lvl');
+        $student_users = DB::table('users')
+            ->join('students', 'students.user_id', '=', 'users.id')
+            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
+            ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
+            ->where('users.owner_type', 'S')
+            ->where('users.accountStatus', 'Active')
+            ->where('student_schoolyears.schoolyear_id', $currentSY->id)
+            ->where('student_schoolyears.section_id', $section)
+            ->orWhere('sections.grade_level', $grade_level)
+            ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'student_schoolyears.*', 'sections.name', 'sections.grade_level')
+            ->orderBy('lastName', 'ASC')
+            ->get()->paginate(15);
         return view('admin.students.index', compact('student_users'));
     }
 
