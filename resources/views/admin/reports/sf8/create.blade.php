@@ -60,7 +60,7 @@
                     <div class="form_wrap fullname">
                         <div class="form_item" style="width:33%; margin-right:10px;">
                             <label for="age">Age:</label>
-                            <input type="text" name="age" id="age" class="wow form-control" required>
+                            <input type="text" value="{{$age}}" name="age" id="age" class="wow form-control" required>
                         </div>
                         <div class="form_item" style="width:33%; margin-right:10px;">
                             <label for="height">Height (in m):</label>
@@ -89,68 +89,6 @@
                 </form>
             </div>
         </div>
-    </div>    
-<script>
-//    function calculate() {
-//        var height = parseInt(document.getElementById("height").value);
-//        var weight = parseInt(document.getElementById("weight").value);
-//        var height_squared = height * height;
-//        var bmi = weight / height_squared;
-//        
-//        document.getElementById("height_squared").value = height_squared;
-//        document.getElementById("bmi").value = bmi.toFixed(2);
-//        
-//        if (bmi < 16) {
-//                document.getElementById("bmi_category").value = "Severely Wasted";
-//            } else if (bmi >= 16 && bmi < 18.5) {
-//                document.getElementById("bmi_category").value = "Wasted";
-//            } else if (bmi >= 18.5 && bmi <= 24.9) {
-//                document.getElementById("bmi_category").value = "Normal";
-//            } else if (bmi >= 25 && bmi <= 29.9) {
-//                document.getElementById("bmi_category").value = "Overweight";
-//            } else {
-//                document.getElementById("bmi_category").value = "Obese";
-//            }
-//
-//            var birthdate = new Date(document.getElementById("birthdate").value);
-//            var today = new Date();
-//            var age = today.getFullYear() - birthdate.getFullYear();
-//            var birthMonth = birthdate.getMonth() + 1;
-//            var todayMonth = today.getMonth() + 1;
-//                
-//            if (todayMonth < birthMonth) {
-//                age--;
-//            } else if (todayMonth == birthMonth) {
-//                var birthDay = birthdate.getDate();
-//                var todayDay = today.getDate();
-//            
-//                if (todayDay < birthDay) {
-//                    age--;
-//                }
-//            }
-//        
-//            document.getElementById("age").value = age;
-//        
-//            if (height < 3 * age - 97) {
-//                document.getElementById("height_for_age").value = "Severely Stunted";
-//            } else if (height >= 3 * age - 97 && height < 2 * age + 8) {
-//                document.getElementById("height_for_age").value = "Stunted";
-//            } else if (height >= 2 * age + 8 && height < 2 * age + 12) {
-//                document.getElementById("height_for_age").value = "Normal";
-//            } else {
-//                document.getElementById("height_for_age").value = "Tall";
-//            }
-//        }
-//        
-//        document.getElementById("height").addEventListener("input", calculate);
-//        document.getElementById("weight").addEventListener("input", calculate);
-//        document.getElementById("birthdate").addEventListener("input", calculate);
-//
-//        var form = document.querySelector('form');
-//        form.addEventListener('submit', function(event) {
-//            calculate();
-//            event.preventDefault();
-//        });
-//</script>
+    </div>
 @endsection
 

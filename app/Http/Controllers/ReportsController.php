@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Section;
 use App\Models\Student;
+use App\Models\StudentData;
 use App\Models\StudentSubjClass;
 use App\Models\StudentSubjGrade;
 use App\Models\Schoolyear;
@@ -73,32 +74,31 @@ class ReportsController extends Controller
         }
 
         $studSY = StudentSchoolyear::where('id', $studentsy)->first();
-        $student = Student::where('id', $studSY->student_id)->first();
-        //dd($studSY->StudentRegister);
+        $sy = Schoolyear::where('id', $studSY->schoolyear_id)->first();
+        
+        // ======= Calculating age ==========
+        $student_bday = $studSY->Student->User->birthdate;      //getting birthdate of student
+        
+        $date = $sy->year_start.'-06-00 next friday';           //getting date string
+        $first_friday = date('Y-m-d', strtotime($date));        //getting actual date of first friday of june
+        $age = date_diff(date_create($first_friday), date_create($student_bday))->y;    //calculating age
+        //===================================
 
         $studentReg = StudentRegister::where([
             'student_id' => $studSY->student_id,
             'schoolyear_id' => $studSY->schoolyear_id
         ])->first();
+        $studentData = StudentData::where('student_id', $studSY->student_id)->get();
         //dd($studentReg->StudentData);
         $schoolyears = DB::table('schoolyears')
             ->orderBy('year_start')
             ->get();
-        $student_users = DB::table('users')
-            ->join('students', 'students.user_id', '=', 'users.id')
-            ->where('users.owner_type', 'S')
-            ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
-            ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
-            ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'sections.name', 'sections.grade_level')
-            ->orderBy('grade_level')
-            ->orderBy('lastName', 'ASC')
-            ->get();
         //dd($schoolyears);
         
         if(isset($studentReg)){
-            return view('admin.reports.sf1.edit', compact('roleName', 'schoolyears', 'studSY', 'student', 'studentReg'));
+            return view('admin.reports.sf1.edit', compact('roleName', 'schoolyears', 'studSY', 'studentReg', 'studentData'));
         }else{
-            return view('admin.reports.sf1.create', compact('roleName', 'schoolyears', 'studSY'));
+            return view('admin.reports.sf1.create', compact('roleName', 'schoolyears', 'studSY', 'age', 'studentData'));
         }
     }
 
@@ -626,6 +626,16 @@ public function generate_sf6(User $user, $sy){
         $studSY = StudentSchoolyear::where('id', $studentsy)->first();
         //dd($studSY->StudentRegister);
 
+        $sy = Schoolyear::where('id', $studSY->schoolyear_id)->first();
+        
+        // ======= Calculating age ==========
+        $student_bday = $studSY->Student->User->birthdate;      //getting birthdate of student
+        
+        $date = $sy->year_start.'-06-00 next friday';           //getting date string
+        $first_friday = date('Y-m-d', strtotime($date));        //getting actual date of first friday of june
+        $age = date_diff(date_create($first_friday), date_create($student_bday))->y;    //calculating age
+        //===================================
+
         $studentHealth = StudentHealth::where([
             'student_id' => $studSY->student_id,
             'schoolyear_id' => $studSY->schoolyear_id
@@ -638,7 +648,7 @@ public function generate_sf6(User $user, $sy){
         if(isset($studentHealth)){
             return view('admin.reports.sf8.edit', compact('schoolyears', 'studSY', 'studentHealth'));
         }else{
-            return view('admin.reports.sf8.create', compact('schoolyears', 'studSY'));
+            return view('admin.reports.sf8.create', compact('schoolyears', 'studSY', 'age'));
         }
     }
 

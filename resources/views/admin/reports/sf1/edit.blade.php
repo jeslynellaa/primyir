@@ -85,7 +85,7 @@
                             <label for="mother_tongue" class="col-md-4 col-form-label text-md-end">{{ __('Mother Tongue') }}</label>
 
                             <div class="col-md-6">
-                                <input id="mother_tongue"  value="{{ $student->StudentData->mother_tongue }}"
+                                <input id="mother_tongue"  value="{{ $studSY->Student->StudentData->mother_tongue }}"
                                 type="text" placeholder="Mother Tongue"
                                 class="wow form-control @error('mother_tongue') is-invalid @enderror" name="mother_tongue">
                             </div>
@@ -95,7 +95,7 @@
                             <label for="IP_ethnicGroup" class="col-md-4 col-form-label text-md-end">{{ __('IP or Ethnic Group') }}</label>
 
                             <div class="col-md-6">
-                                <input id="IP_ethnicGroup"  value="{{ $student->StudentData->IP_ethnicGroup }}"
+                                <input id="IP_ethnicGroup"  value="{{ $studSY->Student->StudentData->IP_ethnicGroup }}"
                                 type="text"  placeholder="IP or Ethnic Group"
                                 class="wow form-control @error('IP_ethnicGroup') is-invalid @enderror" name="IP_ethnicGroup">
                             </div>
@@ -107,7 +107,7 @@
                             <label for="father_givenName" class="col-md-4 col-form-label text-md-end">{{ __('Father Given Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="father_givenName"  value="{{ $student->StudentData->father_givenName }}"
+                                <input id="father_givenName"  value="{{ $studSY->Student->StudentData->father_givenName }}"
                                 type="text"  placeholder="Father's Given Name"
                                 class="wow form-control @error('father_givenName') is-invalid @enderror" name="father_givenName">
                             </div>
@@ -117,7 +117,7 @@
                             <label for="father_middleName" class="col-md-4 col-form-label text-md-end">{{ __('Father Middle Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="father_middleName" value="{{ $student->StudentData->father_middleName }}"
+                                <input id="father_middleName" value="{{ $studSY->Student->StudentData->father_middleName }}"
                                 type="text"  placeholder="Father's Middle Name"
                                 class="wow form-control @error('father_middleName') is-invalid @enderror" name="father_middleName">
                             </div>
@@ -127,7 +127,7 @@
                             <label for="father_lastName" class="col-md-4 col-form-label text-md-end">{{ __('Father Last Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="father_lastName" value="{{ $student->StudentData->father_lastName }}"
+                                <input id="father_lastName" value="{{ $studSY->Student->StudentData->father_lastName }}"
                                 type="text"  placeholder="Father's Last Name"
                                 class="wow form-control @error('father_lastName') is-invalid @enderror" name="father_lastName">
                             </div>
@@ -140,7 +140,7 @@
                             <label for="mother_givenName" class="col-md-4 col-form-label text-md-end">{{ __('Mother Given Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="mother_givenName" value="{{ $student->StudentData->mother_givenName }}"
+                                <input id="mother_givenName" value="{{ $studSY->Student->StudentData->mother_givenName }}"
                                 type="text" placeholder="Mother's Given Name"
                                 class="wow form-control @error('mother_givenName') is-invalid @enderror" name="mother_givenName">
                             </div>
@@ -150,7 +150,7 @@
                             <label for="mother_middleName" class="col-md-4 col-form-label text-md-end">{{ __('Mother Middle Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="mother_middleName" value="{{ $student->StudentData->mother_middleName }}"
+                                <input id="mother_middleName" value="{{ $studSY->Student->StudentData->mother_middleName }}"
                                 type="text" placeholder="Mother's Middle Name"
                                 class="wow form-control @error('mother_middleName') is-invalid @enderror" name="mother_middleName">
                             </div>
@@ -160,7 +160,7 @@
                             <label for="mother_lastName" class="col-md-4 col-form-label text-md-end">{{ __('Mother Last Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="mother_lastName" value="{{ $student->StudentData->mother_lastName }}"
+                                <input id="mother_lastName" value="{{ $studSY->Student->StudentData->mother_lastName }}"
                                 type="text" placeholder="Mother's Last Name"
                                 class="wow form-control @error('mother_lastName') is-invalid @enderror" name="mother_lastName">
                             </div>
@@ -173,7 +173,7 @@
                             <label for="guardian_givenName" class="col-md-4 col-form-label text-md-end">{{ __('Guardian Given Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="guardian_givenName" value="{{ $student->StudentData->guardian_givenName }}"
+                                <input id="guardian_givenName" value="{{ $studSY->Student->StudentData->guardian_givenName }}"
                                 type="text" placeholder="Guardian's Given Name"
                                 class="wow form-control @error('guardian_givenName') is-invalid @enderror" name="guardian_givenName">
                             </div>
@@ -183,7 +183,7 @@
                             <label for="guardian_middleName" class="col-md-4 col-form-label text-md-end">{{ __('Guardian Middle Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="guardian_middleName" value="{{ $student->StudentData->guardian_middleName }}"
+                                <input id="guardian_middleName" value="{{ $studSY->Student->StudentData->guardian_middleName }}"
                                 type="text" placeholder="Guardian's Middle Name"
                                 class="wow form-control @error('guardian_middleName') is-invalid @enderror" name="guardian_middleName">
                             </div>
@@ -193,7 +193,7 @@
                             <label for="guardian_lastName" class="col-md-4 col-form-label text-md-end">{{ __('Guardian Last Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="guardian_lastName" value="{{ $student->StudentData->guardian_lastName }}"
+                                <input id="guardian_lastName" value="{{ $studSY->Student->StudentData->guardian_lastName }}"
                                 type="text" placeholder="Guardian's Last Name"
                                 class="wow form-control @error('guardian_lastName') is-invalid @enderror" name="guardian_lastName">
                             </div>
@@ -203,7 +203,7 @@
                             <label for="guardian_relationship" class="col-md-4 col-form-label text-md-end">{{ __('Guardian Relationship') }}</label>
 
                             <div class="col-md-6">
-                                <input id="guardian_relationship" value="{{ $student->StudentData->guardian_relationship }}"
+                                <input id="guardian_relationship" value="{{ $studSY->Student->StudentData->guardian_relationship }}"
                                 type="text"  placeholder="Reationship with Guardian"
                                 class="wow form-control @error('guardian_relationship') is-invalid @enderror" name="guardian_relationship">
                             </div>
@@ -216,7 +216,7 @@
                             <label for="contact" class="col-md-4 col-form-label text-md-end">{{ __('Parent or Guardian Contact Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="contact" value="{{ $student->StudentData->parent_guardian_contactNo }}"
+                                <input id="contact" value="{{ $studSY->Student->StudentData->parent_guardian_contactNo }}"
                                 type="text"  placeholder="Contact #"
                                 class="wow form-control @error('contact') is-invalid @enderror" name="contact">
                             </div>

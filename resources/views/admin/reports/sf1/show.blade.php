@@ -20,7 +20,6 @@
                             <th style="width=10% align=left">No.</th>
                             <th>LRN</th>
                             <th>Student</th>
-                            <th>Section</th>
                             <th>Options</th>
                         </tr>	
                     </thead>
@@ -31,7 +30,6 @@
                                 <td>{{ $loop->index + 1}}</td>
                                 <td>{{ $student->LRN_no }}</td>
                                 <td>{{ $student->lastName}}, {{ $student->givenName}} {{ $student->middleName}}</td>
-                                <td>{{ $student->name }}</td>
                                 <td><a href="/admin/reports/sf1/create-update/{{$student->studentsy}}">Create or Edit</a></td>
                             </tr>
                         @endforeach

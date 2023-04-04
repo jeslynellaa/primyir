@@ -75,7 +75,7 @@
                             <label for="age" class="col-md-4 col-form-label text-md-end">{{ __('Age as of 1st Friday of June') }}</label>
 
                             <div class="col-md-6">
-                                <input id="age" value="{{ old('age') }}"
+                                <input id="age" value="{{ $age }}"
                                 type="text" placeholder="Age"
                                 class="wow form-control @error('age') is-invalid @enderror" name="age">
                             </div>
@@ -83,18 +83,47 @@
                         <div class="form_item">
                             <label for="mother_tongue" class="col-md-4 col-form-label text-md-end">{{ __('Mother Tongue') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="mother_tongue"  value="{{ old('mother_tongue') }}"
+                            <!-- <div class="col-md-6">
+                                <input id="mother_tongue"  value="{{ $studSY->Student->StudentData->mother_tongue ?? old('mother_tongue')}}"
                                 type="text" placeholder="Mother Tongue"
                                 class="wow form-control @error('mother_tongue') is-invalid @enderror" name="mother_tongue">
-                            </div>
+                            </div> -->
+                            
+                            <select name="mother_tongue" class="form-control wow" id="mother_tongue">
+                                <option selected disabled>-- Select Mother Tongue --</option>
+                                <option value='Akeanon'> Akeanon </option>
+                                <option value='Bikolano'> Bikolano </option>
+                                <option value='Bisaya'> Bisaya </option>
+                                <option value='Boholano'> Boholano </option>
+                                <option value='Capizeño'> Capizeño </option>
+                                <option value='Cebuano'> Cebuano </option>
+                                <option value='Hiligaynon Ilonggo'> Hiligaynon Ilonggo </option>
+                                <option value='Ilocano'> Ilocano </option>
+                                <option value='Ivatan'> Ivatan </option>
+                                <option value='Kalinga'> Kalinga </option>
+                                <option value='Kankanaey'> Kankanaey </option>
+                                <option value='Kapampangan'> Kapampangan </option>
+                                <option value='Karay-a'> Karay-a </option>
+                                <option value='Maguindanao'> Maguindanao </option>
+                                <option value='Maranao'> Maranao </option>
+                                <option value='Masbateño/Masbatenon'> Masbateño/Masbatenon </option>
+                                <option value='Other Local Dialects'> Other Local Dialects </option>
+                                <option value='Pangasinan/Panggalato'> Pangasinan/Panggalato </option>
+                                <option value='Sama/Samal'> Sama/Samal </option>
+                                <option value='Surigaonon'> Surigaonon </option>
+                                <option value='Tagalog' selected> Tagalog </option>
+                                <option value='Tausug'> Tausug </option>
+                                <option value='Tuwali'> Tuwali </option>
+                                <option value='Waray'> Waray </option>
+                                <option value='Yakan'> Yakan </option>
+                            </select>
                         </div>
 
                         <div class="form_item">
                             <label for="IP_ethnicGroup" class="col-md-4 col-form-label text-md-end">{{ __('IP or Ethnic Group') }}</label>
 
                             <div class="col-md-6">
-                                <input id="IP_ethnicGroup"  value="{{ old('IP_ethnicGroup') }}"
+                                <input id="IP_ethnicGroup"  value="{{ $studSY->Student->StudentData->IP_ethnicGroup ?? old('IP_ethnicGroup') }}"
                                 type="text"  placeholder="IP or Ethnic Group"
                                 class="wow form-control @error('IP_ethnicGroup') is-invalid @enderror" name="IP_ethnicGroup">
                             </div>
@@ -106,7 +135,7 @@
                             <label for="father_givenName" class="col-md-4 col-form-label text-md-end">{{ __('Father Given Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="father_givenName"  value="{{ old('father_givenName') }}"
+                                <input id="father_givenName"  value="{{ $studSY->Student->StudentData->father_givenName ?? old('father_givenName') }}"
                                 type="text"  placeholder="Father's Given Name"
                                 class="wow form-control @error('father_givenName') is-invalid @enderror" name="father_givenName">
                             </div>
@@ -116,7 +145,7 @@
                             <label for="father_middleName" class="col-md-4 col-form-label text-md-end">{{ __('Father Middle Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="father_middleName" value="{{ old('father_middleName') }}"
+                                <input id="father_middleName" value="{{$studSY->Student->StudentData->father_middleName ?? old('father_middleName') }}"
                                 type="text"  placeholder="Father's Middle Name"
                                 class="wow form-control @error('father_middleName') is-invalid @enderror" name="father_middleName">
                             </div>
@@ -126,7 +155,7 @@
                             <label for="father_lastName" class="col-md-4 col-form-label text-md-end">{{ __('Father Last Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="father_lastName" value="{{ old('father_lastName') }}"
+                                <input id="father_lastName" value="{{$studSY->Student->StudentData->father_lastName ?? old('father_lastName') }}"
                                 type="text"  placeholder="Father's Last Name"
                                 class="wow form-control @error('father_lastName') is-invalid @enderror" name="father_lastName">
                             </div>
@@ -139,7 +168,7 @@
                             <label for="mother_givenName" class="col-md-4 col-form-label text-md-end">{{ __('Mother Given Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="mother_givenName" value="{{ old('mother_givenName') }}"
+                                <input id="mother_givenName" value="{{$studSY->Student->StudentData->mother_givenName ?? old('mother_givenName') }}"
                                 type="text" placeholder="Mother's Given Name"
                                 class="wow form-control @error('mother_givenName') is-invalid @enderror" name="mother_givenName">
                             </div>
@@ -149,7 +178,7 @@
                             <label for="mother_middleName" class="col-md-4 col-form-label text-md-end">{{ __('Mother Middle Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="mother_middleName" value="{{ old('mother_middleName') }}"
+                                <input id="mother_middleName" value="{{$studSY->Student->StudentData->mother_middleName ?? old('mother_middleName') }}"
                                 type="text" placeholder="Mother's Middle Name"
                                 class="wow form-control @error('mother_middleName') is-invalid @enderror" name="mother_middleName">
                             </div>
@@ -159,7 +188,7 @@
                             <label for="mother_lastName" class="col-md-4 col-form-label text-md-end">{{ __('Mother Last Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="mother_lastName" value="{{ old('mother_lastName') }}"
+                                <input id="mother_lastName" value="{{$studSY->Student->StudentData->mother_lastName ?? old('mother_lastName') }}"
                                 type="text" placeholder="Mother's Last Name"
                                 class="wow form-control @error('mother_lastName') is-invalid @enderror" name="mother_lastName">
                             </div>
@@ -172,7 +201,7 @@
                             <label for="guardian_givenName" class="col-md-4 col-form-label text-md-end">{{ __('Guardian Given Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="guardian_givenName" value="{{ old('guardian_givenName') }}"
+                                <input id="guardian_givenName" value="{{$studSY->Student->StudentData->guardian_givenName ?? old('guardian_givenName') }}"
                                 type="text" placeholder="Guardian's Given Name"
                                 class="wow form-control @error('guardian_givenName') is-invalid @enderror" name="guardian_givenName">
                             </div>
@@ -182,7 +211,7 @@
                             <label for="guardian_middleName" class="col-md-4 col-form-label text-md-end">{{ __('Guardian Middle Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="guardian_middleName" value="{{ old('guardian_middleName') }}"
+                                <input id="guardian_middleName" value="{{$studSY->Student->StudentData->guardian_middleName ?? old('guardian_middleName') }}"
                                 type="text" placeholder="Guardian's Middle Name"
                                 class="wow form-control @error('guardian_middleName') is-invalid @enderror" name="guardian_middleName">
                             </div>
@@ -192,7 +221,7 @@
                             <label for="guardian_lastName" class="col-md-4 col-form-label text-md-end">{{ __('Guardian Last Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="guardian_lastName" value="{{ old('guardian_lastName') }}"
+                                <input id="guardian_lastName" value="{{$studSY->Student->StudentData->guardian_lastName ?? old('guardian_lastName') }}"
                                 type="text" placeholder="Guardian's Last Name"
                                 class="wow form-control @error('guardian_lastName') is-invalid @enderror" name="guardian_lastName">
                             </div>
@@ -202,7 +231,7 @@
                             <label for="guardian_relationship" class="col-md-4 col-form-label text-md-end">{{ __('Guardian Relationship') }}</label>
 
                             <div class="col-md-6">
-                                <input id="guardian_relationship" value="{{ old('guardian_relationship') }}"
+                                <input id="guardian_relationship" value="{{$studSY->Student->StudentData->guardian_relationship ?? old('guardian_relationship') }}"
                                 type="text"  placeholder="Reationship with Guardian"
                                 class="wow form-control @error('guardian_relationship') is-invalid @enderror" name="guardian_relationship">
                             </div>
@@ -215,7 +244,7 @@
                             <label for="contact" class="col-md-4 col-form-label text-md-end">{{ __('Parent or Guardian Contact Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="contact" value="{{ old('contact') }}"
+                                <input id="contact" value="{{$studSY->Student->StudentData->parent_guardian_contactNo ?? old('contact') }}"
                                 type="text"  placeholder="Contact #"
                                 class="wow form-control @error('contact') is-invalid @enderror" name="contact">
                             </div>
