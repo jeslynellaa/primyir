@@ -29,7 +29,7 @@ class FacultyController extends Controller
             ->where('users.owner_type', 'T')
             ->select('users.*', 'teachers.department', 'teachers.id as teach_id')
             ->orderBy('lastName', 'ASC')
-            ->get()->paginate(5);
+            ->get()->paginate(15);
         $teachers = \App\Models\Teacher::all();
 
         return view('admin.faculty.index', compact('teacher_users', 'teachers'));
