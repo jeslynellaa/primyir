@@ -105,6 +105,11 @@ class FacultyController extends Controller
     public function generate_sf5(){
     return view('sf_pdf.sf5');
 
+    }
+
+    public function generate_curr(){
+    return view('curriculum.curr');
+
 }
 
 }

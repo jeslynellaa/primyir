@@ -134,39 +134,8 @@
 
                 <div class="aaa">
                     <div class="side-post">
-                        <?php
+                      
 
-                        $dbhost = "localhost";
-                        $dbuser = "root";
-                        $dbpass = "123456";
-                        $db = "eskwelahan2";
-
-                        $con=mysqli_connect($dbhost, $dbuser, $dbpass, $db);
-                        $r = 0;
-                        $s = mysqli_query($con, "SELECT *, DATE_FORMAT(date_posted, '%c/%e/%Y') AS date FROM `notices`");
-                        while($row = mysqli_fetch_array($s)){
-                            echo 
-                            '<div class="sidecol">
-                                    <div class="sideimg-con">
-                                        <img src="../assets/imgs/'.$row["img"].'" class="imahe">
-                                    </div>
-                                    <div class="sideline">
-                                        <h3 class="titulo">'.$row["title"].'</h3>
-                                        <div class="sidecontent">
-                                            <i class="fa-solid fa-calendar-days acce"></i>
-                                            <h6>&nbsp;'.$row["date_posted"].'</h6>
-                                            <h6>&nbsp;&nbsp;&nbsp;&#x2022;&nbsp;&nbsp;&nbsp;</h6>
-                                            <h6>'.$row["category"].'</h6>
-                                        </div>
-                                    </div>
-                                ';
-                            
-                                if($r%1 == 0){
-                                    echo "</div>";
-                                }
-                                $r++;
-                            }
-                        ?>
 
                     </div>
                 </div>

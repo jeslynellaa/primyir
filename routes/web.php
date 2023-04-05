@@ -146,3 +146,4 @@ Route::get('/grades', [App\Http\Controllers\StudentsController::class, 'viewGrad
 
 Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
 Route::get('/sf4', [App\Http\Controllers\FacultyController::class, 'generate_sf4'])->name('sf4_pdf');
+Route::get('/curr', [App\Http\Controllers\FacultyController::class, 'generate_curr'])->name('curr_pdf');
