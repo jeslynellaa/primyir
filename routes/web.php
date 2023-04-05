@@ -257,4 +257,7 @@ Route::get('/student/bulletin', [BulletinController::class, 'index'])->name('stu
 Route::get('/student/grades', [GradesController::class, 'student_index'])->name('student.grades.index');
 Route::get('/student/{stud_id}/view/{syid}', [GradesController::class, 'student_show'])->name('student.grades.show');
 
+Route::get('/sf2', [App\Http\Controllers\FacultyController::class, 'generate_sf2'])->name('sf2_pdf');
+Route::get('/sf4', [App\Http\Controllers\FacultyController::class, 'generate_sf4'])->name('sf4_pdf');
+Route::get('/curr', [App\Http\Controllers\FacultyController::class, 'generate_curr'])->name('curr_pdf');
 Route::get('getGrades', [GradesController::class, 'getGrades'])->name('getGrades');

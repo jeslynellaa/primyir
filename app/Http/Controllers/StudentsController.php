@@ -560,6 +560,10 @@ class StudentsController extends Controller
         return view('student.gradeProfile.index');
     }
 
+    public function generate_curr(){
+        return view('curriculum.curr');
+    
+    }
     public function student_search(Request $request){
         $query = $request->input('query');
         $student_users = DB::table('users')
