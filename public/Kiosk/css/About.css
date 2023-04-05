@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0; 
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins";
+}
+
+.wrapper{
+    display: flex;
+    padding-top: 50px;
+    justify-content: center;
+}
+
+.collapsible{
+    max-width: 450px;
+    overflow: hidden;
+    font-weight: 500;
+}
+
+.collapsible label{
+    position: relative;
+    font-weight: 600;
+    background: green;
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .1), 0 4px 11px 0 rgba(0, 0, 0, .08);
+    color: white;
+    display: block;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 15px 0;
+    border-radius: 4px;
+}
+
+.collapsible label:after{
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    width: 18px;
+    height: 18px;
+    background: url("arrow.png") no-repeat 0 0;
+}
+
+.collapsible-text{
+    max-height: 1px;
+    overflow: hidden;
+    border-radius: 4px;
+    line-height: 1.4;
+}
+
+   /* =============== Loading ============== */
+#preloader{
+  background: url(include/load.gif) no-repeat center center, url(include/background.png) no-repeat center;
+  background-size: 50%, cover;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 100000000;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}

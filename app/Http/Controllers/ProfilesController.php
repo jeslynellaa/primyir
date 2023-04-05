@@ -28,18 +28,28 @@ class ProfilesController extends Controller
     public function edit(User $user)
     {
         $this->authorize('update', $user);
+        $role = $user->owner_type;
+        if ($role == 'A'){
+            $roleName = 'admin';
+        }
+        else if ($role == 'T'){
+            $roleName = 'faculty';
+        }
+        else{
+            $roleName = 'student';
+        }
         $regions = $this->getRegions();
         
-        $region_code = $user->address->region;
+        $region_code = $user->Address->region ?? 5;
         $user_region = DB::table('regions')->where('code', $region_code)->first();
 
-        $province_code = $user->address->province;
+        $province_code = $user->Address->province ?? '';
         $user_province = DB::table('provinces')->where('code', $province_code)->first();
 
-        $city_code = $user->address->city;
+        $city_code = $user->Address->city ?? '';
         $user_city = DB::table('city_municipalities')->where('code', $city_code)->first();
 
-        $barangay_code = $user->address->barangay;
+        $barangay_code = $user->Address->barangay ?? '';
         $user_barangay = DB::table('barangays')->where('code', $barangay_code)->first();
 
         //dd($user_region, $user_province, $user_city, $user_barangay);
@@ -49,9 +59,8 @@ class ProfilesController extends Controller
             'user_region', 
             'user_province', 
             'user_city', 
-            'user_barangay']
+            'user_barangay', 'roleName']
         ));
-        
     }
     
 
@@ -61,25 +70,33 @@ class ProfilesController extends Controller
         $this->authorize('update', $user);
         $regions = $this->getRegions();
         
-        if(strcmp($user->email, $request->email) == 0){
+        if(strcmp($user->email, $request->email) == 0 && strcmp($user->username, $request->username) == 0){
             $data = request()->validate([
-                'givenName' => '',
-                'lastName' => '',
                 'email' => '',
                 'contactNum' => ['digits:11'],
-                'birthdate' => ''
+                'username' => ''
             ]);
             if(strcmp($user->contactNum, $request->contactNum) == 0){
                 return redirect()->back()->with("error","No changes made.");
             }
         }
-        else{ 
+        else if(strcmp($user->email, $request->email) == 0){ 
             $data = request()->validate([
-                'givenName' => '',
-                'lastName' => '',
-                'email' => ['string', 'email', 'max:255', 'unique:users'],
+                'email' => '',
                 'contactNum' => ['digits:11'],
-                'birthdate' => ''
+                'username' => ['required', 'string', 'max:255', 'unique:users']
+            ]);
+        }else if(strcmp($user->username, $request->username) == 0){ 
+            $data = request()->validate([
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'contactNum' => ['digits:11'],
+                'username' => ''
+            ]);
+        }else{
+            $data = request()->validate([
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'contactNum' => ['digits:11'],
+                'username' => ['required', 'string', 'max:255', 'unique:users']
             ]);
         }
         $user = Auth::user();

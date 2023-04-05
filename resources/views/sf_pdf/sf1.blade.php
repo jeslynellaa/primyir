@@ -152,11 +152,11 @@ $(document).ready(function(){
                         <div class="school-id">
                             <span class="bold">School ID:</span>
                             <span>00111</span>
-                            <span>Region V</span>
+                            <span>Region V (BICOL REGION)</span>
                         </div>
                         <div class="school-name">
                             <span class="bold">School Name:</span>
-                            <span>Sorsogon NHS</span>
+                            <span>Sorsogon National High School</span>
                         </div>
                     </div>
                     <div class="sub-info">
@@ -172,15 +172,15 @@ $(document).ready(function(){
                     <div class="sub-info">
                         <div class="School Year">
                             <span class="bold">School Year:</span>
-                            <span>2022-2023</span>
+                            <span>{{$schoolyear->year_start}}-{{$schoolyear->year_end}}</span>
                         </div>
                         <div class="Grade Level">
                             <span class="bold">Grade Level:</span>
-                            <span>SHS</span>
+                            <span>{{$section->grade_level}}</span>
                         </div>
                         <div class="Section">
                             <span class="bold">Section:</span>
-                            <span>Section</span>
+                            <span>{{$section->name}}</span>
                         </div>
                     </div>
                 </div>
@@ -195,11 +195,11 @@ $(document).ready(function(){
                 <th rowspan="2">Birtdate (mm/dd/yyyy)</th>
                 <th rowspan="2">AGE as of 1st Friday "June"</th>
                 <th rowspan="2">Mother Tongue</th>
-                <th rowspan="2">IP Ethnic Group)</th>
+                <th rowspan="2">IP (Ethnic Group)</th>
                 <th rowspan="2">Religion</th>
                 <th colspan="4">Address</th>
                 <th colspan="2">Parents</th>
-                <th colspan="2">Guardian(If not Parent</th>
+                <th colspan="2">Guardian(If not Parent)</th>
                 <th rowspan="2">Contact Number of Parent or Guardian</th>
                 <th colspan="1">Remarks</th>
             </tr>
@@ -213,6 +213,33 @@ $(document).ready(function(){
                 <th>Name</th>
                 <th>Relationship</th>
             </tr>
+            @foreach($records as $record)
+                <tr>
+                    <th>{{$record->Student->LRN_no}}</th>
+                    <th>{{$record->Student->user->lastName}}, {{$record->Student->user->givenName}} {{$record->Student->user->middleName}}</th>
+                    <th>{{$record->Student->user->sex}}</th>
+                    <th>
+                        <?php
+                            $date=date_create($record->Student->user->birthdate);
+                            echo date_format($date,"m/d/Y");
+                        ?>
+                    </th>
+                    <th>{{$record->age}}</th>
+                    <th>{{$record->mother_tongue}}</th>
+                    <th>{{$record->IP_ethnicGroup}}</th>
+                    <th>{{$record->Student->religion}}</th>
+                    <th>{{$record->Student->user->address->street}}</th>
+                    <th>{{$record->Student->user->address->barangay}}</th>
+                    <th>{{$record->Student->user->address->city}}</th>
+                    <th>{{$record->Student->user->address->province}}</th>
+                    <th>{{$record->father_lastName}}, {{$record->father_givenName}} {{$record->father_middleName}}</th>
+                    <th>{{$record->mother_lastName}}, {{$record->mother_givenName}} {{$record->mother_middleName}}</th>
+                    <th>{{$record->guardian_lastName}}</th>
+                    <th>{{$record->guardian_relationship}}</th>
+                    <th>{{$record->parent_guardian_contactNo}}</th>
+                    <th>{{$record->remarks}}</th>
+                </tr>
+            @endforeach
             <script>
                 for (rows = 0; rows <= 49; rows++) {
                     document.write(" <tr> ")

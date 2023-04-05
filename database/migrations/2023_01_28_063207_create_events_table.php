@@ -19,6 +19,8 @@ class CreateEventsTable extends Migration
             $table->string('title', 200);
             $table->string('category', 100);
             $table->binary('thumbnail')->nullable();
+            $table->string('img', 200)->nullable();
+            $table->string('smallcnt', 500)->nullable();
             $table->mediumText('content');
             $table->date('event_date');
             $table->date('date_posted');

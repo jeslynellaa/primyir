@@ -32,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
         * @param string $pageName
         * @return array
         */
+
+        //LengthAwarePaginator::useBootstrap();
         Collection::macro('paginate', function($perPage, $total = null, $page = null, $pageName = 'page') {
             $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName) ;
 
@@ -44,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
                     'path' => LengthAwarePaginator::resolveCurrentPath(),
                     'pageName' => $pageName,
                 ]
-                );
+            );
         });
     }
 }

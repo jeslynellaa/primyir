@@ -704,6 +704,11 @@ color: #e9b10a;
   margin-bottom: 5px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 .form_item input[type="text"], .form_item input[type="email"], .form_item input[type="date"], .form_item input[type="password"],
 .form_item select{
@@ -859,6 +864,12 @@ color: #e9b10a;
 .wrapper .form_wrap .form_item .wow{
   border-radius: 20px;
   background: #e7e7e7;
+}
+
+.grade{
+  width: 3.5rem;
+  border-radius: 5px;
+  background: var(--white);
 }
 
 .wrapper .form_wrap h2{

@@ -11,6 +11,10 @@ class Section extends Model
 
     protected $guarded = [];
     
+    public function Schoolyear(){
+        return $this->belongsTo(Schoolyear::class);
+    }
+
     public function Teacher(){
         return $this->belongsTo(Teacher::class);
     }

@@ -1,4 +1,4 @@
-@extends('layouts.admin-app')
+@extends('layouts.'.$roleName.'-app')
 
 @section('content')
     <div class='signup-container'>
@@ -51,23 +51,13 @@
                             @csrf
                             @method('PATCH')
                             
-                            <div class="form_wrap fullname">
-                                <div class="form_item">
-                                    <label for="givenName" class="col-md-4 col-form-label text-md-end">{{ __('Given Name') }}</label>
+                            <div class="form_item">
+                                <label for="givenName" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
-                                    <div class="col-md-6">
-                                        <input readonly id="givenName" type="text" class="form-control wow" name="givenName" value="{{ old('givenName') ?? $user->givenName }} " autofocus>
-                                    </div>
+                                <div class="col-md-6">
+                                    <input disabled id="givenName" type="text" class="form-control wow" name="givenName" value="{{ $user->lastName }}, {{ $user->givenName }} {{ $user->middleName }} " autofocus>
                                 </div>
-
-                                <div class="form_item">
-                                    <label for="lastName" class="col-md-4 col-form-label text-md-end">{{ __('Last Name') }}</label>
-
-                                    <div class="col-md-6">
-                                        <input readonly id="lastName" type="text" class="form-control wow" name="lastName" value="{{ old('lastName') ?? $user->lastName }}" autofocus>
-                                    </div>
-                                </div>
-                            </div> <!--form_wrap fullname-->
+                            </div>
 
                             <div class="form_wrap fullname">
                                 <div class="form_item">
@@ -100,12 +90,11 @@
                             </div> <!--form_wrap fullname-->
 
                             <div class="form_item">
-                                <label for="birthdate" class="col-md-4 col-form-label text-md-end">{{ __('Birth Date') }}</label>   
+                                <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>   
                                 
                                 <div class="col-md-6">
-                                    <input readonly id="birthdate" type="date" class="form-control wow" name="birthdate" value="{{ old('birthdate') ?? $user->birthdate }}" placeholder="mm/dd/yyyy" autofocus>
+                                    <input id="username" type="text" class="form-control wow" name="username" value="{{ old('username') ?? $user->username }}">
                                 </div>
-
                             </div>
 
                             <div class="col-md-6 offset-md-4">

@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.start img{
+    height: 100vh;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 3;
+    position: absolute;
+}
+
+.slider{
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+}
+
+.slider figure div{
+    float: left;
+    width: 20%;
+}
+
+.slider figure img{
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    float: left;
+}
+
+.slider figure{
+    position: relative;
+    width: 500%;
+    margin: 0;
+    animation: animate 20s infinite;
+}
+
+@keyframes animate{
+    0%{left:0%;}
+    10%{left:0%;}
+    12%{left:-100%;}
+    22%{left:-100%;}
+    24%{left:-200%;}
+    34%{left:-200%;}
+    36%{left:-300%;}
+    46%{left:-300%;}
+    48%{left:-400%;}
+    58%{left:-400%;}
+    60%{left:-300%;}
+    70%{left:-300%;}
+    72%{left:-200%;}
+    82%{left:-200%;}
+    84%{left:-100%;}
+    94%{left:-100%;}
+    96%{left:0%;}
+    100%{left:0%;}
+}
+
+   /* =============== Loading ============== */
+#preloader{
+  background: url(include/load.gif) no-repeat center center, url(include/background.png) no-repeat center;
+  background-size: 50%, cover;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 100000000;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.cover {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: -100vw;
+    z-index: 1000;
+  }
+
+.transition.slide .cover1 {
+    background-color: #ffb400;
+    animation: slide 0.1s ease-in-out forwards;
+  }
+  .transition.slide .cover2 {
+    background-color: white;
+    animation: slide 0.2s ease-in-out forwards;
+    animation-delay: 0.1s;
+  }
+  .transition.slide .cover3 {
+    background-color:  #122f03;
+    animation: slide 0.3s ease-in-out forwards;
+    animation-delay: 0.1s;
+  }
+  @keyframes slide {
+    from {
+      left: -100vw;
+    }
+    to {
+      left: 0;
+    }
+  }

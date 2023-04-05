@@ -20,23 +20,6 @@ class CreateStudentRegistersTable extends Migration
             $table->unsignedBigInteger('section_id');
 
             $table->integer('age');
-            $table->string('mother_tongue', 30);
-            $table->string('IP_ethnicGroup', 30)->nullable();
-
-            $table->string('father_givenName', 50);
-            $table->string('father_middleName', 50)->nullable();
-            $table->string('father_lastName', 50);
-
-            $table->string('mother_givenName', 50);
-            $table->string('mother_middleName', 50)->nullable();
-            $table->string('mother_lastName', 50);
-            
-            $table->string('guardian_givenName', 50)->nullable();
-            $table->string('guardian_middleName', 50)->nullable();
-            $table->string('guardian_lastName', 50)->nullable();
-            $table->string('guardian_relationship', 30)->nullable();
-            
-            $table->string('parent_guardian_contactNo', 20)->nullable();
             
             $table->string('remarks', 100)->nullable();
 

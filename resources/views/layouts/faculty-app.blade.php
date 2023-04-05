@@ -9,7 +9,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Primyir Online Portal</title>
+    <title>e-SKWELAHAN Online Portal</title>
     <!-- ======= add icon link ====== -->
     <link rel = "icon" href = "/png/snhs.png" type = "image/x-icon">
     
@@ -48,6 +48,7 @@
     <!-- ======= Styles ======
     <link rel="stylesheet" href="assets/css/style.css"> -->
     <link href="{{ asset('css/my_app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
     <!-- =========== Scripts =========  -->
     <script src="{{ asset('js/main.js') }}" defer></script>
@@ -69,7 +70,7 @@
                                 <img src="/png/snhss.png" class="=logoo">
                             </div>
                         </span>
-                        <span class="title"><b>Primyir Online Portal</b></span>
+                        <span class="title"><b>e-SKWELAHAN</b></span>
                     </a>
                 </li>
 
@@ -83,16 +84,16 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/faculty/grades">
                         <span class="icon">
                             <i class="fa-solid fa-graduation-cap icon-nav"></i>
                         </span>
-                        <span class="title">Grade</span>
+                        <span class="title">Classes & Grades</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="bulletin.php">
+                    <a href="/faculty/bulletin">
                         <span class="icon">
                             <i class="fa-solid fa-newspaper icon-nav"></i>
                         </span>
@@ -101,16 +102,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
-                        <span class="icon">
-                            <i class="fa-solid fa-chair icon-nav"></i>
-                        </span>
-                        <span class="title">Class</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
+                    <a href="/faculty/reports">
                         <span class="icon">
                             <i class="fa-solid fa-file icon-nav"></i>
                         </span>

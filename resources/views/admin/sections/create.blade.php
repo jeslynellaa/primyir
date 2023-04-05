@@ -28,19 +28,6 @@
                         @csrf
                         
                         <div class="form_item">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Section Name') }}</label>
-                            <div class="col-md-6">
-                                <input id="name" type="text" class=" wow form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Enter Section Name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form_item">
                             <label for="grade_level" class="col-md-4 col-form-label text-md-end">{{ __('Grade Level') }}</label>
 
                             <select name="grade_level" class="form-control wow" id="grade_level">
@@ -50,6 +37,19 @@
                                 <option value=9> Grade 9 </option>
                                 <option value=10> Grade 10 </option>
                             </select>
+                            </div>
+                        </div>
+
+                        <div class="form_item">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Section Name') }}</label>
+                            <div class="col-md-6">
+                                <input id="name" type="text" class=" wow form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Enter Section Name" autofocus>
+
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -69,6 +69,9 @@
                             </button>
                         </div>
                     </form>
+                </div>
+                <div class="btns_wrap" style="float:left;margin-top:1rem;">
+                    <a class="save_btn" style="text-decoration:none; color:black;align:center;" href="/admin/sections"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back to Records</a>
                 </div>
             </div>
         </div>

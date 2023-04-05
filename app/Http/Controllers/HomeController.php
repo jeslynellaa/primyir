@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Section;
+use App\Models\Schoolyear;
 use App\Models\Teacher;
 use App\Models\Curriculum;
 use Illuminate\Support\Facades\Hash;
@@ -50,8 +51,14 @@ class HomeController extends Controller
         return redirect()->route($route_name);
     }
 
+    public function index()
+    {
+        return redirect()->route('home');
+    }
+
     public function admin()
     {
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
         $student_count = DB::table('users')
         ->where('users.accountStatus', 'Active')
         ->where('users.owner_type', 'S')
@@ -74,22 +81,25 @@ class HomeController extends Controller
         $record1 = DB::table('students')
             ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
             ->join('curricula', 'students.curriculum_id', '=', 'curricula.id')
+            ->join('users', 'user_id', 'users.id')
             ->select(DB::raw('count(*) as user_count, curricula.name'))
             ->groupBy('curricula.name')
-            ->where('student_schoolyears.schoolyear_id', '=', 10103)
+            ->where('student_schoolyears.schoolyear_id', '=', $currentSY->id)
             ->get();
-
+        //dd($record1);
         $record2 = DB::table('students')
             ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
             ->join('sections', 'student_schoolyears.section_id', '=', 'sections.id')
+            ->join('users', 'user_id', 'users.id')
             ->select(DB::raw('count(*) as user_count, grade_level'))
             ->groupBy('grade_level')
-            ->where('student_schoolyears.schoolyear_id', '=', 10103)
+            ->where('student_schoolyears.schoolyear_id', '=', $currentSY->id)
             ->get();
 
         $record3 = DB::table('students')
             ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
             ->join('schoolyears', 'student_schoolyears.schoolyear_id', '=', 'schoolyears.id')
+            ->join('users', 'user_id', 'users.id')
             ->select(DB::raw('count(*) as user_count, schoolyear_id, year_start, year_end'))
             ->groupBy('schoolyear_id', 'year_start', 'year_end')
             ->get();
@@ -108,56 +118,21 @@ class HomeController extends Controller
         }
 
         foreach($record2 as $row) {
-            $labels2[] = $row->grade_level;
+            $labels2[] = 'Grade '. + $row->grade_level;
             $data2[] = $row->user_count;
         }
         foreach($record3 as $row) {
             $labels3[] = $row->year_start."-".$row->year_end;
             $data3[] = $row->user_count;
         }
-
-        // $results = DB::select('SELECT *, counter FROM notices ORDER BY date_posted');
-
-        // foreach($results as $row)
-        // {
-        //     $term = $row->term;
-        //     $counter = $row->counter;
-
-        //     // update $maximum if this term is more popular than the previous terms
-        //     if ($counter > $maximum) $maximum = $counter;
-
-        //     $terms[] = array('term' => $term, 'counter' => $counter);
-
-        // }
-
-        // $con=mysqli_connect($dbhost, $dbuser, $dbpass, $db);
-        // $r = 0;
-        // $s = mysqli_query($con, "SELECT *, DATE_FORMAT(date_posted, '%c/%e/%Y') AS date FROM `notices`");
-        // while($row = mysqli_fetch_array($s)){
-        //     echo 
-        //     '<div class="sidecol">
-        //         <div class="sideimg-con">
-        //             <img src="../assets/imgs/'.$row["img"].'" class="imahe">
-        //         </div>
-        //         <div class="sideline">
-        //             <h3 class="titulo">'.$row["title"].'</h3>
-        //             <div class="sidecontent">
-        //                 <i class="fa-solid fa-calendar-days acce"></i>
-        //                 <h6>&nbsp;'.$row["date_posted"].'</h6>
-        //                 <h6>&nbsp;&nbsp;&nbsp;&#x2022;&nbsp;&nbsp;&nbsp;</h6>
-        //                 <h6>'.$row["category"].'</h6>
-        //             </div>
-        //         </div>
-        //     ';
-            
-        //     if($r%1 == 0){
-        //         echo "</div>";
-        //     }
-        //     $r++;
-        // }
-
+        
+        $s = DB::table('events')
+        ->select('title', 'content', 'event_date','date_posted','category','img')
+        ->get();
+        //dd($s);
+        
         return view('admin.index', 
-        compact('student_count', 'faculty_count', 'event_count','class_count', 'labels1', 'data1', 'labels2', 'data2', 'labels3', 'data3'));
+        compact('student_count', 'faculty_count', 'event_count','class_count', 'labels1', 'data1', 'labels2', 'data2', 'labels3', 'data3', 's'));
     }
 
     public function getCurricula(){
@@ -167,5 +142,10 @@ class HomeController extends Controller
     public function faculty()
     {
         return view('faculty.index');
+    }
+
+    public function student()
+    {
+        return view('students.index');
     }
 }

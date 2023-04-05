@@ -24,8 +24,9 @@
                 @endif
 
                 <div class="card-body">
-                    <form method="POST" action="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}">
+                    <form method="POST" action="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}/destroy">
                         @csrf
+                        @method('DELETE')
                         
                         <div class="form_item">
                             <label for="LRN_no" class="col-md-4 col-form-label text-md-end">{{ __('LRN Number') }}</label>
@@ -46,23 +47,6 @@
                                 type="text" 
                                 class=" wow form-control @error('fullname') is-invalid @enderror" name="fullname" 
                                 value="{{ $student_model->user->lastName }}, {{ $student_model->user->givenName }} {{ $student_model->user->middleName }}" autofocus>
-                            </div>
-                        </div>
-
-                        <div class="form_item">
-                            <div class="col-md-6">
-                                <input hidden id="student" 
-                                type="text" 
-                                class=" wow form-control @error('student') is-invalid @enderror" name="student" 
-                                value="{{ $student_model->id}}" autofocus>
-                            </div>
-                        </div>
-                        <div class="form_item">
-                            <div class="col-md-6">
-                                <input hidden id="student_sy" 
-                                type="text" 
-                                class=" wow form-control @error('student_sy') is-invalid @enderror" name="student_sy" 
-                                value="{{ $schoolyear->id}}" autofocus>
                             </div>
                         </div>
 
@@ -89,13 +73,15 @@
                         </div>
                         <hr>
                         <div>
+                            <h4>ASSIGNED SUBJECTS</h4>
                             <div class="form_item">
                                 <table id="example" class="table table-striped" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>No.</th>
                                             <th> Subject Class</th>
-                                            <th style="width=10% align=left"><input type="checkbox" name="chkall" id="chkall" onclick="return checkall('subjects[]');">Select</th>
+                                            <th> Section</th>
+                                            <th style="width=10% align=left"><input name="select_all"  type="checkbox" id="all_assigned"></th>
                                         </tr>	
                                     </thead>
                                     <tbody>
@@ -103,21 +89,50 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1}}</td>
                                                 <td>{{ $assigned->subject}}</td>
-                                                <td><input checked disabled id="subjects" type="checkbox" class="wow form-control @error('elective') is-invalid @enderror" name="subjects[]" value="{{$assigned->subclass_id}}"></td>
+                                                <td>{{ $assigned->name}}</td>
+                                                <td><input id="assigned" type="checkbox" class="assigned wow form-control @error('elective') is-invalid @enderror" name="assigned[]" value="{{$assigned->stud_subj_id}}"></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
+                        <div class="col-md-6 offset-md-4" style="align:right;">
+                            <button type="submit" class="save_btn">
+                                {{ __('Remove Subjects') }}
+                            </button>
+                        </div>
+                    </form>
+
+                    <form method="POST" action="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}">
+                        @csrf
                         <div>
+
+                        <div class="form_item">
+                            <div class="col-md-6">
+                                <input hidden id="student" 
+                                type="text" 
+                                class=" wow form-control @error('student') is-invalid @enderror" name="student" 
+                                value="{{ $student_model->id}}" autofocus>
+                            </div>
+                        </div>
+                        <div class="form_item">
+                            <div class="col-md-6">
+                                <input hidden id="student_sy" 
+                                type="text" 
+                                class=" wow form-control @error('student_sy') is-invalid @enderror" name="student_sy" 
+                                value="{{ $schoolyear->id}}" autofocus>
+                            </div>
+                        </div>
                             <div class="form_item">
                                 <table id="example" class="table table-striped" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>No.</th>
                                             <th> Subject Class</th>
-                                            <th style="width=10% align=left"><input type="checkbox" name="chkall" id="chkall" onclick="return checkall('subjects[]');">Select</th>
+                                            <th> Section</th>
+                                            <th style="width=10% align=left"><input name="select_all"  type="checkbox" id="all_avail"></th>
                                         </tr>	
                                     </thead>
                                     <tbody>
@@ -125,7 +140,8 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1}}</td>
                                                 <td>{{ $subject->subject}}</td>
-                                                <td><input id="subjects" type="checkbox" class="wow form-control @error('elective') is-invalid @enderror" name="subjects[]" value="{{$subject->subclass_id}}"></td>
+                                                <td>{{ $subject->section}}</td>
+                                                <td><input id="subjects" type="checkbox" class="avail wow form-control @error('elective') is-invalid @enderror" name="subjects[]" value="{{$subject->subclass_id}}"></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -145,6 +161,9 @@
                             </button>
                         </div>
                     </form>
+                </div>
+                <div class="btns_wrap" style="float:left;margin-top:1rem;">
+                    <a class="save_btn" style="text-decoration:none; color:black;align:center;" href="/admin/students/{{$student_model->id}}/view/{{$schoolyear->id}}"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back to School Year Record</a>
                 </div>
             </div>
         </div>
@@ -170,6 +189,29 @@
                         });
                     }
                 });
+            });
+            $('#all_assigned').on('change', function() {     
+                $('.assigned').prop('checked', $(this).prop("checked"));              
+            });
+            //deselect "checked all", if one of the listed checkbox category is unchecked amd select "checked all" if all of the listed checkbox category is checked
+            $('.assigned').change(function(){ //".assigned" change 
+                if($('.assigned:checked').length == $('.assigned').length){
+                    $('#all_assigned').prop('checked',true);
+                }else{
+                    $('#all_assigned').prop('checked',false);
+                }
+            });
+
+            $('#all_avail').on('change', function() {     
+                $('.avail').prop('checked', $(this).prop("checked"));              
+            });
+            //deselect "checked all", if one of the listed checkbox category is unchecked amd select "checked all" if all of the listed checkbox category is checked
+            $('.avail').change(function(){ //".avail" change 
+                if($('.avail:checked').length == $('.avail').length){
+                    $('#all_avail').prop('checked',true);
+                }else{
+                    $('#all_avail').prop('checked',false);
+                }
             });
         });
     </script>

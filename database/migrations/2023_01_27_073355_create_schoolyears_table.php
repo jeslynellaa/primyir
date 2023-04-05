@@ -21,6 +21,9 @@ class CreateSchoolyearsTable extends Migration
 
             $table->date('date_end');
             $table->year('year_end', 4);
+
+            $table->boolean('isCurrent');
+
             $table->timestamps();
         });
     }

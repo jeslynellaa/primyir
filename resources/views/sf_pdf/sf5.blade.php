@@ -129,7 +129,7 @@ $(document).ready(function(){
                         </div>
                         <div class="school-name">
                             <span class="bold">School Name:</span>
-                            <span>Sorsogon NHS</span>
+                            <span>Sorsogon National High School</span>
                         </div>
                     </div>
                     <div class="sub-info">
@@ -145,15 +145,15 @@ $(document).ready(function(){
                     <div class="sub-info">
                         <div class="School Year">
                             <span class="bold">School Year:</span>
-                            <span>2022-2023</span>
+                            <span>{{$schoolyear->year_start}}-{{$schoolyear->year_end}}</span>
                         </div>
                         <div class="Grade Level">
                             <span class="bold">Grade Level:</span>
-                            <span>SHS</span>
+                            <span>{{$section->grade_level}}</span>
                         </div>
                         <div class="Section">
                             <span class="bold">Section:</span>
-                            <span>Section</span>
+                            <span>{{$section->name}}</span>
                         </div>
                     </div>
                 </div>
@@ -171,6 +171,15 @@ $(document).ready(function(){
                         <th>ACTION TAKEN: PROMOTED, CONDITIONAL, or RETAINED</th>
                         <th>Did Not Meet Expectations of Sthe ff.Learning Area/s as of end of current School Year</th>
                     </tr>
+                @foreach($m_records as $male)
+                    <tr>
+                        <td>{{$male->LRN_no}}</td>
+                        <td>{{$male->lastName}}, {{$male->givenName}} {{$male->middleName}}</td>
+                        <td>{{$male->gen_average}}</td>
+                        <td>{{$male->action_taken}}</td>
+                        <td>{{$male->failed_areas}}</td>
+                    </tr>
+                @endforeach
                     <script>
                         for (rows = 0; rows <= 20; rows++) {
                             document.write(" <tr> ")
@@ -181,12 +190,21 @@ $(document).ready(function(){
                         }
                     </script>
                     <tr>
-                        <td></td>
+                        <td>{{$m_records->count()}}</td>
                         <td style="font-size: 11px ">TOTAL MALE</td>
                         <td style="background-color: #f0f0f0"></td>
                         <td style="background-color: #f0f0f0"></td>
                         <td style="background-color: #f0f0f0"></td>
                     </tr>
+                @foreach($f_records as $female)
+                    <tr>
+                        <td>{{$female->LRN_no}}</td>
+                        <td>{{$female->lastName}}, {{$female->givenName}} {{$female->middleName}}</td>
+                        <td>{{$female->gen_average}}</td>
+                        <td>{{$female->action_taken}}</td>
+                        <td>{{$female->failed_areas}}</td>
+                    </tr>
+                @endforeach
                     <script>
                         for (rows = 0; rows <= 25; rows++) {
                             document.write(" <tr> ")
@@ -197,14 +215,14 @@ $(document).ready(function(){
                         }
                     </script>
                     <tr>
-                        <td></td>
+                        <td>{{$f_records->count()}}</td>
                         <td style="font-size: 11px ">TOTAL FEMALE</td>
                         <td style="background-color: #f0f0f0"></td>
                         <td style="background-color: #f0f0f0"></td>
                         <td style="background-color: #f0f0f0"></td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td>{{$f_records->count() + $m_records->count()}}</td>
                         <td style="font-size: 11px ">COMBINED</td>
                         <td style="background-color: #f0f0f0"></td>
                         <td style="background-color: #f0f0f0"></td>
@@ -225,21 +243,21 @@ $(document).ready(function(){
                     </tr> 
                     <tr>
                         <th>PROMOTED</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$m_records->where('action_taken', 'Promoted')->count()}}</td>
+                        <td>{{$f_records->where('action_taken', 'Promoted')->count()}}</td>
+                        <td>{{$m_records->where('action_taken', 'Promoted')->count() + $f_records->where('action_taken', 'Promoted')->count()}}</td>
                     </tr>
                     <tr>
-                        <th>Conditional</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <th>*Conditional</th>
+                        <td>{{$m_records->where('action_taken', 'Conditional')->count()}}</td>
+                        <td>{{$f_records->where('action_taken', 'Conditional')->count()}}</td>
+                        <td>{{$m_records->where('action_taken', 'Conditional')->count() + $f_records->where('action_taken', 'Conditional')->count()}}</td>
                     </tr>
                     <tr>
                         <th>RETAINED</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$m_records->where('action_taken', 'Retained')->count()}}</td>
+                        <td>{{$f_records->where('action_taken', 'Retained')->count()}}</td>
+                        <td>{{$m_records->where('action_taken', 'Retained')->count() + $f_records->where('action_taken', 'Retained')->count()}}</td>
                     </tr>
                 </table>
 
@@ -252,22 +270,34 @@ $(document).ready(function(){
                         <th>Total</th>
                     </tr>
                     <tr>
-                        <th>Did Not Meet Expectations(74 and below)</th>  
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <th>Did Not Meet Expectations <br>(74 and below)</th>
+                        <td>{{$m_records->where('gen_average', '<=', '74')->count()}}</td>
+                        <td>{{$f_records->where('gen_average', '<=', '74')->count()}}</td>
+                        <td>{{$m_records->where('gen_average', '<=', '74')->count() + $f_records->where('gen_average', '<=', '74')->count()}}</td>
                     </tr>
                     <tr>
-                        <th>Fairly Satisfactory</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <th>Fairly Satisfactory <br>(75-79)</th>
+                        <td>{{$m_records->where('gen_average', '>=', '75')->where('gen_average', '<=', '79')->count()}}</td>
+                        <td>{{$f_records->where('gen_average', '>=', '75')->where('gen_average', '<=', '79')->count()}}</td>
+                        <td>{{$m_records->where('gen_average', '>=', '75')->where('gen_average', '<=', '79')->count() + $f_records->where('gen_average', '>=', '75')->where('gen_average', '<=', '79')->count()}}</td>
                     </tr>
                     <tr>
-                        <th>Satisfactory</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <th>Satisfactory <br>(80-84)</th>
+                        <td>{{$m_records->where('gen_average', '>=', '80')->where('gen_average', '<=', '84')->count()}}</td>
+                        <td>{{$f_records->where('gen_average', '>=', '80')->where('gen_average', '<=', '84')->count()}}</td>
+                        <td>{{$m_records->where('gen_average', '>=', '80')->where('gen_average', '<=', '84')->count() + $f_records->where('gen_average', '>=', '80')->where('gen_average', '<=', '84')->count()}}</td>
+                    </tr>
+                    <tr>
+                        <th>Very Satisfactory <br>(85-89)</th>
+                        <td>{{$m_records->where('gen_average', '>=', '85')->where('gen_average', '<=', '89')->count()}}</td>
+                        <td>{{$f_records->where('gen_average', '>=', '85')->where('gen_average', '<=', '89')->count()}}</td>
+                        <td>{{$m_records->where('gen_average', '>=', '85')->where('gen_average', '<=', '89')->count() + $f_records->where('gen_average', '>=', '85')->where('gen_average', '<=', '89')->count()}}</td>
+                    </tr>
+                    <tr>
+                        <th>Outstanding <br>(90-100)</th>
+                        <td>{{$m_records->where('gen_average', '>=', '90')->where('gen_average', '<=', '100')->count()}}</td>
+                        <td>{{$f_records->where('gen_average', '>=', '90')->where('gen_average', '<=', '100')->count()}}</td>
+                        <td>{{$m_records->where('gen_average', '>=', '90')->where('gen_average', '<=', '100')->count() + $f_records->where('gen_average', '>=', '90')->where('gen_average', '<=', '100')->count()}}</td>
                     </tr>
                 </table>
                         

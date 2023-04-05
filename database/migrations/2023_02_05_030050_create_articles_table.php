@@ -20,6 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string('category', 100);
             $table->string('author', 100);
             $table->binary('thumbnail')->nullable();
+            $table->string('img', 200)->nullable();
             $table->mediumText('content');
             $table->date('date_posted');
             $table->unsignedBigInteger('admin_id');

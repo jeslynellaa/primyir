@@ -4,20 +4,26 @@
     <div>
         <!-- ======================= Cards ================== -->
         <div class="cardBox">
-            <div class="card">
+            <a class="card" href="/admin/students">
                 <div>
                     <div class="numbers">
                         {{$student_count}}
                     </div>
-                    <div class="cardName">Student</div>
+                    <div class="cardName">
+                        @if ($student_count<=1)
+                            Student
+                        @else
+                            Students
+                        @endif
+                    </div>
                 </div>
 
                 <div class="iconBx">
                     <i class="fa-solid fa-graduation-cap icon-dash"></i>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a class="card" href="/admin/faculty">
                 <div>
                     <div class="numbers">
                         {{$faculty_count}}
@@ -28,41 +34,52 @@
                 <div class="iconBx">
                     <i class="fa-solid fa-user icon-dash"></i>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a class="card" href="/admin/events">
                 <div>
                     <div class="numbers">
                         {{$event_count}}
                     </div>
-                    <div class="cardName">Event</div>
+                    <div class="cardName">
+                        @if ($event_count<=1)
+                            Upcoming Event
+                        @else
+                            Upcoming Events
+                        @endif
+                    </div>
                 </div>
 
                 <div class="iconBx">
                     <i class="fa-regular fa-calendar-days icon-dash"></i>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a class="card" href="/admin/sections">
                 <div>
                     <div class="numbers">
                         {{$class_count}}
                     </div>
-                    <div class="cardName">Class</div>
+                    <div class="cardName">
+                        @if ($class_count<=1)
+                            Section
+                        @else
+                            Sections
+                        @endif
+                    </div>
                 </div>
 
                 <div class="iconBx">
                     <i class="fa-solid fa-book icon-dash"></i>
                 </div>
-            </div>
+            </a>
         </div><!--End of Cardbox -->
 
         <!-- ================ Order Details List ================= -->
         <div class="details">
-
             <div class="recentCustomers">
                 <div class="cardHeader">
-                    <h2>School Years</h2>
+                    <h3>Students <br>Per School Year</h3>
                     <div class="btnn">
                         <button id="button7"><i class="fa-solid fa-chart-line hayst"></i></button>
                         <button id="button8"><i class="fa-solid fa-chart-simple hayst"></i></button>
@@ -78,7 +95,7 @@
 
             <div class="recentOrders">
                 <div class="cardHeader">
-                    <h2>Grade Level</h2>
+                    <h3>Students <br>Per Grade Level</h3>
                     <div class="btnn">
                         <button id="button1"><i class="fa-solid fa-chart-line hayst"></i></button>
                         <button id="button2"><i class="fa-solid fa-chart-simple hayst"></i></button>
@@ -97,11 +114,9 @@
                 </div>
             </div>
 
-
-            <!-- ================= New Customers ================ -->
             <div class="recentCustomers">
                 <div class="cardHeader">
-                    <h2>Curriculums</h2>
+                    <h3>Students <br>Per Curriculum</h3>
                     <div class="btnn">
                         <button id="button4"><i class="fa-solid fa-chart-line hayst"></i></button>
                         <button id="button5"><i class="fa-solid fa-chart-simple hayst"></i></button>
@@ -114,8 +129,9 @@
                 </div>
             </div>
         </div> <!--End of details-->
+
         <div class="details2">
-            <div class="calendar">
+            <!-- <div class="calendar">
 
                 <div class="cardHeader">
                     <h2>Calendar</h2>
@@ -124,19 +140,30 @@
                 <iframe src="https://embed.styledcalendar.com/#rWS5eOO6rwZCPuYqakFU" title="Styled Calendar" class="styled-calendar-container" style="width: 100%; border: none;" data-cy="calendar-embed-iframe"></iframe>
                 <script async type="module" src="https://embed.styledcalendar.com/assets/parent-window.js"></script>
 
-            </div>
+            </div> -->
             <div class="events">
                 
                 <div class="cardHeader">
                     <h2>Events</h2>
                 </div>
-
-
                 <div class="aaa">
                     <div class="side-post">
-                      
-
-
+                        @foreach($s as $event)
+                            <div class="sidecol">
+                                <div class="sideimg-con">
+                                    <img src="png/{{$event->img}}" class="imahe">
+                                </div>
+                                <div class="sideline">
+                                    <h3 class="titulo">{{$event->title}}</h3>
+                                    <div class="sidecontent">
+                                        <i class="fa-solid fa-calendar-days acce"></i>
+                                        <h6>&nbsp;{{$event->date_posted}}</h6>
+                                        <h6>&nbsp;&nbsp;&nbsp;&#x2022;&nbsp;&nbsp;&nbsp;</h6>
+                                        <h6>{{$event->category}}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -177,6 +204,7 @@
                         }
                     ],
                 };
+                
 
                 var graphTarget = $("#graphCanvas");
 

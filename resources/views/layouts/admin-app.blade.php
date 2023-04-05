@@ -9,7 +9,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>Primyir Online Portal</title>
+    <title>e-SKWELAHAN Online Portal</title>
     <!-- ======= add icon link ====== -->
     <link rel = "icon" href = "/png/snhs.png" type = "image/x-icon">
 
@@ -79,7 +79,7 @@
                                 <img src="/png/snhss.png" class="=logoo">
                             </div>
                         </span>
-                        <span class="title"><b>Primyir Online Portal</b></span>
+                        <span class="title"><b>e-SKWELAHAN</b></span>
                     </a>
                 </li>
 
@@ -119,14 +119,14 @@
                     </a>
                 </li>
 
-                <!-- <li>
-                    <a href="#">
+                <li>
+                    <a href="/admin/schoolyears">
                         <span class="icon">
-                            <i class="fa-solid fa-chair icon-nav"></i>
+                            <i class="fa-solid fa-calendar icon-nav"></i>
                         </span>
-                        <span class="title">Class</span>
+                        <span class="title">School Years</span>
                     </a>
-                </li> -->
+                </li>
 
                 <li>
                     <a href="/admin/subjects">
@@ -140,9 +140,9 @@
                 <li>
                     <a href="/admin/events">
                         <span class="icon">
-                            <i class="fa-solid fa-calendar icon-nav"></i>
+                            <i class="fa-solid fa-scroll"></i>
                         </span>
-                        <span class="title">Events</span>
+                        <span class="title">Notices</span>
                     </a>
                 </li>
 
@@ -173,7 +173,7 @@
             </div>
 
             <div class="user">
-                <img src="/png/customer01.jpg" onclick="toggleMn()">
+                <img src="/png/user.png" onclick="toggleMn()">
             </div>
 
             @if(!Route::is('register'))
