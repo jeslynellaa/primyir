@@ -215,13 +215,34 @@ class FacultyController extends Controller
     public function faculty_search(Request $request){
         $query = $request->input('query');
         $teacher_users = DB::table('users')
-                    ->join('teachers', 'teachers.user_id', '=', 'users.id')
-                    ->where('givenName', 'LIKE', "%$query%")
-                    ->orWhere('middleName', 'LIKE', "%$query%")
-                    ->orWhere('lastName', 'LIKE', "%$query%")
-                    ->select('users.*', 'teachers.department', 'teachers.id as teach_id')    ->orderBy('lastName', 'ASC')
-                    ->get()->paginate(5);
+            ->join('teachers', 'teachers.user_id', '=', 'users.id')
+            ->where('givenName', 'LIKE', "%$query%")
+            ->orWhere('middleName', 'LIKE', "%$query%")
+            ->orWhere('lastName', 'LIKE', "%$query%")
+            ->select('users.*', 'teachers.department', 'teachers.id as teach_id')
+            ->orderBy('lastName', 'ASC')
+            ->get();
        
+        return view('admin.faculty.index', compact('teacher_users'));
+    }
+    
+    public function faculty_filter(Request $request){
+        $department = $request->input('department');
+        $sex = $request->input('sex');
+        
+        $teacher_users = DB::table('users')
+            ->join('teachers', 'teachers.user_id', '=', 'users.id')
+            ->where('users.owner_type', 'T')
+            ->where('users.accountStatus', 'Active')
+            ->select('users.*', 'teachers.department', 'teachers.id as teach_id')
+            ->orderBy('lastName', 'ASC')
+            ->get();
+        if(isset($department)){
+            $teacher_users = $teacher_users->where('department', $department);
+        }
+        if(isset($sex)){
+            $teacher_users = $teacher_users->where('sex', $sex);
+        }
         return view('admin.faculty.index', compact('teacher_users'));
     }
 }
