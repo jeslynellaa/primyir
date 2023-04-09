@@ -155,6 +155,15 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="/admin/kiosk">
+                        <span class="icon">
+                            <i class="fa-solid fa-store icon-nav"></i>
+                        </span>
+                        <span class="title">Kiosk</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
