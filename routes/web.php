@@ -20,6 +20,7 @@ use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\SchoolyearsController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\KioskController;
 use App\Mail\TemporaryCredentials;
 
 /*
@@ -58,6 +59,7 @@ Route::group(['middleware' => ['auth']], function() {
 Route::get('/students/search', [App\Http\Controllers\StudentsController::class, 'student_search'])->name('student_search');
 Route::get('/students/filter', [App\Http\Controllers\StudentsController::class, 'student_filter'])->name('student_filter');
 Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'faculty_search'])->name('faculty_search');
+Route::get('/faculty/filter', [App\Http\Controllers\FacultyController::class, 'faculty_filter'])->name('faculty_filter');
 
     Route::get('curricula', [HomeController::class, 'getCurricula'])->name('curricula');
 
@@ -173,6 +175,13 @@ Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'f
     Route::post('/admin/articles', [EventsController::class, 'articles_store'])->name('admin.articles.store');
     Route::get('/admin/articles/{article}/edit', [EventsController::class, 'articles_edit'])->name('admin.articles.edit');
     Route::put('/admin/articles/{article}', [EventsController::class, 'articles_update'])->name('admin.articles.update');
+    
+// ======= Admin - KIOSK ROUTES ===========
+    Route::get('/admin/kiosk', [KioskController::class, 'index'])->name('admin.kiosk.index');
+    // Route::get('/admin/events/create', [EventsController::class, 'create'])->name('admin.events.create');
+    // Route::post('/admin/events', [EventsController::class, 'store'])->name('admin.events.store');
+    Route::get('/admin/kiosk/edit', [KioskController::class, 'edit'])->name('admin.kiosk.edit');
+    Route::patch('/admin/kiosk', [KioskController::class, 'update'])->name('admin.kiosk.update');
 
 // ======= Admin - REPORTS ===========
     Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports.index');
