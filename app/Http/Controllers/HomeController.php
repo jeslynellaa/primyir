@@ -85,6 +85,7 @@ class HomeController extends Controller
             ->select(DB::raw('count(*) as user_count, curricula.name'))
             ->groupBy('curricula.name')
             ->where('student_schoolyears.schoolyear_id', '=', $currentSY->id)
+            ->where('users.accountStatus', '=', 'Active')
             ->get();
         //dd($record1);
         $record2 = DB::table('students')
@@ -94,12 +95,14 @@ class HomeController extends Controller
             ->select(DB::raw('count(*) as user_count, grade_level'))
             ->groupBy('grade_level')
             ->where('student_schoolyears.schoolyear_id', '=', $currentSY->id)
+            ->where('users.accountStatus', '=', 'Active')
             ->get();
 
         $record3 = DB::table('students')
             ->join('student_schoolyears', 'student_schoolyears.student_id', '=', 'students.id')
             ->join('schoolyears', 'student_schoolyears.schoolyear_id', '=', 'schoolyears.id')
             ->join('users', 'user_id', 'users.id')
+            ->where('users.accountStatus', '=', 'Active')
             ->select(DB::raw('count(*) as user_count, schoolyear_id, year_start, year_end'))
             ->groupBy('schoolyear_id', 'year_start', 'year_end')
             ->get();
