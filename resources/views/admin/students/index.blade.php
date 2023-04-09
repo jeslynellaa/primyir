@@ -2,14 +2,14 @@
 
 @section('content')
     <div class="lists_wrap">
-        <!-- <div class="search"> -->
-            <!-- <label> -->
-                <!-- <input type="text" id="search-input" placeholder="Search here" class="form-control"> --> 
-                <!-- <button class="btn btn-primary" id="search-button"> -->
-                    <!-- <ion-icon name="search-outline"></ion-icon> -->
-                <!-- </button>      -->
-                <!-- </label> -->
-        <!-- </div> -->
+        <!-- <div class="search">
+            <label>
+                <input type="text" id="search-input" placeholder="Search here" class="form-control"> 
+                    <button class="btn btn-primary" id="search-button">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </button>     
+            </label>
+        </div> -->
 
         <div class="well">
             <div class="well_top" style="align-items:center">
@@ -75,7 +75,11 @@
                     <tbody>
                         @foreach ($student_users as $student )
                             <tr>
-                                <td>{{ $loop->index + 1}}</td>
+                                @if(Route::is('admin.students.index'))
+                                    <td>{{(($student_users->currentpage()-1)*$student_users->perpage()+1)+$loop->index}}</td>
+                                @else
+                                    <td>{{ $loop->index + 1}}</td>
+                                @endif
                                 <td>{{ $student->LRN_no }}</td>
                                 <td>{{ $student->lastName }}, {{ $student->givenName }} {{ $student->middleName }}</td>
                                 <td>{{ $student->sex }}</td>
@@ -88,14 +92,16 @@
                 </table>
             </form>
         </div>
-            <span>
-                {{$student_users->links()}}
-            </span>
-            <style>
-                .w-5{
-                    display: none;
-                }
-            </style>
+            @if(Route::is('admin.students.index'))
+                <span>
+                    {{$student_users->links()}}
+                </span>
+                <style>
+                    .w-5{
+                        display: none;
+                    }
+                </style>
+            @endif
     </div>
     <!-- =========== Scripts =========  -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>

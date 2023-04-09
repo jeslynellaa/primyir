@@ -47,7 +47,7 @@ class StudentsController extends Controller
             ->where('student_schoolyears.schoolyear_id', $currentSY->id)
             ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'student_schoolyears.*', 'sections.name', 'sections.grade_level')
             ->orderBy('lastName', 'ASC')
-            ->get()->paginate(15);
+            ->get()->paginate(4);
         
         //dd($student_users);
         return view('admin.students.index', compact('student_users'));
@@ -561,6 +561,7 @@ class StudentsController extends Controller
     }
 
     public function student_search(Request $request){
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
         $query = $request->input('query');
         $student_users = DB::table('users')
             ->join('students', 'students.user_id', '=', 'users.id')
@@ -572,8 +573,12 @@ class StudentsController extends Controller
             ->orWhere('LRN_no', 'LIKE', "%$query%")
             ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'student_schoolyears.*', 'sections.name', 'sections.grade_level')
             ->orderBy('lastName', 'ASC')
-            ->get()
-            ->paginate(10);
+            ->get();
+        
+        $student_users = $student_users
+            ->where('owner_type', 'S')
+            ->where('accountStatus', 'Active')
+            ->where('schoolyear_id', $currentSY->id);
         return view('admin.students.index', compact('student_users'));
     }
     
@@ -588,11 +593,13 @@ class StudentsController extends Controller
             ->where('users.owner_type', 'S')
             ->where('users.accountStatus', 'Active')
             ->where('student_schoolyears.schoolyear_id', $currentSY->id)
-            ->where('student_schoolyears.section_id', $section)
-            ->orWhere('sections.grade_level', $grade_level)
+            ->where('sections.grade_level', $grade_level)
             ->select('students.id as stud_id', 'students.LRN_no', 'students.curriculum_id', 'users.*', 'student_schoolyears.*', 'sections.name', 'sections.grade_level')
             ->orderBy('lastName', 'ASC')
-            ->get()->paginate(15);
+            ->get();
+        if(isset($section)){
+            $student_users = $student_users->where('section_id', $section);
+        }
         return view('admin.students.index', compact('student_users'));
     }
 
