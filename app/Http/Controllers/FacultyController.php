@@ -208,8 +208,15 @@ class FacultyController extends Controller
         return view('sf_pdf.sf5');
     }
 
+    }
+
+    public function generate_curr(){
+      return view('curriculum.curr');
+
+    }
+    
     public function generate_sf9(){
-    return view('sf_pdf.sf9');
+      return view('sf_pdf.sf9');
     }
 
     public function faculty_search(Request $request){
