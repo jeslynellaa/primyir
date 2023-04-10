@@ -26,30 +26,41 @@
                 <div class="card-body">
                     <form method="POST" action="/admin/sections">
                         @csrf
-                        
-                        <div class="form_item">
-                            <label for="grade_level" class="col-md-4 col-form-label text-md-end">{{ __('Grade Level') }}</label>
 
-                            <select name="grade_level" class="form-control wow" id="grade_level">
-                                <option selected disabled>-- Select Grade Level --</option>
-                                <option value=7> Grade 7 </option>
-                                <option value=8> Grade 8 </option>
-                                <option value=9> Grade 9 </option>
-                                <option value=10> Grade 10 </option>
+                        <div class="form_item">
+                            <label for="schoolyear" class="col-md-4 col-form-label text-md-end">School Year</label>
+                            <select name="schoolyear" class="form-control wow" id="schoolyear" required>
+                                <option selected disabled>-- Select School Year --</option>
+                                @foreach ($schoolyears as $schoolyear)
+                                    <option value="{{ $schoolyear->id }}"> {{ $schoolyear->year_start }}-{{ $schoolyear->year_end }}</option>
+                                @endforeach
                             </select>
+                        </div><hr>
+
+                        <div class="form_wrap fullname">
+                            <div class="form_item">
+                                <label for="grade_level" class="col-md-4 col-form-label text-md-end">{{ __('Grade Level') }}</label>
+
+                                <select name="grade_level" class="form-control wow" id="grade_level">
+                                    <option selected disabled>-- Select Grade Level --</option>
+                                    <option value=7> Grade 7 </option>
+                                    <option value=8> Grade 8 </option>
+                                    <option value=9> Grade 9 </option>
+                                    <option value=10> Grade 10 </option>
+                                </select>
                             </div>
-                        </div>
 
-                        <div class="form_item">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Section Name') }}</label>
-                            <div class="col-md-6">
-                                <input id="name" type="text" class=" wow form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Enter Section Name" autofocus>
+                            <div class="form_item">
+                                <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Section Name') }}</label>
+                                <div class="col-md-6">
+                                    <input id="name" type="text" class=" wow form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Enter Section Name" autofocus>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 

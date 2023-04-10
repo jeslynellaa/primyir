@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Section;
 use App\Models\Teacher;
+use App\Models\Schoolyear;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -22,15 +23,23 @@ class SectionsController extends Controller
 
     public function index()
     {
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
         // Joining sections, teachers, and users into section_teachers for displaying in sections table
         $section_teachers = DB::table('sections')
             ->join('teachers', 'teachers.id', '=', 'adviser', 'left outer')
             ->join('users', 'users.id', '=', 'teachers.user_id', 'left outer')
+            ->where('schoolyear_id', $currentSY->id)
             ->select('sections.id as sect_id','sections.grade_level', 'sections.name', 'sections.adviser', 'users.givenName', 'users.lastName')
             ->orderBy('grade_level')
             ->get()->paginate(10);
 
-        return view('admin.sections.index', compact('section_teachers'));
+        // Getting schoolyear data set for dropdown in forms
+        $schoolyears = DB::table('schoolyears')
+            ->select('id', 'year_start', 'year_end', 'isCurrent')
+            ->orderBy('date_start', 'DESC')
+            ->get();
+
+        return view('admin.sections.index', compact('section_teachers', 'schoolyears', 'currentSY'));
     }
     
     public function create(User $user)
@@ -43,8 +52,13 @@ class SectionsController extends Controller
             ->select('teachers.id', 'users.givenName', 'users.lastName')
             ->orderBy('lastName', 'ASC')
             ->get();
+        // Getting schoolyear data set for dropdown in forms
+        $schoolyears = DB::table('schoolyears')
+            ->select('id', 'year_start', 'year_end')
+            ->orderBy('date_start', 'DESC')
+            ->get();
 
-        return view('admin.sections.create', compact('teachers'));
+        return view('admin.sections.create', compact('teachers', 'schoolyears'));
     }
 
     public function store(Request $request, User $user)
@@ -53,7 +67,8 @@ class SectionsController extends Controller
         $data = request()->validate([
             'name' => ['required', 'string', 'max:50', 'unique:sections'],
             'grade_level' => ['required'],
-            'adviser' => ''
+            'adviser' => '',
+            'schoolyear' => 'required'
         ]);        
 
         // Creating new section model
@@ -61,7 +76,8 @@ class SectionsController extends Controller
             $new_section = \App\Models\Section::create([
                 'name' => $data['name'],
                 'grade_level' => $data['grade_level'],
-                'adviser' => $data['adviser']
+                'adviser' => $data['adviser'],
+                'schoolyear_id' => $data['schoolyear']
             ]);
 
             // Updating the assigned teacher's record to reflect advisory class
@@ -73,7 +89,8 @@ class SectionsController extends Controller
         else{
             $new_section = \App\Models\Section::create([
                 'name' => $data['name'],
-                'grade_level' => $data['grade_level']
+                'grade_level' => $data['grade_level'],
+                'schoolyear_id' => $data['schoolyear']
             ]);
             //dd($new_section);
         }
@@ -163,4 +180,58 @@ class SectionsController extends Controller
         }
         //return redirect()->back()->with("success","Changes saved successfully");
     }
+
+    public function sections_search(Request $request){
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
+        $query = $request->input('query');
+
+        $section_teachers = DB::table('sections')
+            ->join('teachers', 'teachers.id', '=', 'adviser', 'left outer')
+            ->join('users', 'users.id', '=', 'teachers.user_id', 'left outer')
+            ->where('name', 'LIKE', "%$query%")
+            ->select('sections.id as sect_id','sections.grade_level', 'sections.name', 'sections.adviser', 'sections.schoolyear_id','users.givenName', 'users.lastName')
+            ->orderBy('grade_level')
+            ->get();
+        $section_teachers = $section_teachers->where('schoolyear_id', $currentSY->id);
+        //dd($section_teachers);
+
+        // Getting schoolyear data set for dropdown in forms
+        $schoolyears = DB::table('schoolyears')
+        ->select('id', 'year_start', 'year_end', 'isCurrent')
+        ->orderBy('date_start', 'DESC')
+        ->get();
+        return view('admin.sections.index', compact('section_teachers', 'schoolyears'));
+    }
+    
+    public function sections_filter(Request $request){
+        $currentSY = Schoolyear::where('isCurrent', true)->first();
+        $grade_level = $request->input('grade_lvl');
+        $sy = $request->input('schoolyear');
+
+        $section_teachers =DB::table('sections')
+            ->join('teachers', 'teachers.id', '=', 'adviser', 'left outer')
+            ->join('users', 'users.id', '=', 'teachers.user_id', 'left outer')
+            ->select('sections.id as sect_id','sections.grade_level', 'sections.name', 'sections.adviser', 'sections.schoolyear_id','users.givenName', 'users.lastName')
+            ->orderBy('name')
+            ->get();
+        if(isset($sy) && !isset($grade_level)){
+            $section_teachers = $section_teachers->where('schoolyear_id', $sy)->sortBy('grade_level');
+        }
+        if(isset($grade_level)){
+            $section_teachers = $section_teachers->where('grade_level', $grade_level);
+            if(isset($sy)){
+                $section_teachers = $section_teachers->where('schoolyear_id', $sy);
+            }else{
+                $section_teachers = $section_teachers->where('schoolyear_id', $currentSY->id);
+            }
+        }
+
+        // Getting schoolyear data set for dropdown in forms
+        $schoolyears = DB::table('schoolyears')
+        ->select('id', 'year_start', 'year_end', 'isCurrent')
+        ->orderBy('date_start', 'DESC')
+        ->get();
+        return view('admin.sections.index', compact('section_teachers', 'schoolyears'));
+    }
+
 }

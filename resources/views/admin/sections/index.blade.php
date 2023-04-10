@@ -14,8 +14,50 @@
                 <h2 style="align:left">List of Sections</h2>
 
                 <div class="functions_wrap">
+                    @if(Route::is('sections_search') || Route::is('sections_filter'))
+                        <a class="list_function" href="/admin/sections">Back to full list</a>
+                    @endif
                     <a class="list_function" href="/admin/sections/create">Create New Section</a>
                 </div>
+            </div>
+        
+            <div style="display:flex; align-items:baseline;">
+                <form action="{{ route ('sections_search')}}" method="GET">
+                    <div class="search form_item" style="display:flex">
+                        <input type="text" id="search-input" name="query" placeholder="Search sections" class="form-control wow">
+                        <button type="submit" class="btn btn-primary" id="search-button">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </button>
+                    </div>
+                </form>
+                
+                <h3>Filter: </h3>
+                <form action="{{ route ('sections_filter')}}" method="GET" style="display:flex">
+                    <div class="form_item">
+                        <select name="grade_lvl" class="form-control wow" id="grade_lvl">
+                            <option selected disabled> Grade Level</option>
+                            <option value=7> Grade 7 </option>
+                            <option value=8> Grade 8 </option>
+                            <option value=9> Grade 9 </option>
+                            <option value=10> Grade 10 </option>
+                        </select>
+                    </div>
+                    <div class="form_item">
+                        <select name="schoolyear" class="form-control wow" id="schoolyear" required>
+                            <option selected disabled>School Year</option>
+                            @foreach ($schoolyears as $schoolyear)
+                                @if(Route::is('admin.sections.index'))
+                                    <option value="{{ $schoolyear->id }}" @if($schoolyear->isCurrent == 1) echo selected @endif> {{ $schoolyear->year_start }}-{{ $schoolyear->year_end }}</option>
+                                @else
+                                    <option value="{{ $schoolyear->id }}"> {{ $schoolyear->year_start }}-{{ $schoolyear->year_end }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="filter-button">
+                        <ion-icon name="filter-outline"></ion-icon>
+                    </button>
+                </form>
             </div>
 
             <form>  					
@@ -23,7 +65,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th style="width=10% align=left"><input type="checkbox" name="chkall" id="chkall" onclick="return checkall('selector[]');"> Section Name</th>
+                            <th> Section Name</th>
                             <th>Grade Level</th>
                             <th>Adviser</th>
                             <th>Options</th>
@@ -32,7 +74,11 @@
                     <tbody>
                     @foreach ($section_teachers as $section )
                         <tr>
-                            <td>{{ $loop->index + 1}}</td>
+                            @if(Route::is('admin.sections.index'))
+                                <td>{{(($section_teachers->currentpage()-1)*$section_teachers->perpage()+1)+$loop->index}}</td>
+                            @else
+                                <td>{{ $loop->index + 1}}</td>
+                            @endif
                             <td>{{ $section->name }}</td>
                             <td>{{ $section->grade_level }}</td>
                             <td>{{ $section->givenName }} {{ $section->lastName }}</td>
@@ -108,14 +154,16 @@
                 </form>
             </div>
         </div> <!--END OF EDIT MODAL -->
-        <span>
-            {{$section_teachers->links()}}
-        </span>
-        <style>
-            .w-5{
-            display: none;
-        }
-        </style>
+            @if(Route::is('admin.sections.index'))
+                <span>
+                    {{$section_teachers->links()}}
+                </span>
+                <style>
+                    .w-5{
+                    display: none;
+                }
+                </style>
+            @endif
     </div>
     
     <script type="text/javascript">

@@ -100,6 +100,8 @@ Route::get('/faculty/filter', [App\Http\Controllers\FacultyController::class, 'f
     Route::post('/admin/sections', [SectionsController::class, 'store'])->name('admin.sections.store');
     Route::get('/admin/sections/{section}/edit', [SectionsController::class, 'edit'])->name('admin.sections.edit');
     Route::put('/admin/sections/{section}', [SectionsController::class, 'update'])->name('admin.sections.update');
+    Route::get('/sections/search', [App\Http\Controllers\SectionsController::class, 'sections_search'])->name('sections_search');
+    Route::get('/sections/filter', [App\Http\Controllers\SectionsController::class, 'sections_filter'])->name('sections_filter');
 
 // ======= Admin - SCHOOLYEAR ROUTES ===========
     Route::get('/admin/schoolyears', [SchoolyearsController::class, 'index'])->name('admin.schoolyears.index');
